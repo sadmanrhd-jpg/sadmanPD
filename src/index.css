@@ -1,0 +1,733 @@
+@import url("https://fonts.googleapis.com/css2?family=Anton&family=DM+Mono:wght@400;500&family=Inter:wght@400;600;700;800&display=swap");
+@import "tailwindcss";
+
+:root {
+  --ink: #171716;
+  --paper: #f2efe6;
+  --coral: #ff5b44;
+  --yellow: #f5d837;
+  --lime: #c7ef45;
+  --blue: #4169ed;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Inter", sans-serif;
+  }
+  button,
+  a {
+    color: inherit;
+  }
+  button {
+    cursor: pointer;
+  }
+  a {
+    text-decoration: none;
+  }
+}
+
+::selection {
+  background: var(--coral);
+  color: white;
+}
+
+.home {
+  overflow: hidden;
+}
+.site-header,
+.gallery-header {
+  height: 86px;
+  padding: 0 4vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--ink);
+  position: relative;
+  z-index: 20;
+}
+
+.brand {
+  border: 0;
+  background: none;
+  padding: 0;
+  font:
+    44px/1 "Anton",
+    sans-serif;
+  letter-spacing: -2px;
+}
+.brand span {
+  color: var(--coral);
+}
+.availability {
+  font:
+    500 11px "DM Mono",
+    monospace;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.availability i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5bcb5d;
+  box-shadow: 0 0 0 4px #5bcb5d25;
+}
+.round-link {
+  width: 45px;
+  height: 45px;
+  border: 2px solid;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: 0.25s ease;
+}
+.round-link:hover {
+  color: var(--paper);
+  background: var(--ink);
+  transform: rotate(-30deg);
+}
+.round-link svg,
+.choose svg,
+.intro a svg,
+.gallery-header svg,
+footer a svg,
+.view-mark svg {
+  width: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+}
+
+.arena {
+  min-height: calc(100vh - 86px);
+  height: 790px;
+  max-height: 920px;
+  position: relative;
+  background:
+    radial-gradient(circle at 50% 70%, #fff 0 1px, transparent 2px) 0 0/22px 22px,
+    linear-gradient(115deg, transparent 49.85%, var(--ink) 50%, transparent 50.15%);
+}
+.arena::before,
+.arena::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 48%;
+  height: 42%;
+  background: repeating-linear-gradient(0deg, #17171610 0 1px, transparent 1px 7px);
+  clip-path: polygon(0 100%, 100% 100%, 50% 0);
+}
+.arena::after {
+  right: 0;
+  transform: scaleX(-1);
+}
+.eyebrow {
+  position: absolute;
+  top: 33px;
+  left: 50%;
+  transform: translateX(-50%);
+  font:
+    500 10px "DM Mono",
+    monospace;
+  letter-spacing: 0.15em;
+  white-space: nowrap;
+}
+.title-wrap {
+  text-align: center;
+  padding-top: 60px;
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+.title-wrap h1,
+.gallery-hero h1,
+footer h2 {
+  font:
+    400 clamp(72px, 10.4vw, 158px)/0.79 "Anton",
+    sans-serif;
+  letter-spacing: -0.035em;
+  margin: 0;
+  text-transform: uppercase;
+}
+.title-wrap h1 em,
+.gallery-hero h1 em,
+footer h2 em {
+  color: var(--coral);
+  font-style: normal;
+  -webkit-text-stroke: 2px var(--ink);
+  paint-order: stroke fill;
+}
+.vs {
+  position: absolute;
+  top: 150px;
+  left: calc(50% - 41px);
+  width: 82px;
+  height: 82px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  background: var(--ink);
+  font:
+    35px "Anton",
+    sans-serif;
+  transform: rotate(-8deg);
+  border: 5px solid var(--paper);
+  box-shadow: 0 0 0 2px var(--ink);
+  z-index: 8;
+}
+
+.fighter {
+  position: absolute;
+  bottom: 35px;
+  width: 37%;
+  height: 560px;
+  border: 0;
+  background: none;
+  padding: 0;
+  transition: filter 0.3s ease;
+  z-index: 5;
+}
+.fighter-left {
+  left: 4%;
+}
+.fighter-right {
+  right: 4%;
+}
+.character-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.fighter-left .character-svg {
+  transform: rotate(2deg);
+}
+.fighter-right .character-svg {
+  transform: scaleX(-1) rotate(2deg);
+}
+.fighter:hover .character-svg {
+  transform: translateY(-16px) rotate(-2deg) scale(1.035);
+}
+.fighter-right:hover .character-svg {
+  transform: scaleX(-1) translateY(-16px) rotate(-2deg) scale(1.035);
+}
+.fighter:hover .choose {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.outline {
+  stroke: var(--ink);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.line {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.skin {
+  fill: #d9986f;
+}
+.white {
+  fill: #fffdf6;
+}
+.coral {
+  fill: var(--coral);
+}
+.yellow {
+  fill: var(--yellow);
+}
+.lime {
+  fill: var(--lime);
+}
+.cobalt {
+  fill: var(--blue);
+}
+.ink,
+.hair {
+  fill: var(--ink);
+}
+.shadow {
+  fill: #17171625;
+}
+.spark {
+  transform-origin: 60px 140px;
+  animation: sparkle 2.4s ease-in-out infinite;
+}
+.flash {
+  transform-origin: 347px 131px;
+  animation: sparkle 1.8s ease-in-out infinite 0.3s;
+}
+.pencil {
+  animation: pencil 2.8s ease-in-out infinite;
+}
+.designer-float,
+.photographer-float {
+  animation: breathe 3.5s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+.photographer-float {
+  animation-delay: -0.8s;
+}
+.camera {
+  transition: transform 0.25s ease;
+  transform-origin: 228px 400px;
+}
+.fighter-right:hover .camera {
+  transform: scale(1.045);
+}
+
+.player-number {
+  position: absolute;
+  top: 180px;
+  font: 48px "Anton";
+  color: var(--coral);
+  -webkit-text-stroke: 2px var(--ink);
+  paint-order: stroke fill;
+  transform: rotate(-8deg);
+}
+.fighter-left .player-number {
+  left: 7%;
+}
+.fighter-right .player-number {
+  right: 7%;
+  color: var(--blue);
+}
+.fighter-label {
+  position: absolute;
+  bottom: 42px;
+  background: var(--paper);
+  border: 3px solid;
+  padding: 8px 13px;
+  font: 15px "DM Mono";
+  box-shadow: 6px 6px 0 var(--ink);
+  white-space: nowrap;
+}
+.fighter-label b {
+  font-weight: 500;
+  color: var(--coral);
+}
+.fighter-right .fighter-label b {
+  color: var(--blue);
+}
+.fighter-left .fighter-label {
+  left: 3%;
+  transform: rotate(-3deg);
+}
+.fighter-right .fighter-label {
+  right: 3%;
+  transform: rotate(3deg);
+}
+.choose {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translate(-50%, 8px);
+  opacity: 0;
+  transition: 0.25s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 500 10px "DM Mono";
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+.choose svg {
+  width: 16px;
+}
+.center-copy {
+  position: absolute;
+  z-index: 9;
+  bottom: 44px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none;
+}
+.center-copy p {
+  font: 500 10px/1.65 "DM Mono";
+  letter-spacing: 0.06em;
+  margin: 0 0 20px;
+}
+.center-copy span {
+  font: 9px "DM Mono";
+  opacity: 0.5;
+  writing-mode: vertical-rl;
+}
+
+.intro {
+  padding: 100px 5vw 80px;
+  border-top: 2px solid;
+}
+.section-index {
+  font: 500 11px "DM Mono";
+  letter-spacing: 0.1em;
+  margin: 0 0 55px;
+}
+.intro h2 {
+  max-width: 1250px;
+  font: 400 clamp(48px, 7.3vw, 110px)/0.96 "Anton";
+  letter-spacing: -0.025em;
+  margin: 0;
+}
+.intro h2 span {
+  color: var(--coral);
+}
+.intro-bottom {
+  margin-top: 70px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  gap: 10vw;
+}
+.intro-bottom > p {
+  max-width: 450px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+.intro-bottom a,
+footer a {
+  font: 500 11px "DM Mono";
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border-bottom: 1px solid;
+  padding-bottom: 9px;
+}
+
+.gallery {
+  min-height: 100vh;
+  animation: pageIn 0.45s ease-out;
+}
+.gallery-photo {
+  background: #111;
+  color: var(--paper);
+}
+.gallery-header {
+  border-color: currentColor;
+}
+.gallery-header .back,
+.gallery-header > a {
+  border: 0;
+  background: none;
+  font: 500 10px "DM Mono";
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.gallery-header > a {
+  border-bottom: 1px solid;
+  padding-bottom: 5px;
+}
+.gallery-hero {
+  min-height: 650px;
+  padding: 78px 5vw 60px;
+  position: relative;
+  border-bottom: 2px solid;
+}
+.gallery-kicker,
+.gallery-count {
+  font: 500 11px "DM Mono";
+  letter-spacing: 0.12em;
+}
+.gallery-hero h1 {
+  margin-top: 40px;
+  font-size: clamp(100px, 16vw, 240px);
+}
+.gallery-photo .gallery-hero h1 em {
+  color: var(--blue);
+  -webkit-text-stroke-color: var(--paper);
+}
+.gallery-hero > p {
+  max-width: 430px;
+  font-size: 17px;
+  line-height: 1.6;
+  position: absolute;
+  right: 6vw;
+  bottom: 74px;
+}
+.gallery-count {
+  position: absolute;
+  left: 5vw;
+  bottom: 33px;
+}
+.work-grid {
+  padding: 7vw 5vw 10vw;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8vw 2.2vw;
+}
+.work-card.wide {
+  grid-column: span 2;
+}
+.image-wrap {
+  height: 56vw;
+  max-height: 740px;
+  overflow: hidden;
+  position: relative;
+  background: #ddd;
+}
+.wide .image-wrap {
+  height: 55vw;
+  max-height: 750px;
+}
+.image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition:
+    transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.3s;
+}
+.work-card:hover img {
+  transform: scale(1.025);
+}
+.gallery-photo .image-wrap img {
+  filter: saturate(0.85);
+}
+.gallery-photo .work-card:hover img {
+  filter: saturate(1.2);
+}
+.view-mark {
+  position: absolute;
+  right: 22px;
+  top: 22px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: var(--coral);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  transform: scale(0) rotate(-45deg);
+  transition: 0.3s ease;
+}
+.work-card:hover .view-mark {
+  transform: scale(1) rotate(0);
+}
+.work-meta {
+  display: grid;
+  grid-template-columns: 45px 1fr auto;
+  gap: 10px;
+  align-items: baseline;
+  padding-top: 18px;
+}
+.work-meta span,
+.work-meta p {
+  font: 10px "DM Mono";
+  letter-spacing: 0.06em;
+  margin: 0;
+}
+.work-meta h2 {
+  font: 400 clamp(28px, 3vw, 48px)/1 "Anton";
+  text-transform: uppercase;
+  margin: 0;
+}
+.work-meta p {
+  opacity: 0.62;
+}
+
+footer {
+  padding: 100px 5vw 90px;
+  background: var(--yellow);
+  color: var(--ink);
+}
+footer > p {
+  font: 500 11px "DM Mono";
+  letter-spacing: 0.1em;
+}
+footer h2 {
+  margin: 55px 0 70px;
+  font-size: clamp(70px, 12vw, 170px);
+}
+footer a {
+  width: max-content;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+@keyframes sparkle {
+  0%,
+  100% {
+    transform: scale(0.85) rotate(-8deg);
+  }
+  50% {
+    transform: scale(1.12) rotate(5deg);
+  }
+}
+@keyframes pencil {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0);
+  }
+  50% {
+    transform: translate(-6px, 8px) rotate(-3deg);
+  }
+}
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .site-header,
+  .gallery-header {
+    height: 72px;
+    padding: 0 20px;
+  }
+  .brand {
+    font-size: 36px;
+  }
+  .availability {
+    font-size: 8px;
+  }
+  .arena {
+    height: 850px;
+    min-height: 0;
+    background-image: none;
+  }
+  .eyebrow {
+    top: 23px;
+  }
+  .title-wrap {
+    padding-top: 55px;
+  }
+  .title-wrap h1 {
+    font-size: 62px;
+  }
+  .vs {
+    top: 135px;
+    width: 56px;
+    height: 56px;
+    left: calc(50% - 28px);
+    font-size: 24px;
+    border-width: 3px;
+  }
+  .fighter {
+    width: 58%;
+    height: 455px;
+    bottom: 185px;
+  }
+  .fighter-left {
+    left: -11%;
+  }
+  .fighter-right {
+    right: -11%;
+  }
+  .fighter-label {
+    font-size: 10px;
+    padding: 6px 8px;
+    bottom: 22px;
+  }
+  .player-number {
+    top: 150px;
+    font-size: 34px;
+  }
+  .center-copy {
+    bottom: 28px;
+    width: 100%;
+  }
+  .center-copy span {
+    display: none;
+  }
+  .choose {
+    opacity: 1;
+    bottom: -12px;
+    font-size: 8px;
+  }
+  .intro {
+    padding: 70px 20px;
+  }
+  .intro-bottom {
+    margin-top: 45px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 35px;
+  }
+  .gallery-header > a {
+    display: none;
+  }
+  .gallery-hero {
+    min-height: 560px;
+    padding: 60px 20px 40px;
+  }
+  .gallery-hero h1 {
+    font-size: 25vw;
+    margin-top: 50px;
+  }
+  .gallery-hero > p {
+    position: static;
+    margin-top: 45px;
+    font-size: 14px;
+  }
+  .gallery-count {
+    left: 20px;
+    bottom: 20px;
+  }
+  .work-grid {
+    display: block;
+    padding: 60px 20px;
+  }
+  .work-card {
+    margin-bottom: 70px;
+  }
+  .image-wrap,
+  .wide .image-wrap {
+    height: 118vw;
+  }
+  .work-card:nth-child(even) .image-wrap {
+    height: 85vw;
+  }
+  .work-meta {
+    grid-template-columns: 28px 1fr;
+  }
+  .work-meta p {
+    grid-column: 2;
+  }
+  footer {
+    padding: 70px 20px;
+  }
+  footer h2 {
+    margin: 45px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
