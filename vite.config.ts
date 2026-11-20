@@ -34,15 +34,16 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       host: process.env.FIGMA_DEV_SERVER_HOST || "0.0.0.0",
-      port: parseInt(process.env.PORT || "8443"),
+      port: parseInt(process.env.PORT || "3000"),
       strictPort: true,
+      allowedHosts: true,
       watch: {
         ignored: ["**/.figma/**"],
       },
     },
     preview: {
       host: process.env.FIGMA_DEV_SERVER_HOST || "0.0.0.0",
-      port: parseInt(process.env.PORT || "8443"),
+      port: parseInt(process.env.PORT || "3000"),
     },
   };
 });
@@ -102,7 +103,7 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
     return html.replace(`<!-- ${slotName} -->`, content);
   }
 
-  const title = config.title ?? "Figma Make App";
+  const title = config.title ?? "KAI! — Product Designer & Photographer";
   const description = config.description ?? "";
   // Imported HTML keeps its own favicon. New Makes use PNG because Google Search does not
   // support SVG favicons, even though browsers do.

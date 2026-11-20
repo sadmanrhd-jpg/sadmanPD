@@ -1,0 +1,37 @@
+import { Arrow } from "./Characters";
+
+interface FooterProps {
+  onOpenContact: () => void;
+}
+
+export function Footer({ onOpenContact }: FooterProps) {
+  return (
+    <footer className="bg-[#f5d837] text-[#171716] border-t-2 border-[#171716]">
+      <div className="max-w-[1360px] mx-auto px-5 md:px-10 py-20 md:py-28">
+        <p className="text-sm font-medium m-0">
+          You made it to the end
+        </p>
+        <h2 className="mt-6 mb-10 font-display text-[clamp(42px,6.5vw,88px)] leading-[1.02] tracking-[-0.025em] font-medium">
+          Let&apos;s create
+          <br />
+          <em className="not-italic font-medium text-[#b82d18]">something good.</em>
+        </h2>
+        <div className="flex flex-wrap items-center gap-6">
+          <button
+            type="button"
+            onClick={onOpenContact}
+            className="inline-flex items-center gap-3 px-6 py-3.5 rounded-xl bg-[#171716] text-[#f2efe6] border-2 border-[#171716] text-sm font-medium shadow-[5px_5px_0_#ff5b44] hover:bg-[#ff5b44] hover:text-[#171716] hover:shadow-[5px_5px_0_#171716] transition-all duration-150 whitespace-nowrap shrink-0"
+          >
+            Start a Conversation <Arrow />
+          </button>
+          <a
+            href="mailto:hello@kai.studio"
+            className="inline-flex items-center gap-3 text-sm font-medium border-b-2 border-[#171716] pb-1.5 hover:text-[#b82d18] hover:border-[#b82d18] transition-colors whitespace-nowrap shrink-0"
+          >
+            hello@kai.studio <Arrow />
+          </a>
+        </div>
+      </div>
+    </footer>
+  );
+}
