@@ -290,6 +290,18 @@ export const DESIGN_PROJECTS: DesignProject[] = [
           "Configurable stacked bar analysis comparing containment outlets by tubewell distance, complete with instant PNG and XLS report exports.",
       },
       {
+        src: "/assets/aistudio/Screenshot_2026-11-22_at_5.40.28_PM_eef5495e.png",
+        title: "National Indicators Map View",
+        caption:
+          "Geospatial indicator explorer plotting nationwide CWIS, Solid Waste Management, and SDG 6.2 metrics across Bangladesh municipalities with year filtering and Chart/Map switching.",
+      },
+      {
+        src: "/assets/aistudio/Screenshot_2026-11-22_at_5.40.43_PM_441f0c19.png",
+        title: "Administrative Modules Hub",
+        caption:
+          "Centralized operational hub uniting user permissions, project and survey management, KII questionnaires, IMIS data sync, and city profile administration.",
+      },
+      {
         src: "/assets/aistudio/IMIS_Integration_4ebeee5d.png",
         title: "IMIS Cities CWIS Dashboard Integration",
         caption:

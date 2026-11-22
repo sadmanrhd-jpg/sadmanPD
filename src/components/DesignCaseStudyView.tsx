@@ -638,46 +638,18 @@ export function DesignCaseStudyView({
                       My Contribution
                     </h2>
                   </div>
-                  <div className="flex items-end justify-between gap-4">
-                    {project.contributionsIntro && (
-                      <p className="text-base md:text-[18px] leading-[1.7] text-[#171716]/80 max-w-lg m-0">
-                        {project.contributionsIntro}
-                      </p>
-                    )}
-                    <span className="md:hidden text-xs font-semibold uppercase tracking-[0.06em] text-[#d9442e] shrink-0 whitespace-nowrap">
-                      Swipe →
-                    </span>
-                  </div>
-                </div>
-
-                {/* Horizontal snap-scroll cards on mobile, 2/3-col grid on tablet & desktop */}
-                <div
-                  data-testid="contributions-cards-strip"
-                  className="flex overflow-x-auto snap-x snap-mandatory gap-3.5 pt-2 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-5"
-                >
-                  {project.contributions.map((item, idx) => (
-                    <FloatCard
-                      key={item.title}
-                      className="w-[85vw] max-w-[332px] shrink-0 snap-start md:w-auto md:max-w-none rounded-2xl border-2 border-[#171716] bg-[#fffdf6] p-5 md:p-6 shadow-[3px_3px_0_#171716] md:shadow-[4px_4px_0_#171716]"
-                    >
-                      <span className="text-sm md:text-[15px] font-semibold tabular-nums text-[#d9442e]">
-                        {item.num ?? formatCount(idx + 1)}
-                      </span>
-                      <h3 className="mt-2 font-display text-[19px] sm:text-xl md:text-[22px] font-semibold tracking-[-0.015em] leading-[1.3] m-0">
-                        {item.title}
-                      </h3>
-                      <p className="mt-3 text-base md:text-[17px] leading-[1.75] text-[#171716]/82 m-0">
-                        {item.detail}
-                      </p>
-                    </FloatCard>
-                  ))}
+                  {project.contributionsIntro && (
+                    <p className="text-base md:text-[18px] leading-[1.7] text-[#171716]/80 max-w-lg m-0">
+                      {project.contributionsIntro}
+                    </p>
+                  )}
                 </div>
 
                 {/* Balanced Horizontal UI Showcase (Click to open full screen) */}
                 {galleryItems.length > 0 && activeMobileScreen && (
                   <div
                     data-testid="contribution-interface-gallery"
-                    className="pt-4 md:pt-6 max-w-[780px] w-full mx-auto space-y-5 md:space-y-6"
+                    className="max-w-[780px] w-full mx-auto space-y-5 md:space-y-6"
                   >
                     <div className="flex flex-wrap items-center justify-between gap-3">
                       <div>
@@ -763,9 +735,9 @@ export function DesignCaseStudyView({
                       </figcaption>
                     </figure>
 
-                    {/* Horizontal 5-screen selector strip directly on canvas */}
+                    {/* Horizontal screen selector strip directly on canvas */}
                     <div
-                      className="grid grid-cols-5 gap-2.5 md:gap-3.5 pt-1"
+                      className="flex overflow-x-auto snap-x snap-mandatory gap-2.5 pt-1 pb-1 no-scrollbar md:grid md:grid-flow-col md:auto-cols-fr md:gap-2.5 md:overflow-visible md:pb-0"
                       role="tablist"
                       aria-label="Select interface screenshot"
                     >
@@ -779,7 +751,7 @@ export function DesignCaseStudyView({
                             aria-selected={isSelected}
                             aria-label={`View screen ${idx + 1}: ${screen.title}`}
                             onClick={() => setActiveScreenIndex(idx)}
-                            className={`group text-left transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff5b44] ${
+                            className={`group w-[24vw] max-w-[98px] shrink-0 snap-start md:w-auto md:max-w-none min-w-0 text-left transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff5b44] ${
                               isSelected ? "opacity-100" : "opacity-65 hover:opacity-100"
                             }`}
                           >
@@ -798,7 +770,7 @@ export function DesignCaseStudyView({
                               />
                             </div>
                             <span
-                              className={`hidden md:block mt-2 text-[13px] font-medium truncate transition-colors ${
+                              className={`hidden md:block mt-2 text-xs font-medium truncate transition-colors ${
                                 isSelected ? "text-[#d9442e]" : "text-[#171716]/75"
                               }`}
                             >
@@ -810,6 +782,40 @@ export function DesignCaseStudyView({
                     </div>
                   </div>
                 )}
+
+                {/* Contribution Detail Boxes — Horizontal snap-scroll on mobile, 2/3-col grid on tablet & desktop */}
+                <div className="pt-2 md:pt-4 space-y-3 md:space-y-0">
+                  <div className="flex items-center justify-between md:hidden">
+                    <p className="text-xs font-semibold uppercase tracking-[0.07em] text-[#171716]/65 m-0">
+                      Key Areas Delivered
+                    </p>
+                    <span className="text-xs font-semibold uppercase tracking-[0.06em] text-[#d9442e] shrink-0 whitespace-nowrap">
+                      Swipe →
+                    </span>
+                  </div>
+
+                  <div
+                    data-testid="contributions-cards-strip"
+                    className="flex overflow-x-auto snap-x snap-mandatory gap-3.5 pt-1 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-5"
+                  >
+                    {project.contributions.map((item, idx) => (
+                      <FloatCard
+                        key={item.title}
+                        className="w-[85vw] max-w-[332px] shrink-0 snap-start md:w-auto md:max-w-none rounded-2xl border-2 border-[#171716] bg-[#fffdf6] p-5 md:p-6 shadow-[3px_3px_0_#171716] md:shadow-[4px_4px_0_#171716]"
+                      >
+                        <span className="text-sm md:text-[15px] font-semibold tabular-nums text-[#d9442e]">
+                          {item.num ?? formatCount(idx + 1)}
+                        </span>
+                        <h3 className="mt-2 font-display text-[19px] sm:text-xl md:text-[22px] font-semibold tracking-[-0.015em] leading-[1.3] m-0">
+                          {item.title}
+                        </h3>
+                        <p className="mt-3 text-base md:text-[17px] leading-[1.75] text-[#171716]/82 m-0">
+                          {item.detail}
+                        </p>
+                      </FloatCard>
+                    ))}
+                  </div>
+                </div>
               </div>
             </section>
           )}
