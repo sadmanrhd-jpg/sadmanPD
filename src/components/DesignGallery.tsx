@@ -1,83 +1,52 @@
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { useState } from "react";
 import {
   DESIGN_CATEGORIES,
   DESIGN_PROJECTS,
   type DesignCategory,
-  type DesignProject,
   type View,
 } from "../data/portfolio";
-import {
-  filterDesignProjects,
-  formatCount,
-  getAdjacentItemId,
-} from "../utils/portfolioLogic";
-import { Arrow, CloseIcon } from "./Characters";
+import { filterDesignProjects } from "../utils/portfolioLogic";
+import { Arrow } from "./Characters";
 
 interface DesignGalleryProps {
   onNavigate: (view: View) => void;
-  onModalChange?: (open: boolean) => void;
-  onInquire: (topic: "Product Design", note: string) => void;
+  onOpenDetailedStudy: (projectId: string) => void;
 }
 
 export function DesignGallery({
   onNavigate,
-  onModalChange,
-  onInquire,
+  onOpenDetailedStudy,
 }: DesignGalleryProps) {
   const [category, setCategory] = useState<DesignCategory>("All");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const visibleProjects = filterDesignProjects(DESIGN_PROJECTS, category);
-  const selectedProject: DesignProject | null =
-    DESIGN_PROJECTS.find((p) => p.id === selectedId) ?? null;
-
-  useEffect(() => {
-    onModalChange?.(Boolean(selectedProject));
-  }, [selectedProject, onModalChange]);
-
-  useEffect(() => {
-    if (!selectedProject) return;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setSelectedId(null);
-      } else if (event.key === "ArrowRight") {
-        setSelectedId((id) =>
-          id ? getAdjacentItemId(visibleProjects, id, "next") : null,
-        );
-      } else if (event.key === "ArrowLeft") {
-        setSelectedId((id) =>
-          id ? getAdjacentItemId(visibleProjects, id, "prev") : null,
-        );
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedProject, visibleProjects]);
 
   return (
     <main className="gallery bg-[#f2efe6] text-[#171716] min-h-screen">
       <section className="border-b-2 border-[#171716]">
         <div className="max-w-[1360px] mx-auto px-5 md:px-10 pt-5 pb-6 md:pt-7 md:pb-8">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+          <div
+            data-testid="gallery-nav-actions"
+            className="flex flex-col items-start gap-2.5"
+          >
             <button
               type="button"
               onClick={() => onNavigate("home")}
-              className="group inline-flex items-center gap-2.5 py-1.5 pr-2 text-sm font-medium text-[#171716] hover:text-[#d9442e] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
+              className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-xl border-2 border-[#171716] bg-[#fffdf6] text-sm font-medium text-[#171716] shadow-[3px_3px_0_#171716] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[4px_5px_0_#171716] hover:bg-[#171716] hover:text-[#f2efe6] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none active:bg-[#171716] active:text-[#f2efe6] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
             >
               <Arrow
                 direction="left"
-                className="w-4 h-4 transition-transform duration-150 group-hover:-translate-x-1"
+                className="w-4 h-4 transition-transform duration-150 group-hover:-translate-x-1 group-active:-translate-x-1"
               />
-              <span className="group-hover:underline underline-offset-4">Back to Select</span>
+              <span>Back</span>
             </button>
             <button
               type="button"
               onClick={() => onNavigate("photo")}
-              className="group inline-flex items-center gap-2 py-1.5 pl-2 text-sm font-medium text-[#4169ed] transition-colors"
+              className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-xl border-2 border-[#171716] bg-[#4169ed] text-sm font-medium text-[#f2efe6] shadow-[3px_3px_0_#171716] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[4px_5px_0_#171716] hover:bg-[#3156d6] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none active:bg-[#3156d6] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4169ed]"
             >
-              <span className="group-hover:underline underline-offset-4">Switch to Photography</span>
-              <Arrow className="w-4 h-4 transition-transform duration-150 group-hover:translate-x-1" />
+              <span>Switch to Photography</span>
+              <Arrow className="w-4 h-4 transition-transform duration-150 group-hover:translate-x-1 group-active:translate-x-1" />
             </button>
           </div>
 
@@ -87,13 +56,13 @@ export function DesignGallery({
               <br />
               <em className="not-italic font-medium text-[#d9442e]">Design.</em>
             </h1>
-            <p className="max-w-md text-base leading-relaxed text-[#171716]/80 m-0">
+            <p className="max-w-lg text-[17px] md:text-[19px] leading-[1.7] text-[#171716]/82 m-0">
               Useful, tactile digital and physical products—built from messy questions, field
               research, and sharp industrial execution.
             </p>
           </div>
 
-          <div className="mt-6 pt-4 border-t-2 border-[#171716] flex flex-wrap items-center justify-between gap-4">
+          <div className="mt-6 pt-4 border-t-2 border-[#171716] flex flex-wrap items-center gap-4">
             <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Filter design projects">
               {DESIGN_CATEGORIES.map((tab) => {
                 const active = category === tab;
@@ -104,10 +73,10 @@ export function DesignGallery({
                     role="tab"
                     aria-selected={active}
                     onClick={() => setCategory(tab)}
-                    className={`px-4 py-2 rounded-xl border-2 border-[#171716] text-sm font-medium transition-all duration-150 whitespace-nowrap shrink-0 ${
+                    className={`px-4 py-2 rounded-xl border-2 border-[#171716] text-[15px] md:text-base font-medium transition-all duration-150 whitespace-nowrap shrink-0 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none ${
                       active
                         ? "bg-[#ff5b44] text-[#171716] shadow-[3px_3px_0_#171716]"
-                        : "bg-[#fffdf6] text-[#171716] hover:bg-[#c7ef45]"
+                        : "bg-[#fffdf6] text-[#171716] hover:-translate-y-0.5 hover:bg-[#c7ef45] hover:shadow-[3px_3px_0_#171716] active:bg-[#c7ef45]"
                     }`}
                   >
                     {tab}
@@ -115,9 +84,6 @@ export function DesignGallery({
                 );
               })}
             </div>
-            <span className="text-sm font-medium tabular-nums text-[#171716]/75">
-              {formatCount(visibleProjects.length)} Projects
-            </span>
           </div>
         </div>
       </section>
@@ -135,191 +101,71 @@ export function DesignGallery({
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-14">
-            {visibleProjects.map((project, index) => (
-              <article
-                key={project.id}
-                className={project.wide && category === "All" ? "md:col-span-2" : ""}
-              >
-                <button
-                  type="button"
-                  onClick={() => setSelectedId(project.id)}
-                  className="group w-full text-left rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
-                  aria-label={`Open case study for ${project.title}`}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-8 gap-y-14">
+            {visibleProjects.map((project) => {
+              const isAll = category === "All";
+              const isWide = Boolean(project.wide && isAll);
+              return (
+                <article
+                  key={project.id}
+                  className={
+                    isAll
+                      ? isWide
+                        ? "md:col-span-2 lg:col-span-7"
+                        : "lg:col-span-5"
+                      : "lg:col-span-6"
+                  }
                 >
-                  <div
-                    className={`relative overflow-hidden rounded-2xl border-2 border-[#171716] bg-[#ddd] shadow-[6px_6px_0_#171716] group-hover:shadow-[8px_8px_0_#ff5b44] transition-all duration-200 ${
-                      project.wide && category === "All"
-                        ? "aspect-[16/9] max-h-[620px] w-full"
-                        : "aspect-[4/3] w-full"
-                    }`}
+                  <button
+                    type="button"
+                    onClick={() => onOpenDetailedStudy(project.id)}
+                    className="group w-full text-left rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
+                    aria-label={`Open case study for ${project.title}`}
                   >
-                    <img
-                      src={project.image}
-                      alt={`${project.title} — ${project.subtitle}`}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                    />
-                    <span
-                      aria-hidden="true"
-                      className="absolute right-5 top-5 w-12 h-12 rounded-full bg-[#ff5b44] border-2 border-[#171716] text-[#171716] grid place-items-center scale-0 -rotate-45 group-hover:scale-100 group-hover:rotate-0 transition-transform duration-200"
+                    <div
+                      className={`relative overflow-hidden rounded-2xl border-2 border-[#171716] shadow-[6px_6px_0_#171716] group-hover:shadow-[8px_8px_0_#ff5b44] transition-all duration-200 ${
+                        project.imageFit === "contain"
+                          ? "bg-[#f2efe6] p-3 sm:p-5"
+                          : "bg-[#ddd]"
+                      } ${
+                        isAll
+                          ? isWide
+                            ? "aspect-[16/9] max-h-[620px] lg:aspect-auto lg:h-[380px] xl:h-[410px] w-full"
+                            : "aspect-[4/3] lg:aspect-auto lg:h-[380px] xl:h-[410px] w-full"
+                          : "aspect-[4/3] w-full"
+                      }`}
                     >
-                      <Arrow />
-                    </span>
-                  </div>
-
-                  <div className="pt-4 flex flex-wrap items-baseline justify-between gap-3">
-                    <div className="flex items-baseline gap-4">
-                      <span className="text-sm font-medium tabular-nums text-[#171716]/60">
-                        {formatCount(index + 1)}
+                      <img
+                        src={project.image}
+                        alt={`${project.title} — ${project.subtitle}`}
+                        referrerPolicy="no-referrer"
+                        className={`w-full h-full transition-transform duration-500 group-hover:scale-[1.03] ${
+                          project.imageFit === "contain" ? "object-contain" : "object-cover"
+                        }`}
+                      />
+                      <span
+                        aria-hidden="true"
+                        className="absolute right-5 top-5 w-12 h-12 rounded-full bg-[#ff5b44] border-2 border-[#171716] text-[#171716] grid place-items-center scale-0 -rotate-45 group-hover:scale-100 group-hover:rotate-0 transition-transform duration-200"
+                      >
+                        <Arrow />
                       </span>
+                    </div>
+
+                    <div className="pt-4 flex flex-wrap items-baseline justify-between gap-3">
                       <h2 className="font-display text-2xl md:text-[32px] font-medium tracking-[-0.015em] leading-tight m-0 group-hover:text-[#d9442e] transition-colors">
                         {project.title}
                       </h2>
+                      <p className="text-[15px] md:text-base text-[#171716]/72 tabular-nums m-0">
+                        {project.subtitle} · {project.year}
+                      </p>
                     </div>
-                    <p className="text-sm text-[#171716]/70 tabular-nums m-0">
-                      {project.subtitle} · {project.year}
-                    </p>
-                  </div>
-                </button>
-              </article>
-            ))}
+                  </button>
+                </article>
+              );
+            })}
           </div>
         )}
       </section>
-
-      {selectedProject &&
-        createPortal(
-          <div
-            className="fixed inset-0 z-50 bg-[#171716]/45 flex items-center justify-center p-4 md:p-8 overflow-y-auto"
-            role="presentation"
-            onClick={(event) => {
-              if (event.target === event.currentTarget) setSelectedId(null);
-            }}
-          >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="case-study-title"
-            className="w-full max-w-4xl rounded-2xl bg-[#f2efe6] text-[#171716] border-2 border-[#171716] shadow-[10px_10px_0_#171716] overflow-hidden my-auto max-h-[92vh] flex flex-col"
-          >
-            <div className="px-6 py-4 border-b-2 border-[#171716] bg-[#fffdf6] flex items-center justify-between gap-4 shrink-0">
-              <div className="text-sm font-medium tabular-nums text-[#171716]/75">
-                {selectedProject.client} · {selectedProject.year} · {selectedProject.role}
-              </div>
-              <button
-                type="button"
-                onClick={() => setSelectedId(null)}
-                aria-label="Close case study"
-                className="w-10 h-10 rounded-xl border-2 border-[#171716] bg-[#f2efe6] grid place-items-center hover:bg-[#ff5b44] transition-colors shrink-0"
-              >
-                <CloseIcon />
-              </button>
-            </div>
-
-            <div className="overflow-y-auto p-6 md:p-8 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-[1.1fr_1fr] gap-6 items-start">
-                <div className="aspect-[4/3] w-full overflow-hidden rounded-xl border-2 border-[#171716] bg-[#ddd]">
-                  <img
-                    src={selectedProject.image}
-                    alt={selectedProject.title}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                <div>
-                  <p className="text-sm text-[#d9442e] font-medium m-0">
-                    {selectedProject.subtitle}
-                  </p>
-                  <h2
-                    id="case-study-title"
-                    className="mt-2 font-display text-4xl font-medium tracking-[-0.02em] leading-tight m-0"
-                  >
-                    {selectedProject.title}
-                  </h2>
-                  <p className="mt-4 text-sm md:text-base leading-relaxed text-[#171716]/85 m-0">
-                    {selectedProject.summary}
-                  </p>
-                  <div className="mt-5 rounded-xl bg-[#c7ef45] border-2 border-[#171716] p-4">
-                    <h3 className="text-xs font-semibold text-[#171716]/75 m-0">
-                      Outcome
-                    </h3>
-                    <p className="mt-1.5 text-sm font-medium leading-relaxed m-0">
-                      {selectedProject.outcome}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border-t-2 border-[#171716] pt-6">
-                <div>
-                  <h3 className="text-sm font-semibold text-[#171716]/70 m-0">
-                    The Challenge
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#171716]/85 m-0">
-                    {selectedProject.challenge}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-[#171716]/70 m-0">
-                    Design Approach
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#171716]/85 m-0">
-                    {selectedProject.approach}
-                  </p>
-                </div>
-                <div>
-                  <h3 className="text-sm font-semibold text-[#171716]/70 m-0">
-                    Deliverables
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[#171716] m-0">
-                    {selectedProject.deliverables.join(" · ")}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="px-6 py-4 border-t-2 border-[#171716] bg-[#fffdf6] flex flex-wrap items-center justify-between gap-4 shrink-0">
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setSelectedId(getAdjacentItemId(visibleProjects, selectedProject.id, "prev"))
-                  }
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border-2 border-[#171716] bg-[#f2efe6] text-sm font-medium hover:bg-[#f5d837] transition-colors"
-                >
-                  <Arrow direction="left" className="w-4 h-4" /> Prev
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setSelectedId(getAdjacentItemId(visibleProjects, selectedProject.id, "next"))
-                  }
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border-2 border-[#171716] bg-[#f2efe6] text-sm font-medium hover:bg-[#f5d837] transition-colors"
-                >
-                  Next <Arrow className="w-4 h-4" />
-                </button>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  const title = selectedProject.title;
-                  setSelectedId(null);
-                  onInquire(
-                    "Product Design",
-                    `Hi Kai — I saw your ${title} case study and would love to discuss a similar product project.`,
-                  );
-                }}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border-2 border-[#171716] bg-[#ff5b44] text-[#171716] text-sm font-medium shadow-[3px_3px_0_#171716] hover:bg-[#171716] hover:text-[#f2efe6] transition-colors"
-              >
-                Inquire About Similar Work <Arrow className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>,
-          document.body,
-        )}
     </main>
   );
 }

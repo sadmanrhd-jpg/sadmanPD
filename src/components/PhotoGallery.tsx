@@ -1,123 +1,89 @@
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { useState } from "react";
 import {
+  PHOTO_GENRES,
   PHOTO_ITEMS,
-  PHOTO_LOCATIONS,
-  type PhotoItem,
-  type PhotoLocation,
+  type PhotoGenre,
   type View,
 } from "../data/portfolio";
-import {
-  filterPhotoItems,
-  formatCount,
-  getAdjacentItemId,
-} from "../utils/portfolioLogic";
-import { Arrow, CloseIcon } from "./Characters";
+import { filterPhotoItems } from "../utils/portfolioLogic";
+import { Arrow } from "./Characters";
 
 interface PhotoGalleryProps {
   onNavigate: (view: View) => void;
-  onModalChange?: (open: boolean) => void;
-  onInquire: (topic: "Street Photography", note: string) => void;
+  onOpenPhotoDetail: (photoId: string) => void;
 }
 
 export function PhotoGallery({
   onNavigate,
-  onModalChange,
-  onInquire,
+  onOpenPhotoDetail,
 }: PhotoGalleryProps) {
-  const [location, setLocation] = useState<PhotoLocation>("All");
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [genre, setGenre] = useState<PhotoGenre>("All");
 
-  const visiblePhotos = filterPhotoItems(PHOTO_ITEMS, location);
-  const selectedPhoto: PhotoItem | null =
-    PHOTO_ITEMS.find((p) => p.id === selectedId) ?? null;
-
-  useEffect(() => {
-    onModalChange?.(Boolean(selectedPhoto));
-  }, [selectedPhoto, onModalChange]);
-
-  useEffect(() => {
-    if (!selectedPhoto) return;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setSelectedId(null);
-      } else if (event.key === "ArrowRight") {
-        setSelectedId((id) =>
-          id ? getAdjacentItemId(visiblePhotos, id, "next") : null,
-        );
-      } else if (event.key === "ArrowLeft") {
-        setSelectedId((id) =>
-          id ? getAdjacentItemId(visiblePhotos, id, "prev") : null,
-        );
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedPhoto, visiblePhotos]);
+  const visiblePhotos = filterPhotoItems(PHOTO_ITEMS, genre);
 
   return (
     <main className="gallery bg-[#111111] text-[#f2efe6] min-h-screen">
       <section className="border-b-2 border-[#f2efe6]">
         <div className="max-w-[1360px] mx-auto px-5 md:px-10 pt-5 pb-6 md:pt-7 md:pb-8">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+          <div
+            data-testid="gallery-nav-actions"
+            className="flex flex-col items-start gap-2.5"
+          >
             <button
               type="button"
               onClick={() => onNavigate("home")}
-              className="group inline-flex items-center gap-2.5 py-1.5 pr-2 text-sm font-medium text-[#f2efe6] hover:text-[#6d8eff] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4169ed]"
+              className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-xl border-2 border-[#f2efe6] bg-transparent text-sm font-medium text-[#f2efe6] shadow-[3px_3px_0_#f2efe6] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[4px_5px_0_#f2efe6] hover:bg-[#f2efe6] hover:text-[#111111] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none active:bg-[#f2efe6] active:text-[#111111] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4169ed]"
             >
               <Arrow
                 direction="left"
-                className="w-4 h-4 transition-transform duration-150 group-hover:-translate-x-1"
+                className="w-4 h-4 transition-transform duration-150 group-hover:-translate-x-1 group-active:-translate-x-1"
               />
-              <span className="group-hover:underline underline-offset-4">Back to Select</span>
+              <span>Back</span>
             </button>
             <button
               type="button"
               onClick={() => onNavigate("design")}
-              className="group inline-flex items-center gap-2 py-1.5 pl-2 text-sm font-medium text-[#ff5b44] transition-colors"
+              className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-xl border-2 border-[#f2efe6] bg-[#ff5b44] text-sm font-medium text-[#171716] shadow-[3px_3px_0_#f2efe6] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[4px_5px_0_#f2efe6] hover:bg-[#ff6d59] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none active:bg-[#ff6d59] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
             >
-              <span className="group-hover:underline underline-offset-4">Switch to Product Design</span>
-              <Arrow className="w-4 h-4 transition-transform duration-150 group-hover:translate-x-1" />
+              <span>Switch to Product Design</span>
+              <Arrow className="w-4 h-4 transition-transform duration-150 group-hover:translate-x-1 group-active:translate-x-1" />
             </button>
           </div>
 
           <div className="mt-8 md:mt-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <h1 className="font-display text-[clamp(48px,6.2vw,88px)] leading-[0.96] tracking-[-0.025em] font-medium m-0">
-              Street
+              Framed
               <br />
               <em className="not-italic font-medium text-[#6d8eff]">Stories.</em>
             </h1>
-            <p className="max-w-md text-base leading-relaxed text-[#f2efe6]/80 m-0">
+            <p className="max-w-lg text-[17px] md:text-[19px] leading-[1.7] text-[#f2efe6]/82 m-0">
               Unscripted fragments of city life across East &amp; Southeast Asia—color, solitude,
               monsoon rain, and fleeting light on 35mm.
             </p>
           </div>
 
-          <div className="mt-6 pt-4 border-t-2 border-[#f2efe6]/30 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Filter photographs by city">
-              {PHOTO_LOCATIONS.map((city) => {
-                const active = location === city;
+          <div className="mt-6 pt-4 border-t-2 border-[#f2efe6]/30 flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Filter photographs by genre">
+              {PHOTO_GENRES.map((tab) => {
+                const active = genre === tab;
                 return (
                   <button
-                    key={city}
+                    key={tab}
                     type="button"
                     role="tab"
                     aria-selected={active}
-                    onClick={() => setLocation(city)}
-                    className={`px-4 py-2 rounded-xl border-2 text-sm font-medium transition-all duration-150 whitespace-nowrap shrink-0 ${
+                    onClick={() => setGenre(tab)}
+                    className={`px-4 py-2 rounded-xl border-2 text-[15px] md:text-base font-medium transition-all duration-150 whitespace-nowrap shrink-0 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none ${
                       active
-                        ? "bg-[#4169ed] text-[#f2efe6] border-[#f2efe6]"
-                        : "bg-transparent text-[#f2efe6] border-[#f2efe6]/40 hover:border-[#f2efe6]"
+                        ? "bg-[#4169ed] text-[#f2efe6] border-[#f2efe6] shadow-[3px_3px_0_#f2efe6]"
+                        : "bg-transparent text-[#f2efe6] border-[#f2efe6]/40 hover:-translate-y-0.5 hover:border-[#f2efe6] hover:shadow-[3px_3px_0_#f2efe6] active:border-[#f2efe6] active:bg-[#4169ed]/20"
                     }`}
                   >
-                    {city}
+                    {tab}
                   </button>
                 );
               })}
             </div>
-            <span className="text-sm font-medium tabular-nums text-[#f2efe6]/80">
-              {formatCount(visiblePhotos.length)} Frames
-            </span>
           </div>
         </div>
       </section>
@@ -125,178 +91,75 @@ export function PhotoGallery({
       <section className="max-w-[1360px] mx-auto px-5 md:px-10 pt-8 pb-16 md:pt-10 md:pb-20">
         {visiblePhotos.length === 0 ? (
           <div className="rounded-2xl border-2 border-[#f2efe6]/40 p-12 text-center">
-            <p className="text-sm m-0">No frames in this city series.</p>
+            <p className="text-sm m-0">No frames in this genre yet.</p>
             <button
               type="button"
-              onClick={() => setLocation("All")}
+              onClick={() => setGenre("All")}
               className="mt-4 px-4 py-2 rounded-xl border-2 border-[#f2efe6] bg-[#4169ed] text-sm font-medium"
             >
               Show All Frames
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-14">
-            {visiblePhotos.map((photo, index) => (
-              <article
-                key={photo.id}
-                className={photo.wide && location === "All" ? "md:col-span-2" : ""}
-              >
-                <button
-                  type="button"
-                  onClick={() => setSelectedId(photo.id)}
-                  className="group w-full text-left rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4169ed]"
-                  aria-label={`Open lightbox for ${photo.title}`}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-8 gap-y-14">
+            {visiblePhotos.map((photo) => {
+              const isAll = genre === "All";
+              const isWide = Boolean(photo.wide && isAll);
+              return (
+                <article
+                  key={photo.id}
+                  className={
+                    isAll
+                      ? isWide
+                        ? "md:col-span-2 lg:col-span-7"
+                        : "lg:col-span-5"
+                      : "lg:col-span-6"
+                  }
                 >
-                  <div
-                    className={`relative overflow-hidden rounded-2xl border-2 border-[#f2efe6]/80 bg-[#1e1e1d] transition-all duration-200 group-hover:border-[#4169ed] ${
-                      photo.wide && location === "All"
-                        ? "aspect-[16/9] max-h-[640px] w-full"
-                        : "aspect-[4/3] w-full"
-                    }`}
+                  <button
+                    type="button"
+                    onClick={() => onOpenPhotoDetail(photo.id)}
+                    className="group w-full text-left rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4169ed]"
+                    aria-label={`Open ${photo.title} story`}
                   >
-                    <img
-                      src={photo.image}
-                      alt={`${photo.title}, ${photo.location} ${photo.year}`}
-                      referrerPolicy="no-referrer"
-                      className="w-full h-full object-cover saturate-[0.85] group-hover:saturate-[1.15] group-hover:scale-[1.03] transition-all duration-500"
-                    />
-                    <span
-                      aria-hidden="true"
-                      className="absolute right-5 top-5 w-12 h-12 rounded-full bg-[#4169ed] border-2 border-[#f2efe6] text-[#f2efe6] grid place-items-center scale-0 -rotate-45 group-hover:scale-100 group-hover:rotate-0 transition-transform duration-200"
+                    <div
+                      className={`relative overflow-hidden rounded-2xl border-2 border-[#f2efe6]/80 bg-[#1e1e1d] transition-all duration-200 group-hover:border-[#4169ed] ${
+                        isAll
+                          ? isWide
+                            ? "aspect-[16/9] max-h-[640px] lg:aspect-auto lg:h-[380px] xl:h-[410px] w-full"
+                            : "aspect-[4/3] lg:aspect-auto lg:h-[380px] xl:h-[410px] w-full"
+                          : "aspect-[4/3] w-full"
+                      }`}
                     >
-                      <Arrow />
-                    </span>
-                  </div>
-
-                  <div className="pt-4 flex flex-wrap items-baseline justify-between gap-3">
-                    <div className="flex items-baseline gap-4">
-                      <span className="text-sm font-medium tabular-nums text-[#f2efe6]/60">
-                        {formatCount(index + 1)}
+                      <img
+                        src={photo.image}
+                        alt={`${photo.title}, ${photo.location} ${photo.year}`}
+                        referrerPolicy="no-referrer"
+                        className="w-full h-full object-cover saturate-[0.85] group-hover:saturate-[1.15] group-hover:scale-[1.03] transition-all duration-500"
+                      />
+                      <span
+                        aria-hidden="true"
+                        className="absolute right-5 top-5 w-12 h-12 rounded-full bg-[#4169ed] border-2 border-[#f2efe6] text-[#f2efe6] grid place-items-center scale-0 -rotate-45 group-hover:scale-100 group-hover:rotate-0 transition-transform duration-200"
+                      >
+                        <Arrow />
                       </span>
+                    </div>
+
+                    <div className="pt-4 flex flex-wrap items-baseline justify-between gap-3">
                       <h2 className="font-display text-2xl md:text-[32px] font-medium tracking-[-0.015em] leading-tight m-0 group-hover:text-[#6d8eff] transition-colors">
                         {photo.title}
                       </h2>
+                      <p className="text-[15px] md:text-base text-[#f2efe6]/75 tabular-nums m-0">
+                        {photo.genre} · {photo.location} · {photo.year}
+                      </p>
                     </div>
-                    <p className="text-sm text-[#f2efe6]/70 tabular-nums m-0">
-                      {photo.location} · {photo.year} · {photo.camera}
-                    </p>
-                  </div>
-                </button>
-              </article>
-            ))}
+                  </button>
+                </article>
+              );
+            })}
           </div>
         )}
       </section>
-
-      {selectedPhoto &&
-        createPortal(
-          <div
-            className="fixed inset-0 z-50 bg-[#0a0a0a]/65 flex items-center justify-center p-4 md:p-8 overflow-y-auto"
-            role="presentation"
-            onClick={(event) => {
-              if (event.target === event.currentTarget) setSelectedId(null);
-            }}
-          >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="photo-lightbox-title"
-            className="w-full max-w-5xl rounded-2xl bg-[#111111] text-[#f2efe6] border-2 border-[#f2efe6] my-auto overflow-hidden flex flex-col max-h-[94vh]"
-          >
-            <div className="px-5 py-3.5 border-b border-[#f2efe6]/25 flex items-center justify-between gap-4 shrink-0">
-              <span className="text-sm font-medium tabular-nums text-[#f2efe6]/80">
-                {selectedPhoto.location} · {selectedPhoto.year} · {selectedPhoto.camera}
-              </span>
-              <button
-                type="button"
-                onClick={() => setSelectedId(null)}
-                aria-label="Close photograph lightbox"
-                className="w-10 h-10 rounded-xl border border-[#f2efe6]/60 grid place-items-center hover:bg-[#4169ed] hover:border-[#4169ed] transition-colors shrink-0"
-              >
-                <CloseIcon />
-              </button>
-            </div>
-
-            <div className="overflow-y-auto p-5 md:p-7 space-y-5">
-              <div className="rounded-xl bg-[#050505] border border-[#f2efe6]/20 flex items-center justify-center max-h-[50vh] overflow-hidden">
-                <img
-                  src={selectedPhoto.image}
-                  alt={selectedPhoto.title}
-                  referrerPolicy="no-referrer"
-                  className="max-h-[50vh] w-auto max-w-full object-contain"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-6 items-start">
-                <div>
-                  <h2
-                    id="photo-lightbox-title"
-                    className="font-display text-3xl md:text-4xl font-medium tracking-[-0.02em] leading-tight m-0"
-                  >
-                    {selectedPhoto.title}
-                  </h2>
-                  <p className="mt-3 text-sm md:text-base leading-relaxed text-[#f2efe6]/80 m-0">
-                    {selectedPhoto.story}
-                  </p>
-                </div>
-
-                <div className="rounded-xl border border-[#f2efe6]/25 p-4 space-y-2 text-sm">
-                  <div className="flex justify-between gap-4">
-                    <span className="text-[#f2efe6]/60">Camera</span>
-                    <span>{selectedPhoto.camera}</span>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <span className="text-[#f2efe6]/60">Lens</span>
-                    <span>{selectedPhoto.lens}</span>
-                  </div>
-                  <div className="flex justify-between gap-4">
-                    <span className="text-[#f2efe6]/60">Exposure</span>
-                    <span className="tabular-nums">{selectedPhoto.settings}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="px-5 py-4 border-t border-[#f2efe6]/25 flex flex-wrap items-center justify-between gap-4 shrink-0">
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setSelectedId(getAdjacentItemId(visiblePhotos, selectedPhoto.id, "prev"))
-                  }
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#f2efe6]/60 text-sm font-medium hover:bg-[#4169ed] hover:border-[#4169ed] transition-colors"
-                >
-                  <Arrow direction="left" className="w-4 h-4" /> Prev Frame
-                </button>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setSelectedId(getAdjacentItemId(visiblePhotos, selectedPhoto.id, "next"))
-                  }
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#f2efe6]/60 text-sm font-medium hover:bg-[#4169ed] hover:border-[#4169ed] transition-colors"
-                >
-                  Next Frame <Arrow className="w-4 h-4" />
-                </button>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  const title = selectedPhoto.title;
-                  setSelectedId(null);
-                  onInquire(
-                    "Street Photography",
-                    `Hi Kai — I'm interested in prints or an editorial commission inspired by "${title}".`,
-                  );
-                }}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#4169ed] text-[#f2efe6] border border-[#f2efe6] text-sm font-medium hover:bg-[#f2efe6] hover:text-[#171716] transition-colors"
-              >
-                Prints &amp; Commissions <Arrow className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>,
-          document.body,
-        )}
     </main>
   );
 }

@@ -15,18 +15,18 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
             <button
               type="button"
               onClick={() => onNavigate("home")}
-              className="group inline-flex items-center gap-2.5 py-1.5 pr-2 text-sm font-medium text-[#171716] hover:text-[#d9442e] transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
+              className="group inline-flex items-center gap-2.5 px-4 py-2 rounded-xl border-2 border-[#171716] bg-[#fffdf6] text-sm font-medium text-[#171716] shadow-[3px_3px_0_#171716] transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[4px_5px_0_#171716] hover:bg-[#171716] hover:text-[#f2efe6] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none active:bg-[#171716] active:text-[#f2efe6] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
             >
               <Arrow
                 direction="left"
-                className="w-4 h-4 transition-transform duration-150 group-hover:-translate-x-1"
+                className="w-4 h-4 transition-transform duration-150 group-hover:-translate-x-1 group-active:-translate-x-1"
               />
-              <span className="group-hover:underline underline-offset-4">Back to Select</span>
+              <span>Back</span>
             </button>
           </div>
 
           <p className="mt-8 md:mt-10 text-sm tabular-nums text-[#171716]/70 font-medium m-0">
-            01. About Kai · Singapore
+            01. About Sadman · Singapore
           </p>
 
           <div className="mt-4 grid grid-cols-1 lg:grid-cols-[1.45fr_0.85fr] gap-12 items-center">
@@ -37,7 +37,7 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
                 Tension in <em className="not-italic font-medium text-[#4169ed]">Light.</em>
               </h1>
               <p className="mt-8 max-w-2xl text-base md:text-lg leading-relaxed text-[#171716]/85">
-                I&apos;m Kai, a Singapore-based product designer and street photographer working at
+                I&apos;m Sadman, a Singapore-based product designer and street photographer working at
                 the intersection of tactile hardware, calm interfaces, and 35mm documentary
                 storytelling.
               </p>
@@ -51,14 +51,14 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
                 <button
                   type="button"
                   onClick={onOpenContact}
-                  className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-[#171716] text-[#f2efe6] border-2 border-[#171716] text-sm font-medium shadow-[4px_4px_0_#ff5b44] hover:bg-[#ff5b44] hover:text-[#171716] hover:shadow-[4px_4px_0_#171716] transition-all duration-150"
+                  className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-[#171716] text-[#f2efe6] border-2 border-[#171716] text-sm font-medium shadow-[4px_4px_0_#ff5b44] hover:-translate-y-0.5 hover:bg-[#ff5b44] hover:text-[#171716] hover:shadow-[5px_6px_0_#171716] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none active:bg-[#ff5b44] active:text-[#171716] transition-all duration-150"
                 >
                   Get in Touch <Arrow />
                 </button>
                 <button
                   type="button"
                   onClick={() => onNavigate("design")}
-                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#fffdf6] border-2 border-[#171716] text-sm font-medium hover:bg-[#c7ef45] transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-[#fffdf6] border-2 border-[#171716] text-sm font-medium shadow-[3px_3px_0_#171716] hover:-translate-y-0.5 hover:bg-[#c7ef45] hover:shadow-[4px_5px_0_#171716] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none active:bg-[#c7ef45] transition-all duration-150"
                 >
                   View Design Work <Arrow className="w-4 h-4" />
                 </button>

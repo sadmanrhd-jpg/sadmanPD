@@ -42,13 +42,37 @@ export function CloseIcon({ className = "" }: { className?: string }) {
   );
 }
 
+export function ChevronIcon({
+  direction = "right",
+  className = "",
+}: {
+  direction?: "left" | "right";
+  className?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={`w-5 h-5 fill-none stroke-current stroke-[2.2] ${className}`}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {direction === "left" ? (
+        <path d="M15 18l-6-6 6-6" />
+      ) : (
+        <path d="M9 18l6-6-6-6" />
+      )}
+    </svg>
+  );
+}
+
 export function DesignerCharacter() {
   return (
     <svg
       className="character-svg"
       viewBox="0 0 430 540"
       role="img"
-      aria-label="Kai as a product designer"
+      aria-label="Sadman as a product designer"
     >
       <g className="designer-float">
         <ellipse className="svg-shadow" cx="222" cy="505" rx="136" ry="17" />
@@ -121,7 +145,7 @@ export function PhotographerCharacter() {
       className="character-svg"
       viewBox="0 0 430 540"
       role="img"
-      aria-label="Kai as a photographer"
+      aria-label="Sadman as a photographer"
     >
       <g className="photographer-float">
         <ellipse className="svg-shadow" cx="210" cy="505" rx="136" ry="17" />

@@ -13,20 +13,22 @@ import {
 
 const SAMPLE_DESIGN: DesignProject[] = [
   {
-    id: "mori",
-    title: "Mori",
-    subtitle: "Wellness · Product",
+    id: "nsd",
+    title: "National Sanitation Dashboard (NSD)",
+    subtitle: "GovTech · Data Platform",
     category: "Product",
     year: "2024",
-    client: "Mori Labs",
-    role: "Lead Product Designer",
-    image: "/mori.jpg",
+    client: "Department of Public Health Engineering · DPHE",
+    role: "Product Designer · UX Researcher · Communication Expert",
+    liveUrl: "https://www.sanboard.gov.bd",
+    image: "/assets/aistudio/Cover_0575afc4.png",
+    imageFit: "contain",
     wide: true,
-    summary: "Bedside wellness device",
+    summary: "National sanitation data platform",
     challenge: "Challenge",
-    approach: "Approach Mori",
-    deliverables: ["App", "Hardware"],
-    outcome: "4.9 rating",
+    approach: "Approach NSD",
+    deliverables: ["Dashboard Redesign", "City Comparison"],
+    outcome: "126+ towns represented",
   },
   {
     id: "pico",
@@ -80,6 +82,7 @@ const SAMPLE_PHOTOS: PhotoItem[] = [
   {
     id: "midnight-riders",
     title: "Midnight Riders",
+    genre: "Street",
     location: "Saigon",
     year: "2024",
     image: "/saigon.jpg",
@@ -91,6 +94,7 @@ const SAMPLE_PHOTOS: PhotoItem[] = [
   {
     id: "passing-through",
     title: "Passing Through",
+    genre: "Street",
     location: "Hong Kong",
     year: "2023",
     image: "/hk.jpg",
@@ -102,6 +106,7 @@ const SAMPLE_PHOTOS: PhotoItem[] = [
   {
     id: "last-green",
     title: "Last Green",
+    genre: "Documentary",
     location: "Seoul",
     year: "2023",
     image: "/seoul.jpg",
@@ -125,11 +130,14 @@ test("filterDesignProjects returns all items for All and filters by category", (
   assert.equal(strategy[0].id, "oral-lab");
 });
 
-test("filterPhotoItems filters street photography frames by location", () => {
+test("filterPhotoItems filters photography frames by genre", () => {
   assert.equal(filterPhotoItems(SAMPLE_PHOTOS, "All").length, 3);
-  const seoul = filterPhotoItems(SAMPLE_PHOTOS, "Seoul");
-  assert.equal(seoul.length, 1);
-  assert.equal(seoul[0].title, "Last Green");
+  const street = filterPhotoItems(SAMPLE_PHOTOS, "Street");
+  assert.equal(street.length, 2);
+  const documentary = filterPhotoItems(SAMPLE_PHOTOS, "Documentary");
+  assert.equal(documentary.length, 1);
+  assert.equal(documentary[0].title, "Last Green");
+  assert.equal(filterPhotoItems(SAMPLE_PHOTOS, "Nature").length, 0);
 });
 
 test("buildFeaturedHighlights interleaves design and photo highlights and filterHighlights filters them", () => {
@@ -137,18 +145,28 @@ test("buildFeaturedHighlights interleaves design and photo highlights and filter
   assert.equal(highlights.length, 4);
   assert.deepEqual(
     highlights.map((h) => h.title),
-    ["Mori", "Midnight Riders", "Pico", "Passing Through"],
+    [
+      "National Sanitation Dashboard (NSD)",
+      "Midnight Riders",
+      "Pico",
+      "Passing Through",
+    ],
   );
+  assert.deepEqual(
+    highlights.map((h) => h.sourceId),
+    ["nsd", "midnight-riders", "pico", "passing-through"],
+  );
+  assert.equal(highlights[0].imageFit, "contain");
   assert.equal(filterHighlights(highlights, "All").length, 4);
   assert.equal(filterHighlights(highlights, "Product Design").length, 2);
   assert.equal(filterHighlights(highlights, "Photography").length, 2);
 });
 
 test("getAdjacentItemId wraps around forward and backward", () => {
-  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "mori", "next"), "pico");
-  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "after-eight", "next"), "mori");
-  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "mori", "prev"), "after-eight");
-  assert.equal(getAdjacentItemId([], "mori", "next"), null);
+  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "nsd", "next"), "pico");
+  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "after-eight", "next"), "nsd");
+  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "nsd", "prev"), "after-eight");
+  assert.equal(getAdjacentItemId([], "nsd", "next"), null);
 });
 
 test("formatCount pads single digits with leading zero", () => {

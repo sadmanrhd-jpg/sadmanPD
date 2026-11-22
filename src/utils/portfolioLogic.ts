@@ -1,8 +1,8 @@
 import type {
   DesignCategory,
   DesignProject,
+  PhotoGenre,
   PhotoItem,
-  PhotoLocation,
 } from "../data/portfolio";
 
 export interface ContactFormValues {
@@ -21,12 +21,15 @@ export type HighlightFilter = "All" | "Product Design" | "Photography";
 
 export interface FeaturedHighlight {
   id: string;
+  sourceId: string;
   kind: "design" | "photo";
   title: string;
   kicker: string;
   meta: string;
   image: string;
+  imageFit?: "cover" | "contain";
   summary: string;
+  challenge?: string;
   primaryLabel: string;
   primaryValue: string;
   secondaryLabel: string;
@@ -44,10 +47,10 @@ export function filterDesignProjects(
 
 export function filterPhotoItems(
   photos: PhotoItem[],
-  location: PhotoLocation,
+  genre: PhotoGenre,
 ): PhotoItem[] {
-  if (location === "All") return photos;
-  return photos.filter((photo) => photo.location === location);
+  if (genre === "All") return photos;
+  return photos.filter((photo) => photo.genre === genre);
 }
 
 export function buildFeaturedHighlights(
@@ -55,7 +58,7 @@ export function buildFeaturedHighlights(
   photos: PhotoItem[],
 ): FeaturedHighlight[] {
   const picks: FeaturedHighlight[] = [];
-  const designOrder = ["mori", "pico"];
+  const designOrder = ["nsd", "pico"];
   const photoOrder = ["midnight-riders", "passing-through"];
 
   const designById = new Map(projects.map((p) => [p.id, p]));
@@ -65,12 +68,15 @@ export function buildFeaturedHighlights(
   if (m) {
     picks.push({
       id: `highlight-${m.id}`,
+      sourceId: m.id,
       kind: "design",
       title: m.title,
       kicker: `Product Design · ${m.year}`,
       meta: `${m.client} · ${m.subtitle}`,
       image: m.image,
+      imageFit: m.imageFit,
       summary: m.summary,
+      challenge: m.challenge,
       primaryLabel: "Approach",
       primaryValue: m.approach,
       secondaryLabel: "Outcome",
@@ -83,6 +89,7 @@ export function buildFeaturedHighlights(
   if (mr) {
     picks.push({
       id: `highlight-${mr.id}`,
+      sourceId: mr.id,
       kind: "photo",
       title: mr.title,
       kicker: `Photography · ${mr.location}`,
@@ -101,12 +108,15 @@ export function buildFeaturedHighlights(
   if (p && p.id !== m?.id) {
     picks.push({
       id: `highlight-${p.id}`,
+      sourceId: p.id,
       kind: "design",
       title: p.title,
       kicker: `Product Design · ${p.year}`,
       meta: `${p.client} · ${p.subtitle}`,
       image: p.image,
+      imageFit: p.imageFit,
       summary: p.summary,
+      challenge: p.challenge,
       primaryLabel: "Approach",
       primaryValue: p.approach,
       secondaryLabel: "Outcome",
@@ -119,6 +129,7 @@ export function buildFeaturedHighlights(
   if (pt && pt.id !== mr?.id) {
     picks.push({
       id: `highlight-${pt.id}`,
+      sourceId: pt.id,
       kind: "photo",
       title: pt.title,
       kicker: `Photography · ${pt.location}`,
@@ -182,7 +193,7 @@ export function validateContactForm(
   }
 
   if (trimmedMessage.length < 10) {
-    errors.message = "Tell Kai a bit about your project (at least 10 characters).";
+    errors.message = "Tell Sadman a bit about your project (at least 10 characters).";
   }
 
   return {

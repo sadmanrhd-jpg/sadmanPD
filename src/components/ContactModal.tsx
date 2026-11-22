@@ -65,7 +65,7 @@ export function ContactModal({
 
   const handleCopyEmail = async () => {
     try {
-      await navigator.clipboard.writeText("hello@kai.studio");
+      await navigator.clipboard.writeText("sadmanrhd@gmail.com");
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -119,10 +119,10 @@ export function ContactModal({
           <div className="text-sm">
             Direct email:{" "}
             <a
-              href="mailto:hello@kai.studio"
+              href="mailto:sadmanrhd@gmail.com"
               className="underline decoration-2 underline-offset-4 hover:text-[#d9442e] font-medium"
             >
-              hello@kai.studio
+              sadmanrhd@gmail.com
             </a>
           </div>
           <button
@@ -144,7 +144,7 @@ export function ContactModal({
             </h3>
             <p className="mt-3 text-sm leading-relaxed text-[#171716]/85">
               Your note about <strong className="font-semibold">{submitted.topic}</strong> has been
-              logged for <span className="font-medium">{submitted.email}</span>. Kai typically
+              logged for <span className="font-medium">{submitted.email}</span>. Sadman typically
               replies within two business days.
             </p>
             <div className="mt-5 p-4 rounded-xl bg-[#fffdf6] border-2 border-[#171716] text-sm leading-relaxed">

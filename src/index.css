@@ -31,6 +31,8 @@
   button,
   a {
     color: inherit;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   button {
     cursor: pointer;
@@ -185,6 +187,36 @@
     opacity: 1;
     transform: none;
   }
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.float-card {
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+  touch-action: pan-x pan-y;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .float-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 6px 8px 0 var(--ink);
+  }
+}
+
+.float-card:active,
+.float-card[data-touched="true"] {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 6px 8px 0 var(--ink);
 }
 
 @media (prefers-reduced-motion: reduce) {
