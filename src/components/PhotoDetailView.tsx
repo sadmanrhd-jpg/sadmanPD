@@ -114,19 +114,19 @@ export function PhotoDetailView({
         <div className="max-w-[1160px] mx-auto px-5 md:px-16 lg:px-24 py-12 md:py-16 space-y-10 md:space-y-12">
           <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-start">
             <div>
-              <p className="text-sm md:text-[15px] font-semibold tabular-nums text-[#6d8eff] m-0">
+              <p className="text-[16px] md:text-[16px] font-semibold leading-[1.5] tabular-nums text-[#6d8eff] m-0">
                 Field Notes
               </p>
-              <h2 className="mt-2 font-display text-3xl md:text-[42px] font-medium tracking-[-0.02em] leading-[1.14] m-0">
+              <h2 className="mt-2 font-display text-[32px] md:text-[42px] font-medium tracking-[-0.02em] leading-[1.2] m-0">
                 Behind the Frame
               </h2>
-              <p className="mt-5 text-[17px] md:text-[20px] leading-[1.8] text-[#f2efe6]/88 m-0">
+              <p className="mt-5 text-[18px] md:text-[20px] leading-[2] md:leading-[1.8] text-[#f2efe6]/88 m-0">
                 {photo.story}
               </p>
             </div>
 
-            <div className="rounded-2xl border-2 border-[#f2efe6]/35 bg-[#181817] p-5 md:p-7 space-y-4 text-base">
-              <p className="text-xs sm:text-sm font-semibold uppercase tracking-[0.06em] text-[#6d8eff] m-0">
+            <div className="rounded-2xl border-2 border-[#f2efe6]/35 bg-[#181817] p-5 md:p-7 space-y-4 text-[17px] md:text-[17px] leading-[1.5]">
+              <p className="text-[15px] sm:text-[15px] font-semibold uppercase tracking-[0.06em] leading-[1.5] text-[#6d8eff] m-0">
                 Technical Specifications
               </p>
               <dl className="space-y-3.5 m-0">

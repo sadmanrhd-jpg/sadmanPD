@@ -478,16 +478,16 @@ export function HomeView({
                     <div className="pt-4 lg:pt-3.5 flex items-start justify-between gap-4">
                       <div>
                         <p
-                          className={`text-sm font-medium m-0 ${
+                          className={`text-[16px] leading-[1.5] font-medium m-0 ${
                             isPhoto ? "text-[#4169ed]" : "text-[#d9442e]"
                           }`}
                         >
                           {item.kicker}
                         </p>
-                        <h3 className="mt-1.5 font-display text-2xl md:text-[30px] lg:text-[26px] font-medium tracking-[-0.015em] leading-tight m-0">
+                        <h3 className="mt-1.5 font-display text-[26px] md:text-[30px] lg:text-[26px] font-medium tracking-[-0.015em] leading-[1.25] m-0">
                           {item.title}
                         </h3>
-                        <p className="mt-2.5 lg:mt-2 text-[15px] md:text-base leading-[1.65] text-[#171716]/78 line-clamp-2 m-0">
+                        <p className="mt-2.5 lg:mt-2 text-[17px] md:text-[17px] leading-[1.5] md:leading-[1.65] text-[#171716]/80 line-clamp-2 m-0">
                           {item.summary}
                         </p>
                       </div>
@@ -502,15 +502,15 @@ export function HomeView({
 
       <section className="border-t-2 border-[#171716]">
         <div className="max-w-[1360px] mx-auto px-5 md:px-10 py-16 md:py-24">
-          <p className="text-sm md:text-[15px] tabular-nums text-[#171716]/70 font-medium m-0">
+          <p className="text-[16px] md:text-[16px] leading-[1.5] tabular-nums text-[#171716]/70 font-medium m-0">
             The Player
           </p>
-          <h2 className="mt-4 max-w-4xl font-display text-[clamp(32px,4.4vw,58px)] leading-[1.1] tracking-[-0.02em] font-normal text-balance">
+          <h2 className="mt-4 max-w-4xl font-display text-[clamp(32px,4.4vw,58px)] leading-[1.15] tracking-[-0.02em] font-normal text-balance">
             I turn <em className="not-italic font-medium text-[#d9442e]">complexity</em> into clarity—then chase the
             light after hours.
           </h2>
           <div className="mt-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
-            <p className="max-w-xl text-[17px] md:text-[19px] leading-[1.75] text-[#171716]/82 m-0">
+            <p className="max-w-xl text-[18px] md:text-[19px] leading-[2] md:leading-[1.75] text-[#171716]/82 m-0">
               Based in Singapore, working everywhere. Partnering with ambitious product teams on
               digital &amp; physical experiences while documenting Southeast and East Asian street
               life on film.

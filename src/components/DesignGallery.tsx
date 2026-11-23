@@ -50,13 +50,13 @@ export function DesignGallery({
             </button>
           </div>
 
-          <div className="mt-8 md:mt-10 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+          <div className="mt-8 md:mt-10 flex flex-col gap-5 max-w-2xl">
             <h1 className="font-display text-[clamp(48px,6.2vw,88px)] leading-[0.96] tracking-[-0.025em] font-medium m-0">
               Product
               <br />
               <em className="not-italic font-medium text-[#d9442e]">Design.</em>
             </h1>
-            <p className="max-w-lg text-[17px] md:text-[19px] leading-[1.7] text-[#171716]/82 m-0">
+            <p className="max-w-xl text-[17px] md:text-[19px] leading-[1.7] text-[#171716]/72 m-0">
               Useful, tactile digital and physical products—built from messy questions, field
               research, and sharp industrial execution.
             </p>

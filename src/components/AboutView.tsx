@@ -25,8 +25,8 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
             </button>
           </div>
 
-          <p className="mt-8 md:mt-10 text-sm tabular-nums text-[#171716]/70 font-medium m-0">
-            01. About Sadman · Singapore
+          <p className="mt-8 md:mt-10 text-[16px] text-[#171716]/70 font-medium m-0">
+            About Sadman · Singapore
           </p>
 
           <div className="mt-4 grid grid-cols-1 lg:grid-cols-[1.45fr_0.85fr] gap-12 items-center">
@@ -36,12 +36,12 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
                 <br />
                 Tension in <em className="not-italic font-medium text-[#4169ed]">Light.</em>
               </h1>
-              <p className="mt-8 max-w-2xl text-base md:text-lg leading-relaxed text-[#171716]/85">
-                I&apos;m Sadman, a Singapore-based product designer and street photographer working at
-                the intersection of tactile hardware, calm interfaces, and 35mm documentary
+              <p className="mt-8 max-w-2xl text-[18px] md:text-[19px] leading-[2] md:leading-[1.75] text-[#171716]/85">
+                I&apos;m Sadman, a Singapore-based product designer and freelance photographer working
+                at the intersection of tactile hardware, calm interfaces, and 35mm documentary
                 storytelling.
               </p>
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-[#171716]/75">
+              <p className="mt-5 max-w-2xl text-[18px] md:text-[18px] leading-[2] md:leading-[1.75] text-[#171716]/80">
                 During studio hours I partner with founders and engineering teams to turn tangled
                 technical constraints into products people look forward to picking up. After dusk,
                 I walk dense neighborhoods across Asia with a mechanical rangefinder.
@@ -81,17 +81,17 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
       <section className="border-b-2 border-[#171716]">
         <div className="max-w-[1360px] mx-auto px-5 md:px-10 py-16 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-14">
           <div>
-            <p className="text-sm text-[#d9442e] font-medium m-0">
+            <p className="text-[16px] text-[#d9442e] font-medium m-0">
               Discipline 01 · Product Design
             </p>
-            <h2 className="mt-3 font-display text-2xl md:text-[32px] font-medium tracking-[-0.015em] leading-snug m-0">
+            <h2 className="mt-3 font-display text-[26px] md:text-[32px] font-medium tracking-[-0.015em] leading-snug m-0">
               Interfaces, Hardware &amp; Brand Systems
             </h2>
-            <p className="mt-4 text-sm md:text-base leading-relaxed text-[#171716]/80">
+            <p className="mt-4 text-[18px] md:text-[18px] leading-[2] md:leading-[1.7] text-[#171716]/82">
               From zero-to-one mobile companions and industrial hardware ergonomics to coherent
               design systems that scale cleanly across engineering teams.
             </p>
-            <ul className="mt-6 space-y-2.5 text-sm text-[#171716]/85 list-none p-0 m-0 tabular-nums">
+            <ul className="mt-6 space-y-2.5 text-[17px] md:text-[17px] leading-[1.5] text-[#171716]/85 list-none p-0 m-0 tabular-nums">
               <li className="py-2 border-b border-[#171716]/20">
                 01 · Zero-to-One Product &amp; Hardware Strategy
               </li>
@@ -108,17 +108,17 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
           </div>
 
           <div>
-            <p className="text-sm text-[#4169ed] font-medium m-0">
-              Discipline 02 · Street Photography
+            <p className="text-[16px] text-[#4169ed] font-medium m-0">
+              Discipline 02 · Freelance Photography
             </p>
-            <h2 className="mt-3 font-display text-2xl md:text-[32px] font-medium tracking-[-0.015em] leading-snug m-0">
+            <h2 className="mt-3 font-display text-[26px] md:text-[32px] font-medium tracking-[-0.015em] leading-snug m-0">
               Documentary, Editorial &amp; Print Editions
             </h2>
-            <p className="mt-4 text-sm md:text-base leading-relaxed text-[#171716]/80">
+            <p className="mt-4 text-[18px] md:text-[18px] leading-[2] md:leading-[1.7] text-[#171716]/82">
               Working primarily on 35mm film and compact rangefinders to capture unposed human
               presence, nocturnal neon geometry, and architectural rhythm.
             </p>
-            <ul className="mt-6 space-y-2.5 text-sm text-[#171716]/85 list-none p-0 m-0 tabular-nums">
+            <ul className="mt-6 space-y-2.5 text-[17px] md:text-[17px] leading-[1.5] text-[#171716]/85 list-none p-0 m-0 tabular-nums">
               <li className="py-2 border-b border-[#171716]/20">
                 01 · Editorial Essays &amp; Brand Visual Stories
               </li>
@@ -144,7 +144,7 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
           <button
             type="button"
             onClick={() => onNavigate("photo")}
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#4169ed] hover:underline underline-offset-4"
+            className="inline-flex items-center gap-2 text-[15px] font-medium text-[#4169ed] hover:underline underline-offset-4"
           >
             Explore Photo Archive <Arrow className="w-4 h-4" />
           </button>
@@ -156,16 +156,18 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
               key={`${item.period}-${item.role}`}
               className="py-6 border-b border-[#171716]/25 grid grid-cols-1 md:grid-cols-[140px_1fr_1.1fr] gap-3 md:gap-8 items-baseline"
             >
-              <span className="text-sm tabular-nums font-medium text-[#171716]/70">
+              <span className="text-[17px] leading-[1.5] tabular-nums font-medium text-[#171716]/70">
                 {item.period}
               </span>
               <div>
-                <h3 className="font-semibold text-base m-0">{item.role}</h3>
-                <p className="mt-1 text-sm text-[#171716]/65 m-0">
+                <h3 className="font-semibold text-[19px] leading-[1.5] m-0">{item.role}</h3>
+                <p className="mt-1 text-[17px] leading-[1.5] text-[#171716]/68 m-0">
                   {item.place} · {item.discipline}
                 </p>
               </div>
-              <p className="text-sm leading-relaxed text-[#171716]/80 m-0">{item.detail}</p>
+              <p className="text-[18px] leading-[2] md:leading-[1.7] text-[#171716]/82 m-0">
+                {item.detail}
+              </p>
             </div>
           ))}
         </div>

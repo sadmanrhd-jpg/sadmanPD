@@ -57,6 +57,13 @@ export interface CaseStudyComparisonRow {
   after: string;
 }
 
+export interface MobileShowcaseBlock {
+  eyebrow: string;
+  heading: string;
+  note?: string;
+  screens: CaseStudyVisual[];
+}
+
 export interface DesignProject {
   id: string;
   title: string;
@@ -80,8 +87,10 @@ export interface DesignProject {
   challenge: string;
   challengeIntro?: string;
   challengePoints?: CaseStudyFeatureItem[];
+  challengeVisual?: CaseStudyVisual;
   backgroundIntro?: string;
   backgroundMilestones?: CaseStudyMilestone[];
+  mobileShowcase?: MobileShowcaseBlock;
   contributionsIntro?: string;
   contributions?: CaseStudyFeatureItem[];
   contributionGallery?: CaseStudyVisual[];
@@ -90,6 +99,7 @@ export interface DesignProject {
   outcome: string;
   metrics?: CaseStudyMetric[];
   researchInsights?: string[];
+  processVisual?: CaseStudyVisual;
   processSteps?: CaseStudyProcessStep[];
   keyDesignAreas?: CaseStudyFeatureItem[];
   keyDesignAreasVisual?: CaseStudyVisual;
@@ -173,55 +183,83 @@ export const DESIGN_PROJECTS: DesignProject[] = [
       caption:
         "Bilingual entry portal uniting 135 municipalities and 10+ national surveys with direct navigation to city profiles, charts, indicators, FSTP records, and IMIS Cities.",
     },
-    backgroundIntro:
-      "A compact view of how the dashboard evolved into a broader national platform.",
+    backgroundIntro: "How the dashboard scaled into a national platform.",
     backgroundMilestones: [
       {
         tag: "2020",
         title: "Original dashboard",
-        detail:
-          "The dashboard was introduced using household and institutional survey data with national, city, chart, and indicator views.",
+        detail: "Launched with national, city, chart, and indicator survey views.",
       },
       {
         tag: "61 cities",
         title: "Existing coverage",
-        detail:
-          "The earlier system covered sanitation, solid waste management, drainage, and SFD information for 61 cities.",
+        detail: "Covered sanitation, solid waste, drainage, and SFD data for 61 cities.",
       },
       {
         tag: "2024",
         title: "Integrative upscaling",
-        detail:
-          "The product entered a broader redesign phase focused on usability, scalability, data management, and integration.",
+        detail: "Redesigned for usability, scalability, data workflows, and integration.",
       },
       {
         tag: "Phase II",
         title: "80+ Paurashavas",
-        detail:
-          "The next phase expands data standardization and integration while strengthening interoperability, training, and institutional use.",
+        detail: "Expanding standardized municipal data, interoperability, and adoption.",
       },
     ],
     challenge:
-      "Three product problems shaped the direction of the redesign and upscaling work: fragmented sanitation data, static manual workflows, and limited accessibility and analysis.",
-    challengeIntro:
-      "Three product problems shaped the direction of the redesign and upscaling work.",
+      "Three core gaps shaped the upscaling redesign: fragmented sanitation data, static manual workflows, and limited accessibility and analysis.",
+    challengeIntro: "Three core gaps shaped the upscaling redesign.",
     challengePoints: [
       {
         title: "Fragmented sanitation data",
-        detail:
-          "Sanitation information came from different surveys, municipal records, datasets, years, and systems. Inconsistent structures made national and city level comparison difficult.",
+        detail: "Inconsistent survey and municipal data structures made city comparisons difficult.",
       },
       {
         title: "Static and manual workflows",
-        detail:
-          "The earlier platform relied heavily on static data and manual processes for adding new cities. Survey planning, monitoring, and data incorporation needed a more scalable workflow.",
+        detail: "Adding cities relied on static files and manual updates instead of scalable workflows.",
       },
       {
         title: "Limited accessibility and analysis",
-        detail:
-          "The system needed clearer information hierarchy, stronger visualization, city comparison, Bangla access, and contextual help for technical and general users.",
+        detail: "Users needed clearer hierarchy, city comparison, Bangla access, and guided charts.",
       },
     ],
+    challengeVisual: {
+      src: "/assets/aistudio/Screenshot_2026-11-23_at_1.08.48_PM_c7ef561d.png",
+      title: "Initial Architecture Planning",
+      caption:
+        "An early architecture map outlining how national views, city profiles, surveys, permissions, and bilingual access would connect into one system.",
+    },
+    mobileShowcase: {
+      eyebrow: "Mobile View",
+      heading: "Mobile Experience",
+      screens: [
+        {
+          src: "/assets/aistudio/IMG_20261123_105706_267e9092.jpg",
+          title: "Mobile Homepage",
+          caption: "135 municipalities & 10+ surveys at a glance.",
+        },
+        {
+          src: "/assets/aistudio/IMG_20261123_105236_1862ed46.jpg",
+          title: "Shit Flow Diagram (SFD)",
+          caption: "City SFD filters with instant PNG export.",
+        },
+        {
+          src: "/assets/aistudio/IMG_20261123_105859_02e15d27.jpg",
+          title: "News & Updates",
+          caption: "Sector news and clean-water briefings.",
+        },
+        {
+          src: "/assets/aistudio/IMG_20261123_105745_7ed778d7.jpg",
+          title: "IMIS Survey Records",
+          caption: "Filter published municipal survey records.",
+        },
+        {
+          src: "/assets/aistudio/IMG_20261123_105800_15aee670.jpg",
+          title: "Survey Management",
+          caption: "Filter or add national surveys in the field.",
+        },
+      ],
+    },
     approach:
       "Translated stakeholder research, technical domain requirements, and municipal data workflows into a scalable bilingual platform spanning city profiles, comparison views, FSTP tracking, interactive charts, and IMIS CWIS integration.",
     contributionsIntro:
@@ -316,27 +354,33 @@ export const DESIGN_PROJECTS: DesignProject[] = [
       "Bilingual UI (Bangla & English)",
       "IMIS Integration UX",
     ],
+    processVisual: {
+      src: "/assets/aistudio/Monochrome_four_stage_UX_workflow_sketch__1__7ad11798.png",
+      title: "Four-Stage UX Workflow",
+      caption:
+        "From scoping audit and information architecture to bilingual modules and multidisciplinary validation.",
+    },
     processSteps: [
       {
-        phase: "01 · Understand",
+        phase: "Understand",
         title: "Audit & Stakeholder Alignment",
         detail:
           "Review the existing NSD, scoping study, major data modules, current limitations, and stakeholder expectations.",
       },
       {
-        phase: "02 · Define",
+        phase: "Define",
         title: "Information Architecture & Flows",
         detail:
           "Translate technical and domain requirements into information architecture, priority flows, dashboard modules, and reusable interface patterns.",
       },
       {
-        phase: "03 · Design",
+        phase: "Design",
         title: "Modules & Bilingual System",
         detail:
           "Create and refine dashboard, city profiles, charts, indicators, survey management, user management, language, and tooltip experiences.",
       },
       {
-        phase: "04 · Validate",
+        phase: "Validate",
         title: "Multidisciplinary Iteration",
         detail:
           "Review designs with multidisciplinary teams and stakeholder representatives, then iterate with developers based on feasibility and feedback.",
