@@ -8,6 +8,9 @@ import {
   filterPhotoItems,
   formatCount,
   getAdjacentItemId,
+  getCaseStudySections,
+  getNextSlideIndex,
+  splitParagraphs,
   validateContactForm,
 } from "./portfolioLogic";
 
@@ -16,7 +19,7 @@ const SAMPLE_DESIGN: DesignProject[] = [
     id: "nsd",
     title: "National Sanitation Dashboard (NSD)",
     subtitle: "GovTech · Data Platform",
-    category: "Product",
+    category: "GovTech",
     year: "2024",
     client: "Department of Public Health Engineering · DPHE",
     role: "Product Designer · UX Researcher · Communication Expert",
@@ -31,49 +34,50 @@ const SAMPLE_DESIGN: DesignProject[] = [
     outcome: "126+ towns represented",
   },
   {
-    id: "pico",
-    title: "Pico",
-    subtitle: "Audio · Industrial",
-    category: "Industrial",
-    year: "2024",
-    client: "Modular Audio Co.",
-    role: "Industrial Designer",
-    image: "/pico.jpg",
-    summary: "Pocket synth",
+    id: "plis",
+    title: "Planning Information System (PLIS)",
+    subtitle: "GovTech · GIS Platform",
+    category: "GovTech",
+    year: "2022",
+    client: "Planning Commission, GoB",
+    role: "Product Designer · UX Researcher · Trainer",
+    image: "/assets/aistudio/plis-project-hero_5e2c9844.png",
+    imageFit: "contain",
+    summary: "GIS based decision support platform",
     challenge: "Challenge",
-    approach: "Approach Pico",
-    deliverables: ["CAD", "OLED UI"],
-    outcome: "420% funded",
+    approach: "Approach PLIS",
+    deliverables: ["Needs Assessment", "GIS UX"],
+    outcome: "40+ officers interviewed",
   },
   {
-    id: "oral-lab",
-    title: "Oral Lab",
-    subtitle: "Health · Strategy",
-    category: "Strategy",
-    year: "2023",
-    client: "Ora Healthcare",
-    role: "Strategy",
-    image: "/oral.jpg",
-    summary: "Oral care",
+    id: "whatsapp-anc",
+    title: "WhatsApp MCC & PWA (ANC Caregivers)",
+    subtitle: "Digital Health · Conversational UX & PWA",
+    category: "Digital Health",
+    year: "2025",
+    client: "ANC Caregiver Program",
+    role: "Product Designer · UX Researcher",
+    image: "/wa.png",
+    summary: "Antenatal caregiver support",
     challenge: "Challenge",
     approach: "Approach",
-    deliverables: ["Brand"],
+    deliverables: ["WhatsApp UX", "Embedded PWA"],
     outcome: "Outcome",
   },
   {
-    id: "after-eight",
-    title: "After Eight",
-    subtitle: "Objects · Art direction",
-    category: "Industrial",
-    year: "2023",
-    client: "Studio Monograph",
-    role: "Direction",
-    image: "/after-eight.jpg",
+    id: "bike-lagbe",
+    title: "Bike Lagbe: Bangla QR Payment",
+    subtitle: "Ride Sharing · Bangla QR & Low-Connectivity UX",
+    category: "Fintech",
+    year: "2025",
+    client: "Bike Lagbe",
+    role: "Product Designer",
+    image: "/bike.jpg",
     wide: true,
-    summary: "Desk objects",
+    summary: "Ride sharing Bangla QR concept",
     challenge: "Challenge",
     approach: "Approach",
-    deliverables: ["Objects"],
+    deliverables: ["Rider & Driver UI", "Bangla QR Flow"],
     outcome: "Outcome",
   },
 ];
@@ -119,15 +123,18 @@ const SAMPLE_PHOTOS: PhotoItem[] = [
 
 test("filterDesignProjects returns all items for All and filters by category", () => {
   assert.equal(filterDesignProjects(SAMPLE_DESIGN, "All").length, 4);
-  const industrial = filterDesignProjects(SAMPLE_DESIGN, "Industrial");
-  assert.equal(industrial.length, 2);
+  const govTech = filterDesignProjects(SAMPLE_DESIGN, "GovTech");
+  assert.equal(govTech.length, 2);
   assert.deepEqual(
-    industrial.map((p) => p.id),
-    ["pico", "after-eight"],
+    govTech.map((p) => p.id),
+    ["nsd", "plis"],
   );
-  const strategy = filterDesignProjects(SAMPLE_DESIGN, "Strategy");
-  assert.equal(strategy.length, 1);
-  assert.equal(strategy[0].id, "oral-lab");
+  const digitalHealth = filterDesignProjects(SAMPLE_DESIGN, "Digital Health");
+  assert.equal(digitalHealth.length, 1);
+  assert.equal(digitalHealth[0].id, "whatsapp-anc");
+  const fintech = filterDesignProjects(SAMPLE_DESIGN, "Fintech");
+  assert.equal(fintech.length, 1);
+  assert.equal(fintech[0].id, "bike-lagbe");
 });
 
 test("filterPhotoItems filters photography frames by genre", () => {
@@ -148,24 +155,25 @@ test("buildFeaturedHighlights interleaves design and photo highlights and filter
     [
       "National Sanitation Dashboard (NSD)",
       "Midnight Riders",
-      "Pico",
+      "Planning Information System (PLIS)",
       "Passing Through",
     ],
   );
   assert.deepEqual(
     highlights.map((h) => h.sourceId),
-    ["nsd", "midnight-riders", "pico", "passing-through"],
+    ["nsd", "midnight-riders", "plis", "passing-through"],
   );
   assert.equal(highlights[0].imageFit, "contain");
+  assert.equal(highlights[2].imageFit, "contain");
   assert.equal(filterHighlights(highlights, "All").length, 4);
   assert.equal(filterHighlights(highlights, "Product Design").length, 2);
   assert.equal(filterHighlights(highlights, "Photography").length, 2);
 });
 
 test("getAdjacentItemId wraps around forward and backward", () => {
-  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "nsd", "next"), "pico");
-  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "after-eight", "next"), "nsd");
-  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "nsd", "prev"), "after-eight");
+  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "nsd", "next"), "plis");
+  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "bike-lagbe", "next"), "nsd");
+  assert.equal(getAdjacentItemId(SAMPLE_DESIGN, "nsd", "prev"), "bike-lagbe");
   assert.equal(getAdjacentItemId([], "nsd", "next"), null);
 });
 
@@ -195,3 +203,107 @@ test("validateContactForm validates required fields and rejects bad inputs", () 
   assert.equal(valid.valid, true);
   assert.deepEqual(valid.errors, {});
 });
+
+test("getCaseStudySections builds section jump links for rich and standard case studies", () => {
+  const richProject: DesignProject = {
+    ...SAMPLE_DESIGN[0],
+    overview: "Overview text",
+    backgroundMilestones: [{ tag: "2020", title: "Start", detail: "Detail" }],
+    challengePoints: [{ title: "Gap", detail: "Detail" }],
+    contributions: [{ title: "Redesign", detail: "Detail" }],
+    mobileShowcase: {
+      eyebrow: "Mobile",
+      heading: "Mobile View",
+      screens: [{ src: "/m.jpg", title: "Home", caption: "Home screen" }],
+    },
+    processSteps: [{ phase: "Understand", title: "Audit", detail: "Detail" }],
+    keyDesignAreas: [{ title: "Dashboard", detail: "Detail" }],
+    beforeAfter: [{ before: "Old", after: "New" }],
+  };
+
+  const richSections = getCaseStudySections(richProject);
+  assert.deepEqual(
+    richSections.map((s) => s.label),
+    [
+      "Overview",
+      "Background",
+      "Challenge",
+      "Contribution",
+      "Mobile",
+      "Process",
+      "Key Areas",
+      "Before & After",
+      "Outcomes",
+    ],
+  );
+
+  const curatedPlisSections = getCaseStudySections({
+    ...SAMPLE_DESIGN[1],
+    overview: "PLIS overview",
+    challengePoints: [{ title: "Gap", detail: "Detail" }],
+    contributions: [{ title: "Research", detail: "Detail" }],
+    processSteps: [{ phase: "01", title: "Listen", detail: "Detail" }],
+    keyDesignAreas: [{ title: "GIS", detail: "Detail" }],
+  });
+  assert.deepEqual(
+    curatedPlisSections.map((s) => s.label),
+    ["Overview", "Challenge", "Contribution", "Process", "Key Areas", "Outcomes"],
+  );
+
+  const curatedMobileSections = getCaseStudySections({
+    ...SAMPLE_DESIGN[1],
+    overview: "Mobile companion overview",
+    challengePoints: [{ title: "Drop-off", detail: "Detail" }],
+    mobileShowcase: {
+      eyebrow: "Mobile UI",
+      heading: "Companion & PWA",
+      variant: "device-mockup",
+      screens: [{ src: "/screen.png", title: "Triage", caption: "Flow", scrollable: true }],
+    },
+    processSteps: [{ phase: "01", title: "Audit", detail: "Detail" }],
+    keyDesignAreas: [{ title: "Voice-First", detail: "Detail" }],
+  });
+  assert.deepEqual(
+    curatedMobileSections.map((s) => s.label),
+    ["Overview", "Challenge", "Mobile", "Process", "Key Areas", "Outcomes"],
+  );
+
+  const standardSections = getCaseStudySections(SAMPLE_DESIGN[2]);
+  assert.deepEqual(
+    standardSections.map((s) => s.label),
+    ["Challenge", "Approach", "Outcome"],
+  );
+});
+
+test("splitParagraphs splits blank-line separated text into trimmed paragraphs", () => {
+  assert.deepEqual(
+    splitParagraphs("First paragraph.\n\n  Second paragraph.  \n\n\nThird."),
+    ["First paragraph.", "Second paragraph.", "Third."],
+  );
+  assert.deepEqual(splitParagraphs("   "), []);
+});
+
+test("getNextSlideIndex wraps cleanly forward and backward", () => {
+  assert.equal(getNextSlideIndex(0, 1, 2), 1);
+  assert.equal(getNextSlideIndex(1, 1, 2), 0);
+  assert.equal(getNextSlideIndex(0, -1, 2), 1);
+  assert.equal(getNextSlideIndex(1, -1, 3), 0);
+  assert.equal(getNextSlideIndex(0, 1, 0), 0);
+});
+
+test("portfolio data has no em/en-dashes, excludes template projects, and includes all 4 social links", async () => {
+  const { readFileSync } = await import("node:fs");
+  const { resolve } = await import("node:path");
+  const portfolioSrc = readFileSync(resolve(process.cwd(), "src/data/portfolio.ts"), "utf8");
+
+  assert.equal(portfolioSrc.includes("\u2014"), false, "portfolio.ts must not contain em-dashes");
+  assert.equal(portfolioSrc.includes("\u2013"), false, "portfolio.ts must not contain en-dashes");
+  assert.equal(portfolioSrc.includes("oral-lab"), false, "Oral Lab template project must be removed");
+  assert.equal(portfolioSrc.includes("after-eight"), false, "After Eight template project must be removed");
+  assert.equal(portfolioSrc.includes("https://www.linkedin.com/in/sadmanrahmand/"), true);
+  assert.equal(portfolioSrc.includes("https://www.facebook.com/sdhruba"), true);
+  assert.equal(portfolioSrc.includes("https://www.youtube.com/@thetechytrippers3410"), true);
+  assert.equal(portfolioSrc.includes("https://www.flickr.com/photos/137565099@N07/"), true);
+});
+
+

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { View } from "../data/portfolio";
+import { SocialLinks } from "./SocialLinks";
 
 interface HeaderProps {
   activeView: View;
@@ -35,7 +36,7 @@ export function Header({ activeView, onNavigate, onOpenContact }: HeaderProps) {
         <button
           type="button"
           data-testid="brand-logo"
-          className="group inline-flex items-center gap-2.5 border-0 bg-transparent p-0 whitespace-nowrap shrink-0 transition-transform duration-150 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
+          className="group inline-flex items-center border-0 bg-transparent p-0 whitespace-nowrap shrink-0 transition-transform duration-150 active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
           onClick={() => handleSelect("home")}
           aria-label="Sadman portfolio home"
         >
@@ -53,14 +54,6 @@ export function Header({ activeView, onNavigate, onOpenContact }: HeaderProps) {
             />
             <path d="M38 34H19V28.5H32.5V15H38Z" fill="#4169ed" />
           </svg>
-          <span
-            data-testid="brand-wordmark"
-            className={`hidden md:inline font-display text-[28px] font-bold leading-none tracking-[-0.03em] ${
-              isDark ? "text-[#f2efe6]" : "text-[#171716]"
-            }`}
-          >
-            Sadman
-          </span>
         </button>
 
         <nav className="hidden md:flex items-center gap-5 lg:gap-9" aria-label="Primary navigation">
@@ -103,16 +96,45 @@ export function Header({ activeView, onNavigate, onOpenContact }: HeaderProps) {
 
           <button
             type="button"
-            className={`md:hidden px-3.5 py-2 rounded-xl border-2 text-sm font-medium transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44] ${
+            data-testid="mobile-menu-toggle"
+            className={`md:hidden w-10 h-10 inline-flex items-center justify-center rounded-xl border-2 transition-all duration-150 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44] ${
               isDark
                 ? "border-[#f2efe6] bg-transparent text-[#f2efe6] shadow-[3px_3px_0_#f2efe6] hover:-translate-y-0.5 hover:bg-[#f2efe6] hover:text-[#111111] hover:shadow-[4px_5px_0_#f2efe6] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none active:bg-[#f2efe6] active:text-[#111111]"
                 : "border-[#171716] bg-[#fffdf6] text-[#171716] shadow-[3px_3px_0_#171716] hover:-translate-y-0.5 hover:bg-[#171716] hover:text-[#f2efe6] hover:shadow-[4px_5px_0_#171716] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none active:bg-[#171716] active:text-[#f2efe6]"
             }`}
             aria-expanded={mobileMenuOpen}
-            aria-label="Toggle navigation menu"
+            aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
             onClick={() => setMobileMenuOpen((prev) => !prev)}
           >
-            {mobileMenuOpen ? "Close" : "Menu"}
+            {mobileMenuOpen ? (
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2.4}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+                className="w-5 h-5"
+              >
+                <line x1="6" y1="6" x2="18" y2="18" />
+                <line x1="18" y1="6" x2="6" y2="18" />
+              </svg>
+            ) : (
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2.4}
+                strokeLinecap="round"
+                aria-hidden="true"
+                className="w-5 h-5"
+              >
+                <line x1="4" y1="7" x2="20" y2="7" />
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="17" x2="20" y2="17" />
+              </svg>
+            )}
           </button>
         </div>
       </div>
@@ -149,6 +171,21 @@ export function Header({ activeView, onNavigate, onOpenContact }: HeaderProps) {
               </button>
             );
           })}
+          <div
+            data-testid="mobile-menu-socials"
+            className={`mt-2 pt-4 border-t ${
+              isDark ? "border-[#f2efe6]/20" : "border-[#171716]/15"
+            }`}
+          >
+            <p
+              className={`px-1 mb-2.5 text-xs font-medium m-0 ${
+                isDark ? "text-[#f2efe6]/65" : "text-[#171716]/65"
+              }`}
+            >
+              Connect
+            </p>
+            <SocialLinks variant={isDark ? "dark" : "surface"} compact />
+          </div>
         </nav>
       )}
     </header>

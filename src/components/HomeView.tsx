@@ -115,7 +115,7 @@ export function HomeView({
   return (
     <main className="bg-[#f2efe6] text-[#171716]">
       <section className="max-w-[1400px] mx-auto px-4 md:px-8 xl:px-10 min-h-[calc(100svh-82px)] pt-7 pb-10 sm:pt-8 sm:pb-12 md:pt-5 md:pb-8 lg:py-8 flex flex-col items-center justify-start gap-[120px] md:justify-start md:gap-9 lg:justify-center lg:gap-[34px] overflow-x-clip">
-        <h1 className="sr-only">Sadman — Product Designer and Freelance Photographer</h1>
+        <h1 className="sr-only">Sadman, Product Designer and Freelance Photographer</h1>
 
         <div className="w-full flex items-center justify-center">
           {/* Mobile & Tablet diagonal staggered hero */}
@@ -133,7 +133,7 @@ export function HomeView({
               onPointerCancel={() => setActiveMobileRole(null)}
               onFocus={() => setActiveMobileRole("design")}
               onBlur={() => setActiveMobileRole(null)}
-              aria-label="Product Designer — Explore Product Design work"
+              aria-label="Product Designer: Explore Product Design work"
               className="group absolute top-0 md:top-0 left-[21%] sm:left-[23%] md:left-[15%] flex items-start gap-1 md:gap-2 p-1 rounded-xl cursor-pointer transition-transform duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff5b44]"
             >
               <span className="text-left leading-none">
@@ -230,7 +230,7 @@ export function HomeView({
               onPointerCancel={() => setActiveMobileRole(null)}
               onFocus={() => setActiveMobileRole("photo")}
               onBlur={() => setActiveMobileRole(null)}
-              aria-label="Freelance Photographer — Explore Freelance Photography work"
+              aria-label="Freelance Photographer: Explore Freelance Photography work"
               className="group absolute bottom-[2px] sm:bottom-[4px] md:bottom-[14px] left-[32%] sm:left-[33%] md:left-[34%] flex items-center gap-1 md:gap-2 px-1 pt-1 pb-0 rounded-xl cursor-pointer transition-transform duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4169ed]"
             >
               <span className="mt-2 md:mt-3 pointer-events-none">
@@ -457,7 +457,7 @@ export function HomeView({
                     >
                       <img
                         src={item.image}
-                        alt={`${item.title} — ${item.kicker}`}
+                        alt={`${item.title}, ${item.kicker}`}
                         referrerPolicy="no-referrer"
                         className={`w-full h-full transition-transform duration-500 group-hover:scale-[1.03] group-active:scale-[1.03] ${
                           item.imageFit === "contain" ? "object-contain" : "object-cover"
@@ -506,7 +506,7 @@ export function HomeView({
             The Player
           </p>
           <h2 className="mt-4 max-w-4xl font-display text-[clamp(32px,4.4vw,58px)] leading-[1.15] tracking-[-0.02em] font-normal text-balance">
-            I turn <em className="not-italic font-medium text-[#d9442e]">complexity</em> into clarity—then chase the
+            I turn <em className="not-italic font-medium text-[#d9442e]">complexity</em> into clarity, then chase the
             light after hours.
           </h2>
           <div className="mt-12 flex flex-col md:flex-row md:items-end justify-between gap-8">

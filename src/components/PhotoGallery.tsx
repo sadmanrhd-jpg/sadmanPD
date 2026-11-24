@@ -57,7 +57,7 @@ export function PhotoGallery({
               <em className="not-italic font-medium text-[#6d8eff]">Stories.</em>
             </h1>
             <p className="max-w-xl text-[17px] md:text-[19px] leading-[1.7] text-[#f2efe6]/75 m-0">
-              Unscripted fragments of city life across East &amp; Southeast Asia—color, solitude,
+              Unscripted fragments of city life across East &amp; Southeast Asia. Color, solitude,
               monsoon rain, and fleeting light on 35mm.
             </p>
           </div>

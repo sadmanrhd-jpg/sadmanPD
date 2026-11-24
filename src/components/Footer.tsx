@@ -1,4 +1,5 @@
 import { Arrow } from "./Characters";
+import { SocialLinks } from "./SocialLinks";
 
 interface FooterProps {
   onOpenContact: () => void;
@@ -7,7 +8,7 @@ interface FooterProps {
 export function Footer({ onOpenContact }: FooterProps) {
   return (
     <footer className="bg-[#f5d837] text-[#171716] border-t-2 border-[#171716]">
-      <div className="max-w-[1360px] mx-auto px-5 md:px-10 py-20 md:py-28">
+      <div className="max-w-[1360px] mx-auto px-5 md:px-10 pt-20 pb-12 md:pt-24 md:pb-14">
         <p className="text-sm font-medium m-0">
           You made it to the end
         </p>
@@ -30,6 +31,21 @@ export function Footer({ onOpenContact }: FooterProps) {
           >
             sadmanrhd@gmail.com <Arrow />
           </a>
+        </div>
+
+        <div
+          data-testid="footer-socials"
+          className="mt-14 pt-8 border-t-2 border-[#171716]/25 flex flex-col md:flex-row md:items-center justify-between gap-6"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
+            <span className="text-sm font-medium text-[#171716]/75 shrink-0">
+              Connect
+            </span>
+            <SocialLinks variant="footer" />
+          </div>
+          <p className="text-sm text-[#171716]/70 m-0 tabular-nums">
+            &copy; {new Date().getFullYear()} Sadman Rahman
+          </p>
         </div>
       </div>
     </footer>

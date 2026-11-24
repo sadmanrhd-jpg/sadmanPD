@@ -57,8 +57,8 @@ export function DesignGallery({
               <em className="not-italic font-medium text-[#d9442e]">Design.</em>
             </h1>
             <p className="max-w-xl text-[17px] md:text-[19px] leading-[1.7] text-[#171716]/72 m-0">
-              Useful, tactile digital and physical products—built from messy questions, field
-              research, and sharp industrial execution.
+              Useful, practical digital products built from real field research, messy questions,
+              and careful execution.
             </p>
           </div>
 
@@ -137,10 +137,16 @@ export function DesignGallery({
                     >
                       <img
                         src={project.image}
-                        alt={`${project.title} — ${project.subtitle}`}
+                        alt={`${project.title}, ${project.subtitle}`}
                         referrerPolicy="no-referrer"
                         className={`w-full h-full transition-transform duration-500 group-hover:scale-[1.03] ${
                           project.imageFit === "contain" ? "object-contain" : "object-cover"
+                        } ${
+                          project.heroSurface === "blend-canvas"
+                            ? "mix-blend-multiply brightness-[1.015]"
+                            : project.heroSurface === "soft-feather"
+                              ? "cover-edge-feather"
+                              : ""
                         }`}
                       />
                       <span

@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { CloseIcon, Arrow } from "./Characters";
+import { SocialLinks } from "./SocialLinks";
 import { validateContactForm, type ContactFormValues } from "../utils/portfolioLogic";
 
 interface ContactModalProps {
@@ -132,6 +133,10 @@ export function ContactModal({
           >
             {copied ? "Copied!" : "Copy Email"}
           </button>
+        </div>
+
+        <div data-testid="contact-modal-socials" className="mt-4">
+          <SocialLinks variant="surface" compact />
         </div>
 
         {submitted ? (

@@ -1,5 +1,6 @@
 import { EXPERIENCE_LIST, type View } from "../data/portfolio";
 import { Arrow, DesignerCharacter } from "./Characters";
+import { SocialLinks } from "./SocialLinks";
 
 interface AboutViewProps {
   onNavigate: (view: View) => void;
@@ -36,16 +37,18 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
                 <br />
                 Tension in <em className="not-italic font-medium text-[#4169ed]">Light.</em>
               </h1>
-              <p className="mt-8 max-w-2xl text-[18px] md:text-[19px] leading-[2] md:leading-[1.75] text-[#171716]/85">
-                I&apos;m Sadman, a Singapore-based product designer and freelance photographer working
-                at the intersection of tactile hardware, calm interfaces, and 35mm documentary
-                storytelling.
-              </p>
-              <p className="mt-5 max-w-2xl text-[18px] md:text-[18px] leading-[2] md:leading-[1.75] text-[#171716]/80">
-                During studio hours I partner with founders and engineering teams to turn tangled
-                technical constraints into products people look forward to picking up. After dusk,
-                I walk dense neighborhoods across Asia with a mechanical rangefinder.
-              </p>
+              <div className="mt-8 max-w-[50ch] flex flex-col gap-7 md:gap-8">
+                <p className="text-[17px] md:text-[18px] leading-[2] md:leading-[1.9] text-[#171716]/82 m-0">
+                  I&apos;m Sadman, a Singapore-based product designer and freelance photographer working
+                  at the intersection of tactile hardware, calm interfaces, and 35mm documentary
+                  storytelling.
+                </p>
+                <p className="text-[17px] md:text-[17.5px] leading-[2] md:leading-[1.9] text-[#171716]/76 m-0">
+                  During studio hours I partner with founders and engineering teams to turn tangled
+                  technical constraints into products people look forward to picking up. After dusk,
+                  I walk dense neighborhoods across Asia with a mechanical rangefinder.
+                </p>
+              </div>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <button
@@ -62,6 +65,13 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
                 >
                   View Design Work <Arrow className="w-4 h-4" />
                 </button>
+              </div>
+
+              <div data-testid="about-socials" className="mt-8 pt-6 border-t border-[#171716]/20">
+                <p className="text-sm font-medium text-[#171716]/70 mb-3 m-0">
+                  Find me online
+                </p>
+                <SocialLinks variant="surface" compact />
               </div>
             </div>
 
@@ -87,7 +97,7 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
             <h2 className="mt-3 font-display text-[26px] md:text-[32px] font-medium tracking-[-0.015em] leading-snug m-0">
               Interfaces, Hardware &amp; Brand Systems
             </h2>
-            <p className="mt-4 text-[18px] md:text-[18px] leading-[2] md:leading-[1.7] text-[#171716]/82">
+            <p className="mt-4 max-w-[46ch] text-[17px] md:text-[17px] leading-[1.95] md:leading-[1.88] text-[#171716]/76">
               From zero-to-one mobile companions and industrial hardware ergonomics to coherent
               design systems that scale cleanly across engineering teams.
             </p>
@@ -114,7 +124,7 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
             <h2 className="mt-3 font-display text-[26px] md:text-[32px] font-medium tracking-[-0.015em] leading-snug m-0">
               Documentary, Editorial &amp; Print Editions
             </h2>
-            <p className="mt-4 text-[18px] md:text-[18px] leading-[2] md:leading-[1.7] text-[#171716]/82">
+            <p className="mt-4 max-w-[46ch] text-[17px] md:text-[17px] leading-[1.95] md:leading-[1.88] text-[#171716]/76">
               Working primarily on 35mm film and compact rangefinders to capture unposed human
               presence, nocturnal neon geometry, and architectural rhythm.
             </p>

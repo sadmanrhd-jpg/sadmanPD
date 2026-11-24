@@ -35,7 +35,7 @@ export default function App() {
       : null;
 
   useEffect(() => {
-    document.title = "Sadman — Product Designer & Photographer";
+    document.title = "Sadman | Product Designer & Photographer";
   }, []);
 
   useEffect(() => {

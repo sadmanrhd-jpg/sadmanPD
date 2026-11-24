@@ -58,7 +58,7 @@ export function buildFeaturedHighlights(
   photos: PhotoItem[],
 ): FeaturedHighlight[] {
   const picks: FeaturedHighlight[] = [];
-  const designOrder = ["nsd", "pico"];
+  const designOrder = ["nsd", "plis"];
   const photoOrder = ["midnight-riders", "passing-through"];
 
   const designById = new Map(projects.map((p) => [p.id, p]));
@@ -201,3 +201,75 @@ export function validateContactForm(
     errors,
   };
 }
+
+export interface CaseStudySectionNavItem {
+  id: string;
+  label: string;
+}
+
+export function getCaseStudySections(
+  project: DesignProject,
+): CaseStudySectionNavItem[] {
+  const isRich = Boolean(
+    project.overview ||
+      project.backgroundMilestones?.length ||
+      project.contributions?.length ||
+      project.keyDesignAreas?.length,
+  );
+
+  if (isRich) {
+    const sections: CaseStudySectionNavItem[] = [
+      { id: "section-overview", label: "Overview" },
+    ];
+    if (project.backgroundMilestones?.length) {
+      sections.push({ id: "section-background", label: "Background" });
+    }
+    if (project.challengePoints?.length) {
+      sections.push({ id: "section-challenge", label: "Challenge" });
+    }
+    if (project.contributions?.length) {
+      sections.push({ id: "section-contribution", label: "Contribution" });
+    }
+    if (project.mobileShowcase?.screens.length) {
+      sections.push({ id: "section-mobile", label: "Mobile" });
+    }
+    if (project.processSteps?.length) {
+      sections.push({ id: "section-process", label: "Process" });
+    }
+    if (project.keyDesignAreas?.length) {
+      sections.push({ id: "section-key-areas", label: "Key Areas" });
+    }
+    if (project.beforeAfter?.length) {
+      sections.push({ id: "section-before-after", label: "Before & After" });
+    }
+    sections.push({ id: "section-outcomes", label: "Outcomes" });
+    return sections;
+  }
+
+  const standard: CaseStudySectionNavItem[] = [
+    { id: "section-challenge", label: "Challenge" },
+    { id: "section-approach", label: "Approach" },
+  ];
+  if (project.keyDecisions?.length) {
+    standard.push({ id: "section-decisions", label: "Decisions" });
+  }
+  standard.push({ id: "section-outcomes", label: "Outcome" });
+  return standard;
+}
+
+export function splitParagraphs(text: string): string[] {
+  return text
+    .split(/\n\s*\n/)
+    .map((paragraph) => paragraph.trim())
+    .filter((paragraph) => paragraph.length > 0);
+}
+
+export function getNextSlideIndex(
+  current: number,
+  delta: -1 | 1,
+  total: number,
+): number {
+  if (total <= 0) return 0;
+  return (((current + delta) % total) + total) % total;
+}
+

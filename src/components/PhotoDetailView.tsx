@@ -168,7 +168,7 @@ export function PhotoDetailView({
               onClick={() =>
                 onInquire(
                   "Street Photography",
-                  `Hi Sadman — I'm interested in prints or an editorial commission inspired by "${photo.title}".`,
+                  `Hi Sadman, I'm interested in prints or an editorial commission inspired by "${photo.title}".`,
                 )
               }
               className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-[#4169ed] text-[#f2efe6] border-2 border-[#f2efe6] text-[15px] md:text-base font-medium shadow-[3px_3px_0_#f2efe6] hover:-translate-y-0.5 hover:bg-[#f2efe6] hover:text-[#171716] hover:shadow-[4px_5px_0_#4169ed] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all duration-150 whitespace-nowrap shrink-0 self-start md:self-center"

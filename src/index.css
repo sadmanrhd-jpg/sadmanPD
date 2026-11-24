@@ -198,6 +198,35 @@
   display: none;
 }
 
+.phone-screen-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(23, 23, 22, 0.28) transparent;
+}
+
+.phone-screen-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.phone-screen-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.phone-screen-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(23, 23, 22, 0.28);
+  border-radius: 9999px;
+}
+
+.cover-edge-feather {
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%),
+    linear-gradient(to bottom, transparent 0%, #000 7%, #000 93%, transparent 100%);
+  mask-composite: intersect;
+}
+
 .float-card {
   transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 200ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -220,6 +249,173 @@
   transform: translateY(-6px) scale(1.01);
   border-color: var(--ink);
   box-shadow: 6px 8px 0 var(--ink);
+}
+
+.kda-bar-1 {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: kdaBar 2.8s ease-in-out infinite;
+}
+
+.kda-bar-2 {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: kdaBar 2.8s ease-in-out infinite 0.45s;
+}
+
+.kda-bar-3 {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: kdaBar 2.8s ease-in-out infinite 0.9s;
+}
+
+.kda-bob {
+  animation: kdaBob 2.8s ease-in-out infinite;
+}
+
+.kda-slide-right {
+  animation: kdaSlideRight 2.6s ease-in-out infinite;
+}
+
+.kda-slide-left {
+  animation: kdaSlideLeft 2.6s ease-in-out infinite;
+}
+
+.kda-export {
+  animation: kdaExport 2.6s ease-in-out infinite;
+}
+
+.kda-check {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: kdaCheck 3s ease-in-out infinite;
+}
+
+.kda-shackle {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: kdaShackle 3.2s ease-in-out infinite;
+}
+
+.kda-lang-a {
+  animation: kdaLangA 3.2s ease-in-out infinite;
+}
+
+.kda-lang-b {
+  animation: kdaLangB 3.2s ease-in-out infinite;
+}
+
+.kda-tooltip {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: kdaTooltip 2.9s ease-in-out infinite;
+}
+
+@keyframes kdaBar {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.62);
+  }
+}
+
+@keyframes kdaBob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2.5px);
+  }
+}
+
+@keyframes kdaSlideRight {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes kdaSlideLeft {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-2px);
+  }
+}
+
+@keyframes kdaExport {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(1.8px, -2px);
+  }
+}
+
+@keyframes kdaCheck {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  45% {
+    transform: scale(1.16);
+    opacity: 0.72;
+  }
+}
+
+@keyframes kdaShackle {
+  0%,
+  70%,
+  100% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes kdaLangA {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-1.5px);
+    opacity: 0.55;
+  }
+}
+
+@keyframes kdaLangB {
+  0%,
+  100% {
+    transform: translateY(1.5px);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes kdaTooltip {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.05);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
