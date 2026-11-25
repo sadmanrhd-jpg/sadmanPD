@@ -12,6 +12,7 @@ const NAV_ITEMS: { id: View; label: string }[] = [
   { id: "home", label: "Home" },
   { id: "design", label: "Product Design" },
   { id: "photo", label: "Photography" },
+  { id: "blog", label: "Blog" },
   { id: "about", label: "About" },
 ];
 

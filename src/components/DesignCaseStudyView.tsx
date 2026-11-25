@@ -9,6 +9,7 @@ import {
 } from "../utils/portfolioLogic";
 import { CaseStudySectionTabs } from "./CaseStudySectionNav";
 import { Arrow, ChevronIcon } from "./Characters";
+import { EditorialPdfReader } from "./EditorialPdfReader";
 import { KeyDesignAreasCarousel } from "./KeyDesignAreasCarousel";
 import { MobileDeviceMockupShowcase } from "./MobileDeviceMockupShowcase";
 
@@ -130,6 +131,163 @@ function KeyDesignAreaIcon({ title }: { title: string }) {
         <line x1="8" y1="17" x2="8" y2="13" className="kda-bar-1 stroke-[#d9442e]" />
         <line x1="12" y1="17" x2="12" y2="11.5" className="kda-bar-2" />
         <line x1="16" y1="17" x2="16" y2="14" className="kda-bar-3 stroke-[#d9442e]" />
+      </svg>
+    );
+  }
+
+  if (key.includes("color") || key.includes("brand") || key.includes("palette")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.85}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="w-[20px] h-[20px]"
+      >
+        <rect x="3.5" y="4" width="6.5" height="16" rx="2" className="stroke-[#0f7644]" />
+        <rect x="10" y="6.5" width="5.5" height="13.5" rx="1.8" className="stroke-[#d9442e]" />
+        <rect x="15.5" y="9" width="5" height="11" rx="1.6" />
+      </svg>
+    );
+  }
+
+  if (key.includes("financial") || key.includes("money") || key.includes("taka")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.85}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="w-[20px] h-[20px]"
+      >
+        <rect x="3" y="6" width="18" height="12" rx="2.5" />
+        <circle cx="12" cy="12" r="2.6" className="stroke-[#d9442e]" />
+        <path d="M6.5 9.5v5M17.5 9.5v5" />
+      </svg>
+    );
+  }
+
+  if (key.includes("humour") || key.includes("tone") || key.includes("personality")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.85}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="w-[20px] h-[20px]"
+      >
+        <path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.6-4.7A8.5 8.5 0 1 1 21 11.5Z" />
+        <path d="M9.2 12.8c.7 1.1 1.7 1.7 2.8 1.7s2.1-.6 2.8-1.7" className="stroke-[#d9442e]" />
+        <circle cx="9.6" cy="9.6" r="0.7" fill="currentColor" stroke="none" />
+        <circle cx="14.4" cy="9.6" r="0.7" fill="currentColor" stroke="none" />
+      </svg>
+    );
+  }
+
+  if (key.includes("concise") || key.includes("update") || key.includes("delivery")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.85}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="w-[20px] h-[20px]"
+      >
+        <rect x="3" y="4.5" width="18" height="15" rx="2.5" />
+        <line x1="6.5" y1="9.5" x2="14.5" y2="9.5" className="stroke-[#d9442e]" />
+        <line x1="6.5" y1="13.5" x2="11.5" y2="13.5" />
+        <circle cx="17" cy="12" r="1.4" fill="#d9442e" stroke="none" />
+      </svg>
+    );
+  }
+
+  if (key.includes("mrt") || key.includes("transit") || key.includes("route")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.85}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="w-[20px] h-[20px]"
+      >
+        <line x1="8" y1="5" x2="8" y2="19" />
+        <circle cx="8" cy="6" r="2" fill="#d9442e" className="stroke-[#d9442e]" />
+        <circle cx="8" cy="12" r="2.2" fill="#f2efe6" />
+        <circle cx="8" cy="18" r="2" fill="#171716" />
+        <line x1="13" y1="6" x2="19" y2="6" />
+        <line x1="13" y1="12" x2="20" y2="12" className="stroke-[#d9442e]" />
+        <line x1="13" y1="18" x2="18" y2="18" />
+      </svg>
+    );
+  }
+
+  if (key.includes("explore") || key.includes("discover")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.85}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="w-[20px] h-[20px]"
+      >
+        <circle cx="11" cy="11" r="6.5" />
+        <path d="m20 20-4.2-4.2" className="stroke-[#d9442e]" />
+        <path d="M11 8v6M8 11h6" className="stroke-[#d9442e]" />
+      </svg>
+    );
+  }
+
+  if (key.includes("order") || key.includes("review") || key.includes("cart")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.85}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="w-[20px] h-[20px]"
+      >
+        <path d="M5 7h14l-1.2 12.5a1.8 1.8 0 0 1-1.8 1.5H8a1.8 1.8 0 0 1-1.8-1.5L5 7Z" />
+        <path d="M9 7V5.8a3 3 0 0 1 6 0V7" />
+        <path d="m9.5 13.5 1.8 1.8 3.5-3.6" className="stroke-[#d9442e]" />
+      </svg>
+    );
+  }
+
+  if (key.includes("checkout") || key.includes("delivery") || key.includes("supporting")) {
+    return (
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1.85}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="w-[20px] h-[20px]"
+      >
+        <path d="M12 20s6-5.2 6-10.2a6 6 0 1 0-12 0C6 14.8 12 20 12 20Z" />
+        <circle cx="12" cy="9.8" r="2.2" className="stroke-[#d9442e]" />
       </svg>
     );
   }
@@ -484,6 +642,7 @@ export function DesignCaseStudyView({
 }: DesignCaseStudyViewProps) {
   const [activeScreenIndex, setActiveScreenIndex] = useState(0);
   const [fullscreen, setFullscreen] = useState<FullscreenState>(null);
+  const [editorialFullscreen, setEditorialFullscreen] = useState(false);
   const interfaceSwipeStartXRef = useRef<number | null>(null);
   const interfaceSwipedRef = useRef(false);
 
@@ -684,11 +843,15 @@ export function DesignCaseStudyView({
         return;
       }
 
-      if (event.key === "ArrowLeft" && prevId) {
-        onSelectProject(prevId);
-      } else if (event.key === "ArrowRight" && nextId) {
-        onSelectProject(nextId);
-      } else if (event.key === "Escape") {
+      if (!project.editorialDocument) {
+        if (event.key === "ArrowLeft" && prevId) {
+          onSelectProject(prevId);
+        } else if (event.key === "ArrowRight" && nextId) {
+          onSelectProject(nextId);
+        } else if (event.key === "Escape") {
+          onBack();
+        }
+      } else if (event.key === "Escape" && !editorialFullscreen) {
         onBack();
       }
     };
@@ -697,6 +860,8 @@ export function DesignCaseStudyView({
   }, [
     disableKeyboardNav,
     fullscreen,
+    editorialFullscreen,
+    project.editorialDocument,
     galleryItems.length,
     mobileItems.length,
     kdaIntroVisuals.length,
@@ -769,8 +934,8 @@ export function DesignCaseStudyView({
       data-testid="design-case-study-page"
       className="relative bg-[#f2efe6] text-[#171716] min-h-screen"
     >
-      {/* Subtle side chevrons on tablet & desktop */}
-      {prevProject && (
+      {/* Subtle side chevrons on tablet & desktop (hidden when editorial reader owns flanking arrows) */}
+      {!project.editorialDocument && prevProject && (
         <button
           type="button"
           data-testid="study-prev-chevron"
@@ -783,7 +948,7 @@ export function DesignCaseStudyView({
         </button>
       )}
 
-      {nextProject && (
+      {!project.editorialDocument && nextProject && (
         <button
           type="button"
           data-testid="study-next-chevron"
@@ -802,19 +967,64 @@ export function DesignCaseStudyView({
           <div className="w-fit max-w-full mx-auto text-left">
             <p
               data-testid="study-page-eyebrow"
-              className="text-[17px] md:text-[18px] font-medium text-[#d9442e] tabular-nums leading-[1.5] text-left m-0"
+              className={`text-[17px] md:text-[18px] font-medium text-[#d9442e] tabular-nums leading-[1.5] m-0 ${
+                project.title.length > 42 ? "text-center" : "text-left"
+              }`}
             >
               {project.subtitle} · {project.year}
             </p>
             <h1
               data-testid="study-page-title"
-              className="mt-2.5 font-display text-[35px] sm:text-[40px] lg:text-[clamp(36px,3.35vw,45px)] leading-[1.08] tracking-[-0.025em] font-medium text-center lg:whitespace-nowrap m-0"
+              className={`mt-2.5 font-display text-[35px] sm:text-[40px] lg:text-[clamp(36px,3.35vw,45px)] leading-[1.08] tracking-[-0.025em] font-medium text-center m-0 ${
+                project.title.length > 42 ? "text-balance" : "lg:whitespace-nowrap"
+              }`}
             >
               {project.title}
             </h1>
           </div>
 
-          {project.imageFit === "contain" ? (
+          {project.editorialDocument ? (
+            <EditorialPdfReader
+              title={project.title}
+              document={project.editorialDocument}
+              disableKeyboardNav={disableKeyboardNav}
+              onFullscreenChange={setEditorialFullscreen}
+            />
+          ) : project.heroSurface === "screen-frame" ||
+          project.heroSurface === "canvas-frame" ? (
+            <div
+              data-testid="study-hero-cover"
+              className="mt-7 md:mt-10 w-full bg-[#f2efe6] py-1 md:py-2 flex justify-center"
+            >
+              <button
+                type="button"
+                onClick={() =>
+                  setFullscreen({
+                    mode: "single",
+                    src: project.image,
+                    title: project.title,
+                    caption: `${project.subtitle} · ${project.year}`,
+                    lightBg: true,
+                  })
+                }
+                aria-label={`View full screen: ${project.title} cover`}
+                className={`group relative block w-fit max-w-full cursor-zoom-in overflow-hidden rounded-2xl ${
+                  project.heroSurface === "screen-frame" ? "bg-white" : "bg-[#f2efe6]"
+                } focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]`}
+              >
+                <img
+                  src={project.image}
+                  alt={`${project.title}, ${project.subtitle}`}
+                  referrerPolicy="no-referrer"
+                  className="max-w-full h-auto max-h-[580px] w-auto object-contain mx-auto block transition-transform duration-200 group-hover:scale-[1.01]"
+                />
+                <span className="pointer-events-none absolute right-2 bottom-2 md:right-3 md:bottom-3 inline-flex items-center gap-1.5 rounded-lg border-2 border-[#171716] bg-[#fffdf6]/95 px-2.5 py-1.5 text-xs sm:text-sm font-medium text-[#171716] shadow-[2px_2px_0_#171716] opacity-80 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100 transition-opacity">
+                  <ExpandIcon className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Full screen</span>
+                </span>
+              </button>
+            </div>
+          ) : project.imageFit === "contain" ? (
             <div
               data-testid="study-hero-cover"
               className="mt-7 md:mt-10 w-full bg-[#f2efe6] py-1 md:py-2 flex justify-center"
@@ -852,9 +1062,9 @@ export function DesignCaseStudyView({
               </button>
             </div>
           ) : (
-            <FloatCard
-              testId="study-hero-cover"
-              className="mt-7 md:mt-10 overflow-hidden rounded-2xl border-2 border-[#171716] bg-[#ddd] shadow-[5px_5px_0_#171716] md:shadow-[7px_7px_0_#171716] aspect-[16/10] md:aspect-[16/9] max-h-[540px] w-full"
+            <div
+              data-testid="study-hero-cover"
+              className="mt-7 md:mt-10 overflow-hidden rounded-2xl bg-[#f2efe6] aspect-[16/10] md:aspect-[16/9] max-h-[540px] w-full"
             >
               <button
                 type="button"
@@ -880,7 +1090,7 @@ export function DesignCaseStudyView({
                   <span className="hidden sm:inline">Full screen</span>
                 </span>
               </button>
-            </FloatCard>
+            </div>
           )}
 
           {/* Boxed Project Info Cards — 2x2 on mobile/tablet, 4-col on desktop */}
@@ -946,7 +1156,63 @@ export function DesignCaseStudyView({
         containerClassName={SECTION_CONTAINER}
       />
 
-      {isRichStudy ? (
+      {project.editorialDocument ? (
+        <section
+          id="section-overview"
+          data-testid="editorial-details-section"
+          className="bg-[#f8f6ef] border-b border-[#171716]/12"
+        >
+          <div className={`${SECTION_CONTAINER} py-16 md:py-24 flex flex-col gap-10 md:gap-12`}>
+            <div
+              data-testid="overview-prose-block"
+              className={`${OVERVIEW_PROSE_WRAPPER} flex flex-col gap-4 md:gap-5`}
+            >
+              <h2 className="font-display text-[30px] sm:text-[36px] md:text-[40px] font-medium tracking-[-0.02em] leading-[1.16] text-balance m-0">
+                About the Publication
+              </h2>
+              {project.overview && (
+                <div className="flex flex-col gap-5">
+                  {splitParagraphs(project.overview).map((paragraph) => (
+                    <p key={paragraph} className={EDITORIAL_BODY_CLASS}>
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {project.keyDesignAreas && project.keyDesignAreas.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                {project.keyDesignAreas.map((area, idx) => (
+                  <FloatCard key={area.title} className={EDITORIAL_CARD_CLASS}>
+                    <p className={CARD_TAG_CLASS}>{formatCount(idx + 1)}</p>
+                    <h3 className={`mt-2 ${CARD_TITLE_CLASS}`}>{area.title}</h3>
+                    <p className={CARD_BODY_CLASS}>{area.detail}</p>
+                  </FloatCard>
+                ))}
+              </div>
+            )}
+
+            <FloatCard className="rounded-2xl border border-[#171716]/16 bg-[#fffdf6] p-6 sm:p-8 shadow-[0_2px_12px_rgba(23,23,22,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+              <p className="text-[17px] leading-[1.6] text-[#171716]/74 m-0">
+                Need editorial layout, booklet, or menu design for your brand?
+              </p>
+              <button
+                type="button"
+                onClick={() =>
+                  onInquire(
+                    "Product Design",
+                    `Hi Sadman, I viewed ${project.title} in your Editorial portfolio and would love to discuss a similar publication project.`,
+                  )
+                }
+                className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl border-2 border-[#171716] bg-[#171716] text-[#f2efe6] text-[16px] leading-[1.4] font-medium shadow-[3px_3px_0_#ff5b44] hover:-translate-y-0.5 hover:bg-[#ff5b44] hover:text-[#171716] hover:shadow-[3px_3px_0_#171716] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all duration-150 whitespace-nowrap shrink-0 self-start sm:self-auto"
+              >
+                Inquire About Editorial Work <Arrow className="w-4 h-4" />
+              </button>
+            </FloatCard>
+          </div>
+        </section>
+      ) : isRichStudy ? (
         <>
           {/* Project Overview + Full-Width Dashboard Portal + Editorial Quote + 4-Color Metrics */}
           <section
@@ -1013,6 +1279,35 @@ export function DesignCaseStudyView({
                       className={CAPTION_TITLE_CLASS}
                     >
                       {project.overviewVisual.title}
+                    </p>
+                  </figcaption>
+                </figure>
+              )}
+
+              {project.overviewVideo && (
+                <figure
+                  data-testid="overview-video-figure"
+                  className="m-0 w-full flex flex-col gap-3.5"
+                >
+                  <FloatCard className="overflow-hidden rounded-xl md:rounded-2xl border-2 border-[#171716] shadow-[5px_5px_0_#171716] md:shadow-[7px_7px_0_#171716] bg-white">
+                    <video
+                      src={project.overviewVideo.src}
+                      poster={project.overviewVideo.poster}
+                      controls
+                      loop
+                      muted
+                      playsInline
+                      preload="metadata"
+                      aria-label={project.overviewVideo.title}
+                      className="w-full h-auto block"
+                    />
+                  </FloatCard>
+                  <figcaption className="px-0.5 flex flex-col gap-1.5 max-w-[64ch]">
+                    <p className={CAPTION_TITLE_CLASS}>
+                      {project.overviewVideo.title}
+                    </p>
+                    <p className={CAPTION_BODY_CLASS}>
+                      {project.overviewVideo.caption}
                     </p>
                   </figcaption>
                 </figure>
@@ -1141,19 +1436,19 @@ export function DesignCaseStudyView({
                   </span>
                 </div>
 
-                {/* Horizontal snap-scroll cards on mobile, roomy 3-col grid on tablet & desktop */}
+                {/* Horizontal snap-scroll cards on mobile, balanced 2x2 for 4 cards or 3-col grid on tablet & desktop */}
                 <div
                   data-testid="challenge-cards-strip"
-                  className="flex overflow-x-auto snap-x snap-mandatory gap-3.5 pt-2 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-3 md:gap-6"
+                  className={`flex overflow-x-auto snap-x snap-mandatory gap-3.5 pt-2 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:pb-0 md:overflow-visible md:grid md:gap-6 ${
+                    project.challengePoints.length === 4
+                      ? "md:grid-cols-2"
+                      : "md:grid-cols-3"
+                  }`}
                 >
-                  {project.challengePoints.map((point, idx) => (
+                  {project.challengePoints.map((point) => (
                     <FloatCard
                       key={point.title}
-                      className={`w-[82vw] max-w-[310px] shrink-0 snap-start md:w-auto md:max-w-none ${EDITORIAL_CARD_CLASS} ${
-                        project.challengePoints!.length === 4 && idx === 3
-                          ? "md:col-start-2"
-                          : ""
-                      }`}
+                      className={`w-[82vw] max-w-[310px] shrink-0 snap-start md:w-auto md:max-w-none ${EDITORIAL_CARD_CLASS}`}
                     >
                       <h3 className={CARD_TITLE_CLASS}>{point.title}</h3>
                       <p className={CARD_BODY_CLASS}>{point.detail}</p>
@@ -1507,23 +1802,29 @@ export function DesignCaseStudyView({
             />
           )}
 
-          {/* Design Process */}
-          {project.processSteps && project.processSteps.length > 0 && (
+          {/* Design Process / Exploration */}
+          {((project.processSteps && project.processSteps.length > 0) ||
+            processVisuals.length > 0) && (
             <section
               id="section-process"
               data-testid="design-process-section"
               className="bg-[#f2efe6] border-b border-[#171716]/12"
             >
               <div className={`${SECTION_CONTAINER} py-20 md:py-28 flex flex-col gap-9 md:gap-11`}>
-                <h2 className="font-display text-[30px] sm:text-[36px] md:text-[40px] font-medium tracking-[-0.02em] leading-[1.18] text-balance m-0">
-                  Design Process
-                </h2>
+                <div className={`${EDITORIAL_PROSE_WRAPPER} flex flex-col gap-3.5`}>
+                  <h2 className="font-display text-[30px] sm:text-[36px] md:text-[40px] font-medium tracking-[-0.02em] leading-[1.18] text-balance m-0">
+                    {project.processHeading ?? "Design Process"}
+                  </h2>
+                  {project.processIntro && (
+                    <p className={EDITORIAL_BODY_CLASS}>{project.processIntro}</p>
+                  )}
+                </div>
 
                 {processVisuals.length > 1 ? (
                   <KeyDesignAreasCarousel
                     visuals={processVisuals}
                     testIdPrefix="process"
-                    eyebrow="UX Sketches & Flows"
+                    eyebrow={project.processEyebrow ?? "UX Sketches & Flows"}
                     onOpenFullscreen={(index) =>
                       setFullscreen({ mode: "process-visuals", index })
                     }
@@ -1591,40 +1892,42 @@ export function DesignCaseStudyView({
                 ) : null}
 
                 {/* Clean inner sub-section break between workflow visual and stage cards */}
-                <div
-                  className={
-                    processVisuals.length > 0
-                      ? "mt-2 pt-10 md:mt-4 md:pt-12 border-t border-[#171716]/10 space-y-5 md:space-y-6"
-                      : "space-y-5 md:space-y-6"
-                  }
-                >
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-[13.5px] md:text-[13px] font-medium uppercase tracking-[0.09em] leading-[1.4] text-[#171716]/55 m-0">
-                      Workflow Stages
-                    </h3>
-                    <span className="md:hidden text-[14px] font-medium uppercase tracking-[0.07em] leading-[1.5] text-[#d9442e] shrink-0 whitespace-nowrap">
-                      Swipe →
-                    </span>
-                  </div>
-
+                {project.processSteps && project.processSteps.length > 0 && (
                   <div
-                    data-testid="design-process-cards-strip"
-                    className="flex overflow-x-auto snap-x snap-mandatory gap-3.5 pt-1 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-2 md:gap-6"
+                    className={
+                      processVisuals.length > 0
+                        ? "mt-2 pt-10 md:mt-4 md:pt-12 border-t border-[#171716]/10 space-y-5 md:space-y-6"
+                        : "space-y-5 md:space-y-6"
+                    }
                   >
-                    {project.processSteps.map((step) => (
-                      <FloatCard
-                        key={step.phase}
-                        className={`w-[84vw] max-w-[328px] shrink-0 snap-start md:w-auto md:max-w-none ${EDITORIAL_CARD_CLASS}`}
-                      >
-                        <p className={CARD_TAG_CLASS}>{step.phase}</p>
-                        <h4 className={`mt-2 ${CARD_TITLE_CLASS}`}>
-                          {step.title}
-                        </h4>
-                        <p className={CARD_BODY_CLASS}>{step.detail}</p>
-                      </FloatCard>
-                    ))}
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-[13.5px] md:text-[13px] font-medium uppercase tracking-[0.09em] leading-[1.4] text-[#171716]/55 m-0">
+                        Workflow Stages
+                      </h3>
+                      <span className="md:hidden text-[14px] font-medium uppercase tracking-[0.07em] leading-[1.5] text-[#d9442e] shrink-0 whitespace-nowrap">
+                        Swipe →
+                      </span>
+                    </div>
+
+                    <div
+                      data-testid="design-process-cards-strip"
+                      className="flex overflow-x-auto snap-x snap-mandatory gap-3.5 pt-1 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-2 md:gap-6"
+                    >
+                      {project.processSteps.map((step) => (
+                        <FloatCard
+                          key={step.phase}
+                          className={`w-[84vw] max-w-[328px] shrink-0 snap-start md:w-auto md:max-w-none ${EDITORIAL_CARD_CLASS}`}
+                        >
+                          <p className={CARD_TAG_CLASS}>{step.phase}</p>
+                          <h4 className={`mt-2 ${CARD_TITLE_CLASS}`}>
+                            {step.title}
+                          </h4>
+                          <p className={CARD_BODY_CLASS}>{step.detail}</p>
+                        </FloatCard>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </section>
           )}
@@ -1637,9 +1940,16 @@ export function DesignCaseStudyView({
               className="bg-[#f8f6ef] border-b border-[#171716]/12"
             >
               <div className={`${SECTION_CONTAINER} py-20 md:py-28 flex flex-col gap-9 md:gap-11`}>
-                <h2 className="font-display text-[30px] sm:text-[36px] md:text-[42px] font-medium tracking-[-0.02em] leading-[1.16] text-balance m-0">
-                  Key Design Areas
-                </h2>
+                <div className={`${EDITORIAL_PROSE_WRAPPER} flex flex-col gap-3.5`}>
+                  <h2 className="font-display text-[30px] sm:text-[36px] md:text-[42px] font-medium tracking-[-0.02em] leading-[1.16] text-balance m-0">
+                    {project.keyDesignAreasHeading ?? "Key Design Areas"}
+                  </h2>
+                  {project.keyDesignAreasIntro && (
+                    <p className={EDITORIAL_BODY_CLASS}>
+                      {project.keyDesignAreasIntro}
+                    </p>
+                  )}
+                </div>
 
                 {kdaIntroVisuals.length > 0 && (
                   <KeyDesignAreasCarousel
@@ -1660,7 +1970,7 @@ export function DesignCaseStudyView({
                 >
                   <div className="flex items-center justify-between">
                     <h3 className="text-[13.5px] md:text-[13px] font-medium uppercase tracking-[0.09em] leading-[1.4] text-[#171716]/55 m-0">
-                      Core Modules
+                      {project.keyDesignAreasSubheading ?? "Core Modules"}
                     </h3>
                     <span className="md:hidden text-[14px] font-medium uppercase tracking-[0.07em] leading-[1.5] text-[#d9442e] shrink-0 whitespace-nowrap">
                       Swipe →
@@ -1669,7 +1979,11 @@ export function DesignCaseStudyView({
 
                   <div
                     data-testid="key-design-areas-cards"
-                    className="flex overflow-x-auto snap-x snap-mandatory gap-3.5 pt-1 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:pb-0 md:overflow-visible md:grid md:grid-cols-2 md:gap-6"
+                    className={`flex overflow-x-auto snap-x snap-mandatory gap-3.5 pt-1 pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 no-scrollbar md:mx-0 md:px-0 md:pt-0 md:pb-0 md:overflow-visible md:grid md:gap-6 ${
+                      project.keyDesignAreas.length === 3
+                        ? "md:grid-cols-3"
+                        : "md:grid-cols-2"
+                    }`}
                   >
                     {project.keyDesignAreas.map((area) => (
                       <FloatCard
@@ -1697,32 +2011,63 @@ export function DesignCaseStudyView({
                       data-testid="key-design-areas-figure"
                       className="m-0 w-full flex flex-col gap-3.5"
                     >
-                      <button
-                        type="button"
-                        data-testid="key-areas-open-btn"
-                        onClick={() =>
-                          setFullscreen({
-                            mode: "single",
-                            src: project.keyDesignAreasVisual!.src,
-                            title: project.keyDesignAreasVisual!.title,
-                            caption: project.keyDesignAreasVisual!.caption,
-                            lightBg: true,
-                          })
-                        }
-                        aria-label={`View full screen: ${project.keyDesignAreasVisual.title}`}
-                        className="group relative block w-full cursor-zoom-in rounded-2xl bg-[#f2efe6] p-3 sm:p-5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
-                      >
-                        <img
-                          src={project.keyDesignAreasVisual.src}
-                          alt={project.keyDesignAreasVisual.title}
-                          referrerPolicy="no-referrer"
-                          className="w-full h-auto max-h-[560px] object-contain mx-auto block transition-transform duration-200 group-hover:scale-[1.01]"
-                        />
-                        <span className="pointer-events-none absolute right-3 bottom-3 md:right-4 md:bottom-4 inline-flex items-center gap-1.5 rounded-lg border-2 border-[#171716] bg-[#fffdf6]/95 px-2.5 py-1.5 text-[13px] font-medium text-[#171716] shadow-[2px_2px_0_#171716] opacity-80 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100 transition-opacity">
-                          <ExpandIcon className="w-3.5 h-3.5" />
-                          <span className="hidden sm:inline">Full screen</span>
-                        </span>
-                      </button>
+                      {project.heroSurface === "screen-frame" ? (
+                        <FloatCard className="overflow-hidden rounded-xl md:rounded-2xl border-2 border-[#171716] bg-white shadow-[5px_5px_0_#171716] md:shadow-[6px_6px_0_#171716]">
+                          <button
+                            type="button"
+                            data-testid="key-areas-open-btn"
+                            onClick={() =>
+                              setFullscreen({
+                                mode: "single",
+                                src: project.keyDesignAreasVisual!.src,
+                                title: project.keyDesignAreasVisual!.title,
+                                caption: project.keyDesignAreasVisual!.caption,
+                                lightBg: true,
+                              })
+                            }
+                            aria-label={`View full screen: ${project.keyDesignAreasVisual.title}`}
+                            className="group relative block w-full cursor-zoom-in focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
+                          >
+                            <img
+                              src={project.keyDesignAreasVisual.src}
+                              alt={project.keyDesignAreasVisual.title}
+                              referrerPolicy="no-referrer"
+                              className="w-full h-auto block transition-transform duration-200 group-hover:scale-[1.008]"
+                            />
+                            <span className="pointer-events-none absolute right-3 top-3 md:right-4 md:top-4 inline-flex items-center gap-1.5 rounded-lg border-2 border-[#171716] bg-[#fffdf6]/95 px-2.5 py-1.5 text-[13px] font-medium text-[#171716] shadow-[2px_2px_0_#171716] opacity-80 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100 transition-opacity">
+                              <ExpandIcon className="w-3.5 h-3.5" />
+                              <span className="hidden sm:inline">Full screen</span>
+                            </span>
+                          </button>
+                        </FloatCard>
+                      ) : (
+                        <button
+                          type="button"
+                          data-testid="key-areas-open-btn"
+                          onClick={() =>
+                            setFullscreen({
+                              mode: "single",
+                              src: project.keyDesignAreasVisual!.src,
+                              title: project.keyDesignAreasVisual!.title,
+                              caption: project.keyDesignAreasVisual!.caption,
+                              lightBg: true,
+                            })
+                          }
+                          aria-label={`View full screen: ${project.keyDesignAreasVisual.title}`}
+                          className="group relative block w-full cursor-zoom-in rounded-2xl bg-[#f2efe6] p-3 sm:p-5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
+                        >
+                          <img
+                            src={project.keyDesignAreasVisual.src}
+                            alt={project.keyDesignAreasVisual.title}
+                            referrerPolicy="no-referrer"
+                            className="w-full h-auto max-h-[560px] object-contain mx-auto block transition-transform duration-200 group-hover:scale-[1.01]"
+                          />
+                          <span className="pointer-events-none absolute right-3 bottom-3 md:right-4 md:bottom-4 inline-flex items-center gap-1.5 rounded-lg border-2 border-[#171716] bg-[#fffdf6]/95 px-2.5 py-1.5 text-[13px] font-medium text-[#171716] shadow-[2px_2px_0_#171716] opacity-80 md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100 transition-opacity">
+                            <ExpandIcon className="w-3.5 h-3.5" />
+                            <span className="hidden sm:inline">Full screen</span>
+                          </span>
+                        </button>
+                      )}
                       <figcaption className="px-0.5 flex flex-col gap-1.5 max-w-[64ch]">
                         <p className={CAPTION_TITLE_CLASS}>
                           {project.keyDesignAreasVisual.title}
@@ -1786,16 +2131,20 @@ export function DesignCaseStudyView({
             className="bg-[#f8f6ef] border-b border-[#171716]/12"
           >
             <div className={`${SECTION_CONTAINER} py-20 md:py-28 flex flex-col gap-10 md:gap-12`}>
-              <div className={`${EDITORIAL_PROSE_WRAPPER} flex flex-col gap-3.5`}>
-                <h2 className="font-display text-[30px] sm:text-[36px] md:text-[42px] font-medium tracking-[-0.02em] leading-[1.16] text-balance m-0">
-                  Project Scale &amp; Outcomes
-                </h2>
-                {project.scaleIntro && (
-                  <p className={EDITORIAL_BODY_CLASS}>
-                    {project.scaleIntro}
-                  </p>
-                )}
-              </div>
+              {(project.scaleIntro ||
+                (project.scaleMetrics && project.scaleMetrics.length > 0) ||
+                project.outcomeVisual) && (
+                <div className={`${EDITORIAL_PROSE_WRAPPER} flex flex-col gap-3.5`}>
+                  <h2 className="font-display text-[30px] sm:text-[36px] md:text-[42px] font-medium tracking-[-0.02em] leading-[1.16] text-balance m-0">
+                    Project Scale &amp; Outcomes
+                  </h2>
+                  {project.scaleIntro && (
+                    <p className={EDITORIAL_BODY_CLASS}>
+                      {project.scaleIntro}
+                    </p>
+                  )}
+                </div>
+              )}
 
               {project.scaleMetrics && project.scaleMetrics.length > 0 && (
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 md:gap-6">
@@ -2255,7 +2604,7 @@ export function DesignCaseStudyView({
                 onClick={(event) => event.stopPropagation()}
                 className={`max-w-full max-h-full flex items-center justify-center ${
                   activeFullscreenImage.lightBg
-                    ? "bg-[#f7f7f7] rounded-2xl p-3 sm:p-5"
+                    ? "bg-[#f2efe6] rounded-2xl p-3 sm:p-5"
                     : ""
                 }`}
               >

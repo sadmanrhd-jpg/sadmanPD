@@ -281,6 +281,65 @@ export function MobileDeviceMockupShowcase({
             {showcase.groups.map((group, groupIdx) => {
               const groupStartIndex = runningOffset;
               runningOffset += group.screens.length;
+              const isSingleScreen = group.screens.length === 1;
+              const isTwoUp = group.screens.length === 2;
+
+              if (isSingleScreen) {
+                const singleScreen = group.screens[0];
+                return (
+                  <div
+                    key={group.id}
+                    data-testid={`device-mockup-group-${group.id}`}
+                    className={
+                      groupIdx > 0
+                        ? "pt-12 md:pt-16 border-t border-[#171716]/12 grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto] items-start gap-10 md:gap-14 lg:gap-16"
+                        : "grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_auto] items-start gap-10 md:gap-14 lg:gap-16"
+                    }
+                  >
+                    <div className="w-full max-w-[540px] text-left flex flex-col gap-3">
+                      <p className="text-[13px] md:text-[14px] font-semibold uppercase tracking-[0.08em] text-[#d9442e] m-0">
+                        {group.eyebrow}
+                      </p>
+                      <h3 className="font-display text-[24px] sm:text-[28px] md:text-[32px] font-medium tracking-[-0.02em] leading-[1.2] text-[#171716] m-0">
+                        {group.title}
+                      </h3>
+                      <p className="text-[16px] md:text-[17.5px] leading-[1.78] text-[#171716]/72 m-0">
+                        {group.description}
+                      </p>
+
+                      {group.companionNote && (
+                        <div
+                          data-testid={`device-mockup-companion-${group.id}`}
+                          className="mt-4 rounded-2xl border border-[#171716]/16 bg-[#fffdf6] p-5 sm:p-6 shadow-[0_2px_10px_rgba(23,23,22,0.04)] flex flex-col gap-2"
+                        >
+                          <p className="text-[12.5px] font-semibold uppercase tracking-[0.08em] text-[#d9442e] m-0">
+                            {group.companionNote.label}
+                          </p>
+                          <h4 className="font-display text-[19px] md:text-[21px] font-medium tracking-[-0.015em] leading-[1.3] text-[#171716] m-0">
+                            {group.companionNote.title}
+                          </h4>
+                          <p className="text-[15.5px] md:text-[16.5px] leading-[1.72] text-[#171716]/72 m-0">
+                            {group.companionNote.detail}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+
+                    <div
+                      data-testid={`device-mockup-grid-${group.id}`}
+                      className="flex justify-center md:justify-end w-full md:w-auto"
+                    >
+                      <PhoneMockupCard
+                        key={singleScreen.src}
+                        screen={singleScreen}
+                        index={groupStartIndex}
+                        onOpenFullscreen={onOpenFullscreen}
+                        density="two-up"
+                      />
+                    </div>
+                  </div>
+                );
+              }
 
               return (
                 <div
@@ -306,7 +365,15 @@ export function MobileDeviceMockupShowcase({
 
                   <div
                     data-testid={`device-mockup-grid-${group.id}`}
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-8 lg:gap-x-7 xl:gap-x-8 justify-items-center items-start w-full"
+                    className={
+                      isTwoUp
+                        ? "grid grid-cols-1 md:grid-cols-2 gap-y-12 md:gap-x-16 lg:gap-x-20 justify-items-center items-start w-full max-w-[740px] mx-auto"
+                        : `grid grid-cols-1 sm:grid-cols-2 gap-y-12 gap-x-8 lg:gap-x-7 xl:gap-x-8 justify-items-center items-start w-full ${
+                            group.screens.length === 3
+                              ? "lg:grid-cols-3"
+                              : "lg:grid-cols-4"
+                          }`
+                    }
                   >
                     {group.screens.map((screen, idx) => (
                       <PhoneMockupCard
@@ -314,7 +381,13 @@ export function MobileDeviceMockupShowcase({
                         screen={screen}
                         index={groupStartIndex + idx}
                         onOpenFullscreen={onOpenFullscreen}
-                        density="four-up"
+                        density={
+                          isTwoUp
+                            ? "two-up"
+                            : group.screens.length === 3
+                              ? "multi"
+                              : "four-up"
+                        }
                       />
                     ))}
                   </div>

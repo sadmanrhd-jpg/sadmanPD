@@ -9,8 +9,10 @@ import {
   formatCount,
   getAdjacentItemId,
   getCaseStudySections,
+  getEditorialSpreadPages,
   getNextSlideIndex,
   splitParagraphs,
+  stepEditorialPage,
   validateContactForm,
 } from "./portfolioLogic";
 
@@ -268,6 +270,27 @@ test("getCaseStudySections builds section jump links for rich and standard case 
     ["Overview", "Challenge", "Mobile", "Process", "Key Areas", "Outcomes"],
   );
 
+  const conciseConceptSections = getCaseStudySections({
+    ...SAMPLE_DESIGN[2],
+    category: "Transit",
+    overview: "Daily Dhaka Metro Rail observation",
+    processNavLabel: "Exploration",
+    processVisuals: [
+      { src: "/brain-map.png", title: "Brain Map", caption: "Commute questions" },
+    ],
+    keyDesignAreasNavLabel: "Strategies",
+    keyDesignAreas: [
+      { title: "Make the brand colors work", detail: "Detail" },
+      { title: "Concise delivery of updates", detail: "Detail" },
+      { title: "More information through the MRT 6 map", detail: "Detail" },
+    ],
+    outcomesNavLabel: "Reflection",
+  });
+  assert.deepEqual(
+    conciseConceptSections.map((s) => s.label),
+    ["Overview", "Exploration", "Strategies", "Reflection"],
+  );
+
   const standardSections = getCaseStudySections(SAMPLE_DESIGN[2]);
   assert.deepEqual(
     standardSections.map((s) => s.label),
@@ -289,6 +312,48 @@ test("getNextSlideIndex wraps cleanly forward and backward", () => {
   assert.equal(getNextSlideIndex(0, -1, 2), 1);
   assert.equal(getNextSlideIndex(1, -1, 3), 0);
   assert.equal(getNextSlideIndex(0, 1, 0), 0);
+});
+
+test("editorial reader page & spread navigation steps accurately and clamps boundaries", () => {
+  // Single page mode
+  assert.deepEqual(getEditorialSpreadPages(0, 8, "single"), [0]);
+  assert.deepEqual(getEditorialSpreadPages(3, 8, "single"), [3]);
+  assert.equal(stepEditorialPage(0, -1, 8, "single"), 0);
+  assert.equal(stepEditorialPage(0, 1, 8, "single"), 1);
+  assert.equal(stepEditorialPage(7, 1, 8, "single"), 7);
+
+  // Spread mode: cover solo, interior pairs, trailing even back cover solo
+  assert.deepEqual(getEditorialSpreadPages(0, 8, "spread"), [0]);
+  assert.deepEqual(getEditorialSpreadPages(1, 8, "spread"), [1, 2]);
+  assert.deepEqual(getEditorialSpreadPages(2, 8, "spread"), [1, 2]);
+  assert.deepEqual(getEditorialSpreadPages(7, 8, "spread"), [7]);
+
+  assert.equal(stepEditorialPage(0, 1, 8, "spread"), 1);
+  assert.equal(stepEditorialPage(1, 1, 8, "spread"), 3);
+  assert.equal(stepEditorialPage(5, 1, 8, "spread"), 7);
+  assert.equal(stepEditorialPage(7, 1, 8, "spread"), 7);
+  assert.equal(stepEditorialPage(7, -1, 8, "spread"), 5);
+  assert.equal(stepEditorialPage(1, -1, 8, "spread"), 0);
+  assert.equal(stepEditorialPage(2, -1, 8, "spread"), 0);
+
+  // Editorial case study sections stay concise (Read + Details)
+  const editorialSections = getCaseStudySections({
+    ...SAMPLE_DESIGN[2],
+    category: "Editorial",
+    editorialDocument: {
+      pdfUrl: "/sample.pdf",
+      pdfLabel: "Open Full PDF",
+      formatLabel: "8-Page Booklet",
+      pages: [
+        { src: "/p1.jpg", title: "Cover" },
+        { src: "/p2.jpg", title: "Page 2" },
+      ],
+    },
+  });
+  assert.deepEqual(
+    editorialSections.map((s) => s.label),
+    ["Read", "Details"],
+  );
 });
 
 test("portfolio data has no em/en-dashes, excludes template projects, and includes all 4 social links", async () => {

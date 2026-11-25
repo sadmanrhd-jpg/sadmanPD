@@ -7,6 +7,7 @@ import { DesignGallery } from "./components/DesignGallery";
 import { DesignCaseStudyView } from "./components/DesignCaseStudyView";
 import { PhotoGallery } from "./components/PhotoGallery";
 import { PhotoDetailView } from "./components/PhotoDetailView";
+import { BlogView } from "./components/BlogView";
 import { AboutView } from "./components/AboutView";
 import { Footer } from "./components/Footer";
 import { ContactModal } from "./components/ContactModal";
@@ -149,6 +150,7 @@ export default function App() {
                   }
                 />
               )}
+              {view === "blog" && <BlogView />}
               {view === "about" && (
                 <AboutView
                   onNavigate={handleNavigate}

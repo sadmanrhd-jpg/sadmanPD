@@ -210,6 +210,13 @@ export interface CaseStudySectionNavItem {
 export function getCaseStudySections(
   project: DesignProject,
 ): CaseStudySectionNavItem[] {
+  if (project.editorialDocument?.pages.length) {
+    return [
+      { id: "section-reader", label: "Read" },
+      { id: "section-overview", label: "Details" },
+    ];
+  }
+
   const isRich = Boolean(
     project.overview ||
       project.backgroundMilestones?.length ||
@@ -233,16 +240,29 @@ export function getCaseStudySections(
     if (project.mobileShowcase?.screens.length) {
       sections.push({ id: "section-mobile", label: "Mobile" });
     }
-    if (project.processSteps?.length) {
-      sections.push({ id: "section-process", label: "Process" });
+    if (
+      project.processSteps?.length ||
+      project.processVisuals?.length ||
+      project.processVisual
+    ) {
+      sections.push({
+        id: "section-process",
+        label: project.processNavLabel ?? "Process",
+      });
     }
     if (project.keyDesignAreas?.length) {
-      sections.push({ id: "section-key-areas", label: "Key Areas" });
+      sections.push({
+        id: "section-key-areas",
+        label: project.keyDesignAreasNavLabel ?? "Key Areas",
+      });
     }
     if (project.beforeAfter?.length) {
       sections.push({ id: "section-before-after", label: "Before & After" });
     }
-    sections.push({ id: "section-outcomes", label: "Outcomes" });
+    sections.push({
+      id: "section-outcomes",
+      label: project.outcomesNavLabel ?? "Outcomes",
+    });
     return sections;
   }
 
@@ -253,7 +273,10 @@ export function getCaseStudySections(
   if (project.keyDecisions?.length) {
     standard.push({ id: "section-decisions", label: "Decisions" });
   }
-  standard.push({ id: "section-outcomes", label: "Outcome" });
+  standard.push({
+    id: "section-outcomes",
+    label: project.outcomesNavLabel ?? "Outcome",
+  });
   return standard;
 }
 
@@ -272,4 +295,49 @@ export function getNextSlideIndex(
   if (total <= 0) return 0;
   return (((current + delta) % total) + total) % total;
 }
+
+export type EditorialViewMode = "single" | "spread";
+
+export function getEditorialSpreadPages(
+  currentIndex: number,
+  totalPages: number,
+  mode: EditorialViewMode,
+): number[] {
+  if (totalPages <= 0) return [];
+  const clamped = Math.max(0, Math.min(currentIndex, totalPages - 1));
+  if (mode === "single" || clamped === 0) {
+    return [clamped];
+  }
+  const left = clamped % 2 === 1 ? clamped : clamped - 1;
+  if (left + 1 < totalPages) {
+    return [left, left + 1];
+  }
+  return [left];
+}
+
+export function stepEditorialPage(
+  currentIndex: number,
+  delta: -1 | 1,
+  totalPages: number,
+  mode: EditorialViewMode,
+): number {
+  if (totalPages <= 0) return 0;
+  const clamped = Math.max(0, Math.min(currentIndex, totalPages - 1));
+  if (mode === "single") {
+    return Math.max(0, Math.min(clamped + delta, totalPages - 1));
+  }
+  if (delta === 1) {
+    if (clamped === 0) {
+      return Math.min(1, totalPages - 1);
+    }
+    const left = clamped % 2 === 1 ? clamped : clamped - 1;
+    return left + 2 < totalPages ? left + 2 : left;
+  }
+  if (clamped <= 2) {
+    return 0;
+  }
+  const left = clamped % 2 === 1 ? clamped : clamped - 1;
+  return Math.max(0, left - 2);
+}
+
 

@@ -102,17 +102,25 @@ export function DesignGallery({
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-8 gap-y-14">
-            {visibleProjects.map((project) => {
+            {visibleProjects.map((project, idx) => {
               const isAll = category === "All";
               const isWide = Boolean(project.wide && isAll);
+              const isTrailingOdd =
+                isAll &&
+                visibleProjects.length % 2 === 1 &&
+                idx === visibleProjects.length - 1;
+              const isScreenFrame = project.heroSurface === "screen-frame";
+              const isCanvasFrame = project.heroSurface === "canvas-frame";
               return (
                 <article
                   key={project.id}
                   className={
                     isAll
-                      ? isWide
-                        ? "md:col-span-2 lg:col-span-7"
-                        : "lg:col-span-5"
+                      ? isTrailingOdd
+                        ? "md:col-span-2 lg:col-span-10 lg:col-start-2"
+                        : isWide
+                          ? "md:col-span-2 lg:col-span-7"
+                          : "lg:col-span-5"
                       : "lg:col-span-6"
                   }
                 >
@@ -124,31 +132,59 @@ export function DesignGallery({
                   >
                     <div
                       className={`relative overflow-hidden rounded-2xl border-2 border-[#171716] shadow-[6px_6px_0_#171716] group-hover:shadow-[8px_8px_0_#ff5b44] transition-all duration-200 ${
-                        project.imageFit === "contain"
-                          ? "bg-[#f2efe6] p-3 sm:p-5"
-                          : "bg-[#ddd]"
+                        isScreenFrame
+                          ? "bg-white"
+                          : isCanvasFrame
+                            ? "bg-[#f2efe6]"
+                            : project.imageFit === "contain"
+                              ? "bg-[#f2efe6] p-3 sm:p-5"
+                              : "bg-[#f2efe6]"
                       } ${
                         isAll
-                          ? isWide
-                            ? "aspect-[16/9] max-h-[620px] lg:aspect-auto lg:h-[380px] xl:h-[410px] w-full"
-                            : "aspect-[4/3] lg:aspect-auto lg:h-[380px] xl:h-[410px] w-full"
-                          : "aspect-[4/3] w-full"
+                          ? isTrailingOdd
+                            ? "aspect-[16/9] w-full"
+                            : isWide
+                              ? "aspect-[16/9] max-h-[620px] lg:aspect-auto lg:h-[380px] xl:h-[410px] w-full"
+                              : "aspect-[4/3] lg:aspect-auto lg:h-[380px] xl:h-[410px] w-full"
+                          : isScreenFrame && project.imageFit === "contain"
+                            ? "aspect-[16/9] w-full"
+                            : "aspect-[4/3] w-full"
                       }`}
                     >
-                      <img
-                        src={project.image}
-                        alt={`${project.title}, ${project.subtitle}`}
-                        referrerPolicy="no-referrer"
-                        className={`w-full h-full transition-transform duration-500 group-hover:scale-[1.03] ${
-                          project.imageFit === "contain" ? "object-contain" : "object-cover"
-                        } ${
-                          project.heroSurface === "blend-canvas"
-                            ? "mix-blend-multiply brightness-[1.015]"
-                            : project.heroSurface === "soft-feather"
-                              ? "cover-edge-feather"
-                              : ""
-                        }`}
-                      />
+                      {project.editorialDocument ? (
+                        <div className="w-full h-full flex items-center justify-center gap-3 sm:gap-5 px-2 sm:px-4 py-1">
+                          <img
+                            src={project.image}
+                            alt={`${project.title}, ${project.subtitle}`}
+                            referrerPolicy="no-referrer"
+                            className="h-full max-h-full w-auto max-w-[47%] object-contain rounded-[6px] bg-white shadow-[0_10px_24px_rgba(23,23,22,0.16)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-[1.02]"
+                          />
+                          {project.editorialDocument.spreadPreviewSrc && (
+                            <img
+                              src={project.editorialDocument.spreadPreviewSrc}
+                              alt=""
+                              aria-hidden="true"
+                              referrerPolicy="no-referrer"
+                              className="h-[92%] max-h-full w-auto max-w-[44%] object-contain rounded-[6px] bg-white shadow-[0_10px_24px_rgba(23,23,22,0.14)] transition-transform duration-500 group-hover:translate-y-0.5 group-hover:scale-[1.02]"
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <img
+                          src={project.image}
+                          alt={`${project.title}, ${project.subtitle}`}
+                          referrerPolicy="no-referrer"
+                          className={`w-full h-full transition-transform duration-500 group-hover:scale-[1.03] ${
+                            project.imageFit === "contain" ? "object-contain" : "object-cover"
+                          } ${
+                            project.heroSurface === "blend-canvas"
+                              ? "mix-blend-multiply brightness-[1.015]"
+                              : project.heroSurface === "soft-feather"
+                                ? "cover-edge-feather"
+                                : ""
+                          }`}
+                        />
+                      )}
                       <span
                         aria-hidden="true"
                         className="absolute right-5 top-5 w-12 h-12 rounded-full bg-[#ff5b44] border-2 border-[#171716] text-[#171716] grid place-items-center scale-0 -rotate-45 group-hover:scale-100 group-hover:rotate-0 transition-transform duration-200"

@@ -5,8 +5,15 @@ import photoTwoStrangersImg from "../assets/images/photo_two_strangers_179492458
 import photoPassingThroughImg from "../assets/images/photo_passing_through_1794924582582.jpg";
 
 export type World = "design" | "photo";
-export type View = "home" | "design" | "photo" | "about";
-export type DesignCategory = "All" | "GovTech" | "Digital Health" | "Fintech";
+export type View = "home" | "design" | "photo" | "blog" | "about";
+export type DesignCategory =
+  | "All"
+  | "GovTech"
+  | "Digital Health"
+  | "Fintech"
+  | "Transit"
+  | "E-Commerce"
+  | "Editorial";
 export type PhotoGenre =
   | "All"
   | "Street"
@@ -86,6 +93,13 @@ export interface CaseStudyVisual {
   scrollable?: boolean;
 }
 
+export interface CaseStudyVideo {
+  src: string;
+  poster?: string;
+  title: string;
+  caption: string;
+}
+
 export interface CaseStudyComparisonRow {
   before: string;
   after: string;
@@ -96,6 +110,11 @@ export interface MobileShowcaseGroup {
   eyebrow: string;
   title: string;
   description: string;
+  companionNote?: {
+    label: string;
+    title: string;
+    detail: string;
+  };
   screens: CaseStudyVisual[];
 }
 
@@ -106,6 +125,19 @@ export interface MobileShowcaseBlock {
   variant?: "strip" | "device-mockup";
   screens: CaseStudyVisual[];
   groups?: MobileShowcaseGroup[];
+}
+
+export interface EditorialPageItem {
+  src: string;
+  title: string;
+}
+
+export interface EditorialDocumentBlock {
+  pdfUrl: string;
+  pdfLabel: string;
+  formatLabel: string;
+  spreadPreviewSrc?: string;
+  pages: EditorialPageItem[];
 }
 
 export interface DesignProject {
@@ -123,12 +155,18 @@ export interface DesignProject {
   liveUrlLabel?: string;
   image: string;
   imageFit?: "cover" | "contain";
-  heroSurface?: "transparent" | "blend-canvas" | "soft-feather";
+  heroSurface?:
+    | "transparent"
+    | "blend-canvas"
+    | "soft-feather"
+    | "screen-frame"
+    | "canvas-frame";
   wide?: boolean;
   summary: string;
   overview?: string;
   quote?: string;
   overviewVisual?: CaseStudyVisual;
+  overviewVideo?: CaseStudyVideo;
   challenge: string;
   challengeIntro?: string;
   challengePoints?: CaseStudyFeatureItem[];
@@ -145,19 +183,29 @@ export interface DesignProject {
   outcome: string;
   metrics?: CaseStudyMetric[];
   researchInsights?: string[];
+  processHeading?: string;
+  processNavLabel?: string;
+  processEyebrow?: string;
+  processIntro?: string;
   processVisual?: CaseStudyVisual;
   processVisuals?: CaseStudyVisual[];
   processSteps?: CaseStudyProcessStep[];
+  keyDesignAreasHeading?: string;
+  keyDesignAreasSubheading?: string;
+  keyDesignAreasNavLabel?: string;
+  keyDesignAreasIntro?: string;
   keyDesignAreas?: CaseStudyFeatureItem[];
   keyDesignAreasIntroVisual?: CaseStudyVisual;
   keyDesignAreasIntroVisuals?: CaseStudyVisual[];
   keyDesignAreasVisual?: CaseStudyVisual;
   beforeAfter?: CaseStudyComparisonRow[];
+  outcomesNavLabel?: string;
   scaleIntro?: string;
   scaleMetrics?: CaseStudyMetric[];
   outcomeVisual?: CaseStudyVisual;
   keyDecisions?: CaseStudyDecision[];
   reflection?: string;
+  editorialDocument?: EditorialDocumentBlock;
 }
 
 export interface PhotoItem {
@@ -187,6 +235,9 @@ export const DESIGN_CATEGORIES: DesignCategory[] = [
   "GovTech",
   "Digital Health",
   "Fintech",
+  "Transit",
+  "E-Commerce",
+  "Editorial",
 ];
 
 export const PHOTO_GENRES: PhotoGenre[] = [
@@ -1194,6 +1245,616 @@ export const DESIGN_PROJECTS: DesignProject[] = [
       "Delivered a complete dual-sided Bangla QR ride payment concept tailored to Bangladesh’s connectivity and hardware realities, combining trip-locked QR speed, synchronized visual and Bangla audio trust, and practical offline fallbacks.",
     reflection:
       "Designing fintech experiences for emerging mobility markets means treating unstable signal and budget hardware as core design inputs rather than edge cases.\n\nBy pairing dynamic ride-specific Bangla QR codes with plain-language failure reassurance, Bangla audio receipts, and physical/saved QR backups, digital payments stay fast and trustworthy even when connectivity falters.",
+  },
+  {
+    id: "dhaka-metro-screen",
+    title: "Redesign Concept: Dhaka Metro Rail Update Screen",
+    subtitle: "Public Transit · Concept Redesign",
+    category: "Transit",
+    year: "2025",
+    timeline: "2025 · Self-Initiated Concept",
+    client: "Dhaka Metro Rail (MRT Line 6)",
+    role: "Product Designer · Visual & Motion Concept",
+    image: "/assets/aistudio/Cover_MRT_e57781b1.png",
+    imageFit: "contain",
+    heroSurface: "screen-frame",
+    wide: true,
+    summary:
+      "Reimagining the overhead station update screen inside Dhaka Metro Rail coaches with purposeful brand color hierarchy, concise station and door cues, and a richer MRT Line 6 route map.",
+    overview:
+      "I see the station update screen inside the coaches of Dhaka Metro Rail every day, and I kept wishing it looked more modern, calmer, and easier to read from across a crowded aisle. When a train is moving or pulling into a busy platform, commuters only have a quick glance to confirm where they are, what stop comes next, and which side the doors will open.\n\nThis self-initiated redesign concept reimagines the MRT Line 6 coach display around three practical strategies: making the brand colors carry real functional meaning, delivering concise station and door updates without visual noise, and giving riders clearer full-corridor orientation through the MRT Line 6 map.",
+    overviewVideo: {
+      src: "/assets/aistudio/MRT-6_Stattion_Update_Screen_200971bb.mp4",
+      poster: "/assets/aistudio/Cover_MRT_e57781b1.png",
+      title: "Animated Coach Screen Prototype (MRT Line 6)",
+      caption:
+        "Live motion concept demonstrating synchronized station labels, upcoming door-side cues, the bottom linear train indicator, and live position tracking along the vertical MRT Line 6 map.",
+    },
+    challenge:
+      "Coach displays must be readable in a single quick glance from both standing aisles and seats, pairing current station, door-side status, next stop, and full-line direction without making every element compete for attention.",
+    approach:
+      "Reorganized the overhead screen into a calm, balanced layout that puts Dhaka Metro brand colors to work, pairs concise station and door updates on the left, and anchors route direction with the full MRT Line 6 map on the right.",
+    deliverables: [
+      "Coach Display UI",
+      "MRT Line 6 Route Map",
+      "Motion Prototype",
+    ],
+    processHeading: "Exploration & Storyboard",
+    processNavLabel: "Exploration",
+    processEyebrow: "Sketches & Motion Thinking",
+    processIntro:
+      "Working directly from daily commute observations, I mapped what riders look for first, compared three layout directions, and storyboarded how labels, door cues, and train position stay in sync across station states.",
+    processVisuals: [
+      {
+        src: "/assets/aistudio/MRT_6_Coach_Display_Brain_Map-1_7bb71be0.png",
+        title: "Daily Commute Brain Map",
+        caption:
+          "Unpacking the real questions passengers ask while looking up inside the coach (Where am I? What is next? Which doors open? How far to my stop?) and shifting away from equal-weight clutter toward prioritizing the next useful fact.",
+      },
+      {
+        src: "/assets/aistudio/MRT_Line_6_Layout_Exploration-2_ed2e8624.png",
+        title: "Layout Exploration (Text-First, Map-First & Balanced)",
+        caption:
+          "Comparing three screen compositions before choosing Option C: current station leads at full scale, door cues stay immediately adjacent, the next stop sits on its own clean level, and the vertical MRT Line 6 map adds direction on the right against a quiet backdrop.",
+      },
+      {
+        src: "/assets/aistudio/MRT_coach_display_motion_storyboard_657b51e8.png",
+        title: "Motion States & Readability Storyboard",
+        caption:
+          "Sequencing After departure, Approaching, and At station states so train movement, station names, and door cues update in lockstep, paired with practical checks for aisle-to-seat legibility, Bangla and English pairing, and icon clarity without relying on color alone.",
+      },
+    ],
+    keyDesignAreasHeading: "Core Design Strategies",
+    keyDesignAreasSubheading: "Three Focused Shifts",
+    keyDesignAreasNavLabel: "Strategies",
+    keyDesignAreasIntro:
+      "Every layout, color, and motion choice serves one goal: helping daily Dhaka commuters orient themselves effortlessly in a single glance.",
+    keyDesignAreas: [
+      {
+        title: "Make the brand colors work",
+        detail:
+          "Uses Dhaka Metro's signature emerald green to anchor the current station, route spine, and train livery while reserving warm amber-orange for the upcoming stop. A quiet white canvas with a subtle Dhaka skyline watermark ensures brand color signals live status instead of adding visual noise.",
+      },
+      {
+        title: "Concise delivery of updates",
+        detail:
+          "Establishes an unmistakable typographic hierarchy: 'You are at' and the current station with active door side lead first, followed by 'Next Station' and upcoming door side right beneath. Commuters get the exact fact they need to prepare for exit without parsing dense labels.",
+      },
+      {
+        title: "More information through the MRT 6 map",
+        detail:
+          "Combines a focused 4-stop horizontal track (previous, current, next, and ahead) with the full vertical Motijheel to Uttara North corridor map and live train icon, giving both first-time riders and daily commuters immediate door readiness and whole-line context.",
+      },
+    ],
+    keyDesignAreasVisual: {
+      src: "/assets/aistudio/MRT_6_update_screen_cd52ee69.jpg",
+      title: "Synchronized In-Transit State: Farmgate to Bijoy Sarani",
+      caption:
+        "Companion station state showing how the active green anchor, amber next-stop door alert, horizontal train rail, and vertical MRT Line 6 corridor marker stay cleanly aligned as the coach progresses northbound.",
+    },
+    outcomesNavLabel: "Reflection",
+    outcome:
+      "A modern, glanceable coach update screen concept for Dhaka Metro Rail MRT Line 6 that turns everyday brand colors, concise station and door cues, and full-line spatial context into a calmer daily commute.",
+    reflection:
+      "Public transit screens are among the most viewed interfaces in any city, yet they are often treated as an afterthought. Reimagining a display I rely on every day reminded me how much quiet relief good information hierarchy can bring to thousands of commuters moving through a crowded train.\n\nKeeping the screen uncluttered, giving brand colors a clear functional job, and letting the MRT Line 6 map carry spatial context makes the ride feel calmer and more intuitive for first-time visitors and regular riders alike. As a next step, pairing this layout seamlessly with Bangla and English switching and testing aisle-to-seat readability inside live coaches would make the system even more inclusive.",
+  },
+  {
+    id: "tonis-bakery",
+    title: "Toni's Bakery App",
+    subtitle: "Mobile App · Bakery Ordering",
+    category: "E-Commerce",
+    year: "2023",
+    timeline: "2023 · Mobile Product Design",
+    client: "Toni's Bakery · Gulshan-2",
+    role: "Product Designer · UI/UX",
+    image: "/assets/aistudio/image_67f58646.png",
+    imageFit: "cover",
+    heroSurface: "canvas-frame",
+    summary:
+      "A mobile bakery ordering experience that connects product discovery, order review, pickup or delivery, and live tracking.",
+    overview:
+      "Toni's brings the bakery shopping experience onto a mobile interface. Customers can explore products, adjust quantities, review their selections, choose how to receive their order, and follow its delivery progress.\n\nThe design combines product photography, warm orange accents, and simple layouts to give the experience a welcoming bakery identity.",
+    challenge:
+      "The challenge was to make each stage of ordering understandable. Customers need enough information to choose products, check their order confidently, and understand what happens after confirmation.",
+    challengeIntro:
+      "The challenge was to make each stage of ordering understandable. Customers need enough information to choose products, check their order confidently, and understand what happens after confirmation.",
+    challengePoints: [
+      {
+        title: "Finding the right product",
+        detail:
+          "A varied menu can make it difficult to locate a particular item or explore relevant categories.",
+      },
+      {
+        title: "Keeping track of selections",
+        detail:
+          "Customers need to see quantities and remember what they have already added while browsing.",
+      },
+      {
+        title: "Understanding the final cost",
+        detail:
+          "Item prices, delivery charges, discounts, and the total need to be clear before confirmation.",
+      },
+      {
+        title: "Uncertainty during delivery",
+        detail:
+          "Customers need visibility into order progress, an arrival estimate, and a way to contact the delivery person.",
+      },
+    ],
+    mobileShowcase: {
+      eyebrow: "Mobile Interface",
+      heading: "End-to-End Ordering & Delivery Screens",
+      note: "From home discovery and live cart previews to transparent checkout, real-time tracking, and post-delivery feedback.",
+      variant: "device-mockup",
+      screens: [
+        {
+          src: "/assets/aistudio/image_b03eb535.png",
+          title: "01 · Home & Featured Offers",
+          caption:
+            "Combines search, pickup mode selection, ongoing orders access, featured pastry and cookie offers, and quick category icons.",
+        },
+        {
+          src: "/assets/aistudio/image_dfc38fa9.png",
+          title: "02 · Categorized Bakery Menu",
+          caption:
+            "Groups cookies, donuts, and cakes into clear sections with product photography, BDT per-piece pricing, favorites, and inline quantity steppers.",
+        },
+        {
+          src: "/assets/aistudio/image_d2067ea7.png",
+          title: "03 · Product Details & Live Cart",
+          caption:
+            "Brings product photography, description, 4.8/5 rating, price per piece, quantity controls, related items ('People also love'), and an 'In cart' preview together.",
+        },
+        {
+          src: "/assets/aistudio/image_8af7ecfc.png",
+          title: "04 · Cart & Order Review",
+          caption:
+            "Unites pickup or delivery choice with store location, itemized quantities, subtotal, delivery fee, coupon savings (HAPPY50), payment method, and Confirm Order.",
+        },
+        {
+          src: "/assets/aistudio/image_8c50d813.png",
+          title: "05 · Live Order Tracking",
+          caption:
+            "Pairs confirmation time and live 'On the way' status with a 15-19 minute arrival estimate, delivery map, and direct Call and Chat buttons.",
+        },
+        {
+          src: "/assets/aistudio/image_321fbde6.png",
+          title: "06 · Delivered & Experience Rating",
+          caption:
+            "After delivery, a warm 'Enjoy!' completion screen invites customers to rate their experience with 5 stars or return home.",
+        },
+      ],
+      groups: [
+        {
+          id: "bakery-discovery",
+          eyebrow: "01 · Discovery & Selection",
+          title: "Making Products Easier to Explore",
+          description:
+            "Search, category groupings, appetizing photography, inline quantity steppers, and a live 'In cart' summary help customers browse and build orders without losing track.",
+          screens: [
+            {
+              src: "/assets/aistudio/image_b03eb535.png",
+              title: "01 · Home & Featured Offers",
+              caption:
+                "Combines search, pickup mode toggle, ongoing orders access, featured pastry and cookie offers, and visual category shortcuts.",
+            },
+            {
+              src: "/assets/aistudio/image_dfc38fa9.png",
+              title: "02 · Categorized Menu",
+              caption:
+                "Groups cookies, donuts, and cakes into scannable sections with photography, per-piece pricing, favorites, and inline quantity controls.",
+            },
+            {
+              src: "/assets/aistudio/image_d2067ea7.png",
+              title: "03 · Product Details & Cart Preview",
+              caption:
+                "Unites photography, ratings, price per piece, quantity controls, 'People also love' suggestions, and a live 'In cart' preview on one screen.",
+            },
+          ],
+        },
+        {
+          id: "bakery-checkout-tracking",
+          eyebrow: "02 · Checkout & Fulfillment",
+          title: "Order Review, Tracking & Delivery",
+          description:
+            "Transparent cost breakdowns before confirmation lead smoothly into live status, arrival estimates, map context, direct courier contact, and post-delivery ratings.",
+          screens: [
+            {
+              src: "/assets/aistudio/image_8af7ecfc.png",
+              title: "04 · Cart & Cost Breakdown",
+              caption:
+                "Collects pickup or delivery choice, itemized quantities, subtotal, delivery charge, coupon discount, payment method, and order confirmation.",
+            },
+            {
+              src: "/assets/aistudio/image_8c50d813.png",
+              title: "05 · Live Order Tracking",
+              caption:
+                "Combines order status, 15-19 minute arrival estimate, delivery map, and one-tap Call and Chat buttons for the delivery person.",
+            },
+            {
+              src: "/assets/aistudio/image_321fbde6.png",
+              title: "06 · Delivered & Rating",
+              caption:
+                "Celebrates delivery with a warm 'Enjoy!' screen inviting customers to rate their experience and share feedback.",
+            },
+          ],
+        },
+      ],
+    },
+    approach:
+      "Structured the ordering flow around clear product browsing, inline quantity controls with live cart visibility, upfront cost breakdowns, and reassuring post-checkout tracking.",
+    deliverables: [
+      "Mobile App UI",
+      "Ordering & Cart UX",
+      "Live Tracking Flow",
+    ],
+    processHeading: "From Wireframes to the Final Interface",
+    processNavLabel: "Wireframes",
+    processEyebrow: "Ordering & Delivery Flow Sketches",
+    processIntro:
+      "The wireframes establish the placement of product information, quantity controls, cart details, and tracking features. The final screens develop these structures through bakery photography, rounded components, consistent spacing, and prominent action buttons.",
+    processVisuals: [
+      {
+        src: "/assets/aistudio/Bakery_app_ordering_flow_sketches-2_53628d01.png",
+        title: "Ordering Flow Exploration (Browse, Choose & Review)",
+        caption:
+          "Hand-drawn wireframes establishing search and category browsing, inline quantity controls close to each item, price per piece, related suggestions, live 'In cart' visibility, and transparent pickup or delivery cost review before confirmation.",
+      },
+      {
+        src: "/assets/aistudio/Bakery_delivery_journey_sketch-3_7a6889a8.png",
+        title: "Delivery Journey Exploration (Confirmed, Tracking & Delivered)",
+        caption:
+          "Hand-drawn flow mapping pickup store timing and live delivery tracking with visible status, a clear 15 to 19 minute estimate, location map context, one-tap Call and Chat access to the delivery person, and post-delivery star ratings.",
+      },
+    ],
+    keyDesignAreasHeading: "How Each Stage Works Together",
+    keyDesignAreasSubheading: "Three Core Flows",
+    keyDesignAreasNavLabel: "Key Flows",
+    keyDesignAreas: [
+      {
+        title: "Making products easier to explore",
+        detail:
+          "The home screen combines search, product categories, and featured offers, while the menu groups products into clear sections with images, names, and prices. Product details bring photography, descriptions, ratings, price per piece, quantity controls, and related products together on one screen.",
+      },
+      {
+        title: "Keeping order review clear",
+        detail:
+          "Quantity controls sit close to each product and a cart preview on the product page keeps selected items visible. The cart brings together item quantities, costs, discounts, payment selection, and pickup or delivery options so customers can review everything confidently before confirming.",
+      },
+      {
+        title: "Supporting customers after checkout",
+        detail:
+          "The tracking screen combines order status, an estimated arrival time, and a delivery map with Call and Chat options for direct access to the delivery person. After delivery, a completion screen invites customers to rate their experience.",
+      },
+    ],
+    outcomesNavLabel: "Reflection",
+    outcome:
+      "Connected product discovery, live cart review, flexible pickup or delivery checkout, and real-time order tracking into a warm, approachable mobile bakery experience.",
+    reflection:
+      "Designing Toni's Bakery reinforced how much confidence comes from small, consistent cues throughout an ordering journey: keeping quantity controls close to each pastry, surfacing what is already in the cart while browsing, breaking down every charge and discount clearly before checkout, and making delivery progress easy to read at a glance.\n\nPairing structured wireframes with warm orange accents, clean spacing, and inviting bakery photography turns everyday food ordering into a calm, welcoming experience from the first search to the final star rating.",
+  },
+  {
+    id: "booklet-unlocking-the-mind",
+    title: "Booklet Design: Unlocking the Mind",
+    subtitle: "Editorial · Illustrated Booklet",
+    category: "Editorial",
+    year: "2024",
+    timeline: "8 Pages · Print & Digital Booklet",
+    client: "North South University · Psychology 101",
+    role: "Editorial Designer · Layout & Typography",
+    image: "/assets/editorial/booklet/page-01.jpg",
+    imageFit: "contain",
+    summary:
+      "An 8-page reflective booklet tracing how Psychology 101 turned childhood pop-culture myths into a deeper appreciation for memory, literature, mentorship, and belonging.",
+    overview:
+      "Unlocking the Mind is an 8-page illustrated booklet reflecting on a personal semester in Psychology 101 at North South University. Designed to feel warmer and more memorable than a standard academic paper, each spread pairs clean geometric typography, coral-orange chapter bands, vertical running folios, and full-bleed bottom artwork so the story unfolds visually from cover to closing note.",
+    challenge:
+      "Turning a personal academic reflection into an inviting multi-page editorial piece with clear chapter pacing and expressive visual storytelling.",
+    approach:
+      "Built a repeatable grid anchored by warm cream stock, coral header bars, generous reading margins, and full-bleed bottom imagery paired with vertical side folios.",
+    deliverables: [
+      "Booklet Layout",
+      "Editorial Typography",
+      "Visual Pacing",
+    ],
+    keyDesignAreas: [
+      {
+        title: "Structured chapter pacing",
+        detail:
+          "Consistent coral-orange title bands, open cream margins, and concise paragraphs create an unhurried reading rhythm across all 8 pages.",
+      },
+      {
+        title: "Paired editorial imagery",
+        detail:
+          "Each milestone is grounded by full-bleed lower-half artwork and a matching vertical running title strip along the left edge.",
+      },
+      {
+        title: "Expressive cover to close",
+        detail:
+          "Opens with a bold illustrated cover and muted half-title page, concluding cleanly with a warm typographic dedication.",
+      },
+    ],
+    outcome:
+      "Delivered a cohesive 8-page print and digital booklet that elevates personal reflection through deliberate editorial structure and warmth.",
+    editorialDocument: {
+      pdfUrl: "/assets/aistudio/Psychology_101_42bb377d.pdf",
+      pdfLabel: "Open Full PDF",
+      formatLabel: "8-Page Booklet · Portrait",
+      spreadPreviewSrc: "/assets/editorial/booklet/page-03.jpg",
+      pages: [
+        { src: "/assets/editorial/booklet/page-01.jpg", title: "Cover: Unlocking the Mind" },
+        { src: "/assets/editorial/booklet/page-02.jpg", title: "Half-Title Page" },
+        { src: "/assets/editorial/booklet/page-03.jpg", title: "A Journey Begins & Childhood Fantasies" },
+        { src: "/assets/editorial/booklet/page-04.jpg", title: "The Turning Point: Learning and Memory" },
+        { src: "/assets/editorial/booklet/page-05.jpg", title: "Connecting the Dots: Literature & Psychology" },
+        { src: "/assets/editorial/booklet/page-06.jpg", title: "An Unforgettable Mentor: The Power of Being Seen" },
+        { src: "/assets/editorial/booklet/page-07.jpg", title: "Finding Belonging: A Quiet Student's Transformation" },
+        { src: "/assets/editorial/booklet/page-08.jpg", title: "Gratitude, Growth & Closing Note" },
+      ],
+    },
+  },
+  {
+    id: "menu-food-pavilion",
+    title: "Menu Design: Food Pavilion",
+    subtitle: "Editorial · Restaurant Menu",
+    category: "Editorial",
+    year: "2024",
+    timeline: "20 Pages · Print Menu Book",
+    client: "Food Pavilion · Lakshmipur",
+    role: "Editorial Designer · Illustration & Menu Layout",
+    image: "/assets/editorial/food-pavilion/page-01.jpg",
+    imageFit: "contain",
+    wide: true,
+    summary:
+      "A 20-page illustrated restaurant menu for Food Pavilion in Lakshmipur, opening with a bespoke Bangla neighborhood landmark map and organizing 72 dishes with playful food mascots and clear pricing.",
+    overview:
+      "Designed for Food Pavilion on Hospital Road in Lakshmipur (founded in 2018), this 20-page menu brings 72 dishes across 10 culinary categories into a bright, easy-to-browse dining booklet. It opens with a custom illustrated map celebrating beloved local landmarks around the restaurant and wraps up with private event booking details and a bold typographic back cover.",
+    challenge:
+      "Organizing a broad 72-item multi-cuisine menu (from burgers and pizza to platters, oriental, curry, desserts, and pre-order feasts) so tables can scan items, portions, and prices effortlessly.",
+    approach:
+      "Paired oversized pastel category headers, numbered dishes, clear serving ratios (1:1, 1:3, Small/Medium/Large), and playful corner illustrations across a clean, airy print grid.",
+    deliverables: [
+      "20-Page Menu Layout",
+      "Illustrated Landmark Cover",
+      "Typography & Pricing Grid",
+    ],
+    keyDesignAreas: [
+      {
+        title: "Local Lakshmipur map cover",
+        detail:
+          "Welcomes diners with a custom thematic Bangla map featuring neighborhood landmarks around Hospital Road, immediately rooting the brand in its community.",
+      },
+      {
+        title: "Effortless 72-item scanning",
+        detail:
+          "Bold top category headers, numbered dish entries, italicized flavor notes, and crisp right-aligned prices simplify ordering for individuals and groups.",
+      },
+      {
+        title: "Playful section illustrations",
+        detail:
+          "Dedicated dish and character illustrations give each section distinct visual personality while keeping plenty of breathing room on every page.",
+      },
+    ],
+    outcome:
+      "Created a complete 20-page print-ready menu that balances warm local identity with clear, approachable table-side readability.",
+    editorialDocument: {
+      pdfUrl: "/assets/aistudio/Food_Pavilion_Menu_FINAL_compressed_2dbb431b.pdf",
+      pdfLabel: "Open Full PDF",
+      formatLabel: "20-Page Menu · Portrait",
+      spreadPreviewSrc: "/assets/editorial/food-pavilion/page-03.jpg",
+      pages: [
+        { src: "/assets/editorial/food-pavilion/page-01.jpg", title: "Cover: Illustrated Lakshmipur Map" },
+        { src: "/assets/editorial/food-pavilion/page-02.jpg", title: "Welcome to Food Pavilion" },
+        { src: "/assets/editorial/food-pavilion/page-03.jpg", title: "Burger (Items 1-5)" },
+        { src: "/assets/editorial/food-pavilion/page-04.jpg", title: "Snacks (Items 6-11)" },
+        { src: "/assets/editorial/food-pavilion/page-05.jpg", title: "Snacks: Fried Chicken & Wings (Items 12-17)" },
+        { src: "/assets/editorial/food-pavilion/page-06.jpg", title: "Italian: Pizza (Items 18-21)" },
+        { src: "/assets/editorial/food-pavilion/page-07.jpg", title: "Italian: Oven Baked Pasta (Items 22-23)" },
+        { src: "/assets/editorial/food-pavilion/page-08.jpg", title: "Platter (Items 24-28)" },
+        { src: "/assets/editorial/food-pavilion/page-09.jpg", title: "Platter (Items 29-33)" },
+        { src: "/assets/editorial/food-pavilion/page-10.jpg", title: "Oriental: Soups & Fried Rice (Items 34-37)" },
+        { src: "/assets/editorial/food-pavilion/page-11.jpg", title: "Oriental: Mains, Salad & Chowmein (Items 38-42)" },
+        { src: "/assets/editorial/food-pavilion/page-12.jpg", title: "Curry (Items 43-48)" },
+        { src: "/assets/editorial/food-pavilion/page-13.jpg", title: "Indian Specialties & Biryani (Items 49-52)" },
+        { src: "/assets/editorial/food-pavilion/page-14.jpg", title: "Complements: Naan, Luchi & Add-Ons" },
+        { src: "/assets/editorial/food-pavilion/page-15.jpg", title: "Beverage: Mojito, Lassi & Shakes (Items 56-61)" },
+        { src: "/assets/editorial/food-pavilion/page-16.jpg", title: "Beverage: Coffee & Fresh Juices (Items 62-67)" },
+        { src: "/assets/editorial/food-pavilion/page-17.jpg", title: "Dessert: Ice Cream & Faluda (Items 68-69)" },
+        { src: "/assets/editorial/food-pavilion/page-18.jpg", title: "Pre-Order Feasts: Kacchi, Tehari & Pulaw" },
+        { src: "/assets/editorial/food-pavilion/page-19.jpg", title: "Events & Table Reservations" },
+        { src: "/assets/editorial/food-pavilion/page-20.jpg", title: "Back Cover: Category Typography" },
+      ],
+    },
+  },
+  {
+    id: "benevolent-pay",
+    title: "Benevolent Pay",
+    subtitle: "Mobile App · Workplace Fund & Culture",
+    category: "Fintech",
+    year: "2025",
+    timeline: "2025 · Mobile Product Concept",
+    client: "Office Culture Concept",
+    role: "Product Designer · UI/UX",
+    image: "/assets/aistudio/Benevolent_Pay_twin_phone_portfolio_mockup_250e909e.png",
+    imageFit: "contain",
+    summary:
+      "Small slip ups. Shared celebrations. A playful office app where everyday rule breaks contribute to the next team party.",
+    overview:
+      "Late to a meeting? Shoes outside the rack? Those familiar office moments become part of Benevolent Pay. Each broken rule carries a small fine, and the money collected goes towards a monthly party hosted by HR.\n\nThe concept pairs a practical reporting and collection system with the humour of everyday office life.",
+    quote:
+      "Small slip ups. Shared celebrations. Playful language gives the app its character; clear amounts and statuses give the experience structure.",
+    challenge:
+      "How can reporting a rule break feel lighthearted while keeping the incident, fine and payment status clear?",
+    challengeIntro:
+      "How can reporting a rule break feel lighthearted while keeping the incident, fine and payment status clear? The experience brings together two responsibilities: team leaders report incidents, while HR reviews the details and oversees the shared fund. Playful language gives the app its character; clear amounts and statuses give the experience structure.",
+    challengePoints: [
+      {
+        title: "Lighthearted reporting without ambiguity",
+        detail:
+          "Team leaders need a quick, playful way to log everyday office slip ups while keeping the team member, broken rule, fine amount and photo evidence completely clear.",
+      },
+      {
+        title: "Transparent fund tracking for HR",
+        detail:
+          "HR needs a dependable view separating collected money, outstanding dues and total funds before sharing monthly totals or transferring money for the team party.",
+      },
+      {
+        title: "Clear review before notifying teammates",
+        detail:
+          "Every incident report brings together context, payment deadline, status and supporting evidence so HR can review and acknowledge it fairly.",
+      },
+      {
+        title: "Connecting fines to the shared celebration",
+        detail:
+          "Nicknames, contribution leaderboards and playful food comparisons turn routine dues into a shared social story that everyone looks forward to celebrating.",
+      },
+    ],
+    mobileShowcase: {
+      eyebrow: "Interactive Mobile Screens",
+      heading: "Designed for HR & Team Leaders",
+      note: "Scroll inside each phone mockup to explore the full mobile layouts, from the HR Taka Tracker and Crime Report review to the Party Sponsors leaderboard and Team Leader reporting form.",
+      variant: "device-mockup",
+      screens: [
+        {
+          src: "/assets/aistudio/image_aab4e900.png",
+          title: "HR Dashboard",
+          caption:
+            "The Taka Tracker separates collected money, outstanding dues and the total amount. Quick statistics, contributor highlights and recent reports bring the month's activity into the same view.",
+          scrollable: true,
+        },
+        {
+          src: "/assets/aistudio/image_3e3b41ba.png",
+          title: "Crime Report",
+          caption:
+            "Each report brings together the team member, broken rule, fine, payment deadline, status and supporting evidence. HR can review this context before acknowledging the incident and notifying the team member.",
+          scrollable: true,
+        },
+        {
+          src: "/assets/aistudio/image_f436af9e.png",
+          title: "Party Sponsors",
+          caption:
+            "A contribution leaderboard with a playful identity. The highlighted sponsor's total, paid amount and remaining dues sit alongside the monthly rankings, making the fund part of the app's social story.",
+          scrollable: true,
+        },
+        {
+          src: "/assets/aistudio/image_1a44a187.png",
+          title: "Team Leader Dashboard",
+          caption:
+            "Team statistics and contributor highlights sit above the reporting form. The invitation to \"Be a SNITCH!\" adds humour to a task with straightforward inputs.",
+          scrollable: true,
+        },
+      ],
+      groups: [
+        {
+          id: "hr-view",
+          eyebrow: "01 · For HR",
+          title: "For HR: Every Contribution in View",
+          description:
+            "The HR experience brings monthly collections, outstanding dues and recent reports into one place. Incident details support review, while the Party Sponsors leaderboard connects individual contributions to the shared celebration.",
+          screens: [
+            {
+              src: "/assets/aistudio/image_aab4e900.png",
+              title: "HR Dashboard",
+              caption:
+                "The Taka Tracker separates collected money, outstanding dues and the total amount. Quick statistics, contributor highlights and recent reports bring the month's activity into the same view.",
+              scrollable: true,
+            },
+            {
+              src: "/assets/aistudio/image_3e3b41ba.png",
+              title: "Crime Report",
+              caption:
+                "Each report brings together the team member, broken rule, fine, payment deadline, status and supporting evidence. HR can review this context before acknowledging the incident and notifying the team member.",
+              scrollable: true,
+            },
+            {
+              src: "/assets/aistudio/image_f436af9e.png",
+              title: "Party Sponsors",
+              caption:
+                "A contribution leaderboard with a playful identity. The highlighted sponsor's total, paid amount and remaining dues sit alongside the monthly rankings, making the fund part of the app's social story.",
+              scrollable: true,
+            },
+          ],
+        },
+        {
+          id: "team-leader-view",
+          eyebrow: "02 · For Team Leaders",
+          title: "For Team Leaders: Report the Moment",
+          description:
+            "The Team Leader Dashboard combines a team overview with the reporting form. Selecting a team member, choosing the broken rule, entering the fine and attaching evidence keeps the reporting task together.",
+          companionNote: {
+            label: "Companion View · Explored in Sketch 03",
+            title: "Criminal Profile",
+            detail:
+              "An individual contribution record with personality. Monthly rule summaries, playful nicknames and a humorous personal story sit alongside contribution details and food comparisons that bring the shared meal into focus.",
+          },
+          screens: [
+            {
+              src: "/assets/aistudio/image_1a44a187.png",
+              title: "Team Leader Dashboard",
+              caption:
+                "Team statistics and contributor highlights sit above the reporting form. The invitation to \"Be a SNITCH!\" adds humour to a task with straightforward inputs.",
+              scrollable: true,
+            },
+          ],
+        },
+      ],
+    },
+    approach:
+      "Paired a playful palette, cheeky office nicknames and shared food comparisons with unmistakable Taka totals, clear payment statuses and direct reporting forms.",
+    deliverables: [
+      "HR & Team Leader UI",
+      "Incident Reporting Flow",
+      "Fund Leaderboard UX",
+    ],
+    processHeading: "From Office Moments to Interface Ideas",
+    processNavLabel: "Sketches",
+    processEyebrow: "Retrospective Concept Explorations",
+    processIntro:
+      "The sketches connect familiar office situations with the main tasks in the app: recording a rule break, reviewing the report, tracking contributions and bringing the team together for the monthly party.",
+    processVisuals: [
+      {
+        src: "/assets/aistudio/Benevolent_Pay_office_storyboard-1_c262bfe3.png",
+        title: "01 · Office Moments Storyboard",
+        caption:
+          "Retrospective concept explorations based on the final interface. Traces everyday office slip ups from late arrivals and loose shoes to quick reporting, HR review, tracking the shared fund and sharing the monthly celebration.",
+      },
+      {
+        src: "/assets/aistudio/Benevolent_Pay_wireframe_sketch_sheet-2_931b7153.png",
+        title: "02 · Working Through the Essentials",
+        caption:
+          "Retrospective concept explorations based on the final interface. Maps the core structure across the Team Leader reporting view, HR Crime Report review and HR Taka Tracker overview.",
+      },
+      {
+        src: "/assets/aistudio/Retrospective_fund_interface_sketch_study-3_fcf8f047.png",
+        title: "03 · Giving the Fund a Personality (Party Sponsors & Criminal Profile)",
+        caption:
+          "Retrospective concept explorations based on the final interface. Explores how Party Sponsors rankings and the Criminal Profile pair monthly top crimes, playful nicknames and personal stories with contribution totals and food comparisons.",
+      },
+    ],
+    keyDesignAreasHeading: "Light in Tone. Clear About Money.",
+    keyDesignAreasSubheading: "Visual Character & Structure",
+    keyDesignAreasNavLabel: "Tone & Money",
+    keyDesignAreas: [
+      {
+        title: "Playful palette & card hierarchy",
+        detail:
+          "Sky blue, lavender, coral and dark navy give the interface its playful character. Distinct cards organise summaries, contributor rankings and incident records without visual clutter.",
+      },
+      {
+        title: "Humour & personality in copy",
+        detail:
+          "The humour runs through the nicknames, report titles, \"Be a SNITCH!\" prompts and Criminal Profile stories, turning everyday rule breaks into shared office banter.",
+      },
+      {
+        title: "Direct financial clarity",
+        detail:
+          "Prominent BDT amounts, separated Collected, Due and Total cards, labelled payment states and straightforward reporting fields keep every financial detail unmistakable.",
+      },
+    ],
+    outcomesNavLabel: "Reflection",
+    outcome:
+      "Created a dual-role mobile concept that turns lighthearted office rule breaks into a transparent monthly party fund for HR and team leaders.",
+    reflection:
+      "Benevolent Pay was an exercise in balancing warmth and structure. Playful copy, expressive colour accents and food comparisons make everyday office accountability feel friendly rather than rigid, while crisp card hierarchy, prominent BDT figures and unmistakable Paid or Not Paid states ensure the shared fund stays completely trustworthy.",
   },
 ];
 
