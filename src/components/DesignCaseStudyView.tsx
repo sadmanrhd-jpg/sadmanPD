@@ -8,10 +8,11 @@ import {
   splitParagraphs,
 } from "../utils/portfolioLogic";
 import { CaseStudySectionTabs } from "./CaseStudySectionNav";
-import { Arrow, ChevronIcon } from "./Characters";
+import { Arrow, ChevronIcon, DoubleChevronIcon } from "./Characters";
 import { EditorialPdfReader } from "./EditorialPdfReader";
 import { KeyDesignAreasCarousel } from "./KeyDesignAreasCarousel";
 import { MobileDeviceMockupShowcase } from "./MobileDeviceMockupShowcase";
+import { PosterBentoGallery } from "./PosterBentoGallery";
 
 interface DesignCaseStudyViewProps {
   project: DesignProject;
@@ -934,42 +935,46 @@ export function DesignCaseStudyView({
       data-testid="design-case-study-page"
       className="relative bg-[#f2efe6] text-[#171716] min-h-screen"
     >
-      {/* Subtle side chevrons on tablet & desktop (hidden when editorial reader owns flanking arrows) */}
-      {!project.editorialDocument && prevProject && (
+      {/* Edge-docked Prev / Next project tabs across ALL Product Design details pages */}
+      {prevProject && (
         <button
           type="button"
           data-testid="study-prev-chevron"
           onClick={() => onSelectProject(prevProject.id)}
           aria-label={`Previous project: ${prevProject.title}`}
-          title={`Previous: ${prevProject.title}`}
-          className="hidden md:grid fixed left-2.5 lg:left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 lg:w-12 lg:h-12 rounded-full border border-[#171716]/20 bg-[#f2efe6]/85 backdrop-blur-sm text-[#171716]/55 place-items-center transition-all duration-150 hover:bg-[#fffdf6] hover:text-[#171716] hover:border-2 hover:border-[#171716] hover:shadow-[3px_3px_0_#171716] hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
+          title={`Previous project: ${prevProject.title}`}
+          className="hidden md:flex flex-col items-center justify-center gap-1 fixed left-0 top-1/2 -translate-y-1/2 z-20 pl-2 pr-2.5 py-3 rounded-r-2xl border-y-2 border-r-2 border-[#171716] bg-[#171716] text-[#f2efe6] shadow-[3px_3px_0_#ff5b44] transition-all duration-150 hover:bg-[#ff5b44] hover:text-[#171716] hover:pl-3 hover:shadow-[4px_4px_0_#171716] active:translate-x-[1px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
         >
-          <ChevronIcon direction="left" className="w-5 h-5 lg:w-6 lg:h-6" />
+          <DoubleChevronIcon direction="left" className="w-4 h-4 lg:w-5 lg:h-5" />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.1em] leading-none">
+            Prev
+          </span>
         </button>
       )}
 
-      {!project.editorialDocument && nextProject && (
+      {nextProject && (
         <button
           type="button"
           data-testid="study-next-chevron"
           onClick={() => onSelectProject(nextProject.id)}
           aria-label={`Next project: ${nextProject.title}`}
-          title={`Next: ${nextProject.title}`}
-          className="hidden md:grid fixed right-2.5 lg:right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 lg:w-12 lg:h-12 rounded-full border border-[#171716]/20 bg-[#f2efe6]/85 backdrop-blur-sm text-[#171716]/55 place-items-center transition-all duration-150 hover:bg-[#fffdf6] hover:text-[#171716] hover:border-2 hover:border-[#171716] hover:shadow-[3px_3px_0_#171716] hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
+          title={`Next project: ${nextProject.title}`}
+          className="hidden md:flex flex-col items-center justify-center gap-1 fixed right-0 top-1/2 -translate-y-1/2 z-20 pr-2 pl-2.5 py-3 rounded-l-2xl border-y-2 border-l-2 border-[#171716] bg-[#171716] text-[#f2efe6] shadow-[-3px_3px_0_#ff5b44] transition-all duration-150 hover:bg-[#ff5b44] hover:text-[#171716] hover:pr-3 hover:shadow-[-4px_4px_0_#171716] active:-translate-x-[1px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#ff5b44]"
         >
-          <ChevronIcon direction="right" className="w-5 h-5 lg:w-6 lg:h-6" />
+          <DoubleChevronIcon direction="right" className="w-4 h-4 lg:w-5 lg:h-5" />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.1em] leading-none">
+            Next
+          </span>
         </button>
       )}
 
       {/* Top Hero Section */}
       <section className="bg-[#f2efe6] border-b border-[#171716]/14">
         <div className={`${SECTION_CONTAINER} pt-8 pb-14 md:pt-12 md:pb-16`}>
-          <div className="w-fit max-w-full mx-auto text-left">
+          <div className="w-fit max-w-full mx-auto text-center">
             <p
               data-testid="study-page-eyebrow"
-              className={`text-[17px] md:text-[18px] font-medium text-[#d9442e] tabular-nums leading-[1.5] m-0 ${
-                project.title.length > 42 ? "text-center" : "text-left"
-              }`}
+              className="text-[17px] md:text-[18px] font-medium text-[#d9442e] tabular-nums leading-[1.5] text-center m-0"
             >
               {project.subtitle} · {project.year}
             </p>
@@ -989,6 +994,21 @@ export function DesignCaseStudyView({
               document={project.editorialDocument}
               disableKeyboardNav={disableKeyboardNav}
               onFullscreenChange={setEditorialFullscreen}
+            />
+          ) : project.posterGallery ? (
+            <PosterBentoGallery
+              projectTitle={project.title}
+              gallery={project.posterGallery}
+              disableKeyboardNav={disableKeyboardNav}
+              onFullscreenChange={setEditorialFullscreen}
+              onBuyPoster={(posterTitle) =>
+                onInquire(
+                  "Product Design",
+                  posterTitle
+                    ? `Hi Sadman, I would like to inquire about buying a print of the "${posterTitle}" poster from Visual & Poster Studies.`
+                    : `Hi Sadman, I would like to inquire about buying a poster print from Visual & Poster Studies.`,
+                )
+              }
             />
           ) : project.heroSurface === "screen-frame" ||
           project.heroSurface === "canvas-frame" ? (
@@ -1156,7 +1176,7 @@ export function DesignCaseStudyView({
         containerClassName={SECTION_CONTAINER}
       />
 
-      {project.editorialDocument ? (
+      {project.editorialDocument || project.posterGallery ? (
         <section
           id="section-overview"
           data-testid="editorial-details-section"
@@ -1168,7 +1188,7 @@ export function DesignCaseStudyView({
               className={`${OVERVIEW_PROSE_WRAPPER} flex flex-col gap-4 md:gap-5`}
             >
               <h2 className="font-display text-[30px] sm:text-[36px] md:text-[40px] font-medium tracking-[-0.02em] leading-[1.16] text-balance m-0">
-                About the Publication
+                {project.posterGallery ? "About the Collection" : "About the Publication"}
               </h2>
               {project.overview && (
                 <div className="flex flex-col gap-5">
@@ -1195,19 +1215,24 @@ export function DesignCaseStudyView({
 
             <FloatCard className="rounded-2xl border border-[#171716]/16 bg-[#fffdf6] p-6 sm:p-8 shadow-[0_2px_12px_rgba(23,23,22,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-5">
               <p className="text-[17px] leading-[1.6] text-[#171716]/74 m-0">
-                Need editorial layout, booklet, or menu design for your brand?
+                {project.posterGallery
+                  ? "Want to buy a poster print from this collection or commission custom artwork?"
+                  : "Need editorial layout, booklet, or menu design for your brand?"}
               </p>
               <button
                 type="button"
                 onClick={() =>
                   onInquire(
                     "Product Design",
-                    `Hi Sadman, I viewed ${project.title} in your Editorial portfolio and would love to discuss a similar publication project.`,
+                    project.posterGallery
+                      ? `Hi Sadman, I viewed ${project.title} and would love to inquire about purchasing a poster print.`
+                      : `Hi Sadman, I viewed ${project.title} in your Editorial portfolio and would love to discuss a similar publication project.`,
                   )
                 }
                 className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl border-2 border-[#171716] bg-[#171716] text-[#f2efe6] text-[16px] leading-[1.4] font-medium shadow-[3px_3px_0_#ff5b44] hover:-translate-y-0.5 hover:bg-[#ff5b44] hover:text-[#171716] hover:shadow-[3px_3px_0_#171716] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all duration-150 whitespace-nowrap shrink-0 self-start sm:self-auto"
               >
-                Inquire About Editorial Work <Arrow className="w-4 h-4" />
+                {project.posterGallery ? "Contact to Buy a Poster" : "Inquire About Editorial Work"}{" "}
+                <Arrow className="w-4 h-4" />
               </button>
             </FloatCard>
           </div>

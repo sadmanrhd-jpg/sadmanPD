@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import type { PhotoItem } from "../data/portfolio";
 import { getAdjacentItemId } from "../utils/portfolioLogic";
-import { Arrow, ChevronIcon } from "./Characters";
+import { Arrow, ChevronIcon, DoubleChevronIcon } from "./Characters";
 
 interface PhotoDetailViewProps {
   photo: PhotoItem;
@@ -54,22 +54,32 @@ export function PhotoDetailView({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [disableKeyboardNav, prevId, nextId, onSelectPhoto, onBack]);
 
+  const photoLabel = photo.title || `${photo.genre} Frame`;
+  const eyebrowText = [photo.genre, photo.location, photo.year]
+    .filter(Boolean)
+    .join(" · ");
+  const prevLabel = prevPhoto ? prevPhoto.title || `${prevPhoto.genre} Frame` : "";
+  const nextLabel = nextPhoto ? nextPhoto.title || `${nextPhoto.genre} Frame` : "";
+
   return (
     <main
       data-testid="photo-detail-page"
       className="relative bg-[#111111] text-[#f2efe6] min-h-screen"
     >
-      {/* Subtle side chevrons on tablet & desktop (hidden on mobile to keep screen uncluttered) */}
+      {/* Edge-docked Prev / Next frame tabs matching the Product Design details tabs */}
       {prevPhoto && (
         <button
           type="button"
           data-testid="photo-prev-chevron"
           onClick={() => onSelectPhoto(prevPhoto.id)}
-          aria-label={`Previous frame: ${prevPhoto.title}`}
-          title={`Previous: ${prevPhoto.title}`}
-          className="hidden md:grid fixed left-2.5 lg:left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 lg:w-12 lg:h-12 rounded-full border border-[#f2efe6]/25 bg-[#111111]/85 backdrop-blur-sm text-[#f2efe6]/65 place-items-center transition-all duration-150 hover:bg-[#4169ed] hover:text-[#f2efe6] hover:border-2 hover:border-[#f2efe6] hover:shadow-[3px_3px_0_#f2efe6] hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4169ed]"
+          aria-label={`Previous frame: ${prevLabel}`}
+          title={`Previous frame: ${prevLabel}`}
+          className="hidden md:flex flex-col items-center justify-center gap-1 fixed left-0 top-1/2 -translate-y-1/2 z-20 pl-2 pr-2.5 py-3 rounded-r-2xl border-y-2 border-r-2 border-[#f2efe6]/80 bg-[#181817] text-[#f2efe6] shadow-[3px_3px_0_#4169ed] transition-all duration-150 hover:bg-[#4169ed] hover:text-[#f2efe6] hover:border-[#f2efe6] hover:pl-3 hover:shadow-[4px_4px_0_#f2efe6] active:translate-x-[1px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4169ed]"
         >
-          <ChevronIcon direction="left" className="w-5 h-5 lg:w-6 lg:h-6" />
+          <DoubleChevronIcon direction="left" className="w-4 h-4 lg:w-5 lg:h-5" />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.1em] leading-none">
+            Prev
+          </span>
         </button>
       )}
 
@@ -78,30 +88,36 @@ export function PhotoDetailView({
           type="button"
           data-testid="photo-next-chevron"
           onClick={() => onSelectPhoto(nextPhoto.id)}
-          aria-label={`Next frame: ${nextPhoto.title}`}
-          title={`Next: ${nextPhoto.title}`}
-          className="hidden md:grid fixed right-2.5 lg:right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 lg:w-12 lg:h-12 rounded-full border border-[#f2efe6]/25 bg-[#111111]/85 backdrop-blur-sm text-[#f2efe6]/65 place-items-center transition-all duration-150 hover:bg-[#4169ed] hover:text-[#f2efe6] hover:border-2 hover:border-[#f2efe6] hover:shadow-[3px_3px_0_#f2efe6] hover:scale-105 active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4169ed]"
+          aria-label={`Next frame: ${nextLabel}`}
+          title={`Next frame: ${nextLabel}`}
+          className="hidden md:flex flex-col items-center justify-center gap-1 fixed right-0 top-1/2 -translate-y-1/2 z-20 pr-2 pl-2.5 py-3 rounded-l-2xl border-y-2 border-l-2 border-[#f2efe6]/80 bg-[#181817] text-[#f2efe6] shadow-[-3px_3px_0_#4169ed] transition-all duration-150 hover:bg-[#4169ed] hover:text-[#f2efe6] hover:border-[#f2efe6] hover:pr-3 hover:shadow-[-4px_4px_0_#f2efe6] active:-translate-x-[1px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4169ed]"
         >
-          <ChevronIcon direction="right" className="w-5 h-5 lg:w-6 lg:h-6" />
+          <DoubleChevronIcon direction="right" className="w-4 h-4 lg:w-5 lg:h-5" />
+          <span className="text-[10px] font-semibold uppercase tracking-[0.1em] leading-none">
+            Next
+          </span>
         </button>
       )}
 
       {/* Hero & Full Frame */}
       <section className="border-b-2 border-[#f2efe6]/25">
         <div className="max-w-[1160px] mx-auto px-5 md:px-16 lg:px-24 pt-7 pb-10 md:pt-10 md:pb-16">
-          <div className="max-w-3xl">
-            <p className="text-base md:text-[17px] font-medium text-[#6d8eff] tabular-nums m-0">
-              {photo.genre} · {photo.location} · {photo.year}
+          <div className="max-w-3xl mx-auto text-center">
+            <p
+              data-testid="photo-page-eyebrow"
+              className="text-base md:text-[17px] font-medium text-[#6d8eff] tabular-nums text-center m-0"
+            >
+              {eyebrowText}
             </p>
-            <h1 className="mt-2 font-display text-[clamp(38px,5.8vw,74px)] leading-[1.02] tracking-[-0.025em] font-medium m-0">
-              {photo.title}
+            <h1 className="mt-2 font-display text-[clamp(38px,5.8vw,74px)] leading-[1.02] tracking-[-0.025em] font-medium text-center m-0">
+              {photoLabel}
             </h1>
           </div>
 
           <div className="mt-7 md:mt-10 overflow-hidden rounded-2xl border-2 border-[#f2efe6]/85 bg-[#050505] shadow-[8px_8px_0_#4169ed] flex items-center justify-center">
             <img
               src={photo.image}
-              alt={`${photo.title}, ${photo.location} ${photo.year}`}
+              alt={photoLabel}
               referrerPolicy="no-referrer"
               className="w-full max-h-[68vh] object-contain"
             />
@@ -121,35 +137,44 @@ export function PhotoDetailView({
                 Behind the Frame
               </h2>
               <p className="mt-5 text-[18px] md:text-[20px] leading-[2] md:leading-[1.8] text-[#f2efe6]/88 m-0">
-                {photo.story}
+                {photo.story ||
+                  `Part of Sadman's ${photo.genre} photography collection. Available as a signed archival print or editorial license on request.`}
               </p>
             </div>
 
             <div className="rounded-2xl border-2 border-[#f2efe6]/35 bg-[#181817] p-5 md:p-7 space-y-4 text-[17px] md:text-[17px] leading-[1.5]">
               <p className="text-[15px] sm:text-[15px] font-semibold uppercase tracking-[0.06em] leading-[1.5] text-[#6d8eff] m-0">
-                Technical Specifications
+                Frame Details
               </p>
               <dl className="space-y-3.5 m-0">
-                <div className="flex justify-between gap-4 border-b border-[#f2efe6]/15 pb-3">
+                <div className="flex justify-between gap-4 border-b border-[#f2efe6]/15 pb-3 last:border-b-0 last:pb-0">
                   <dt className="text-[#f2efe6]/65">Genre</dt>
                   <dd className="font-medium m-0">{photo.genre}</dd>
                 </div>
-                <div className="flex justify-between gap-4 border-b border-[#f2efe6]/15 pb-3">
-                  <dt className="text-[#f2efe6]/65">Location</dt>
-                  <dd className="font-medium m-0">{photo.location}</dd>
-                </div>
-                <div className="flex justify-between gap-4 border-b border-[#f2efe6]/15 pb-3">
-                  <dt className="text-[#f2efe6]/65">Camera</dt>
-                  <dd className="font-medium m-0">{photo.camera}</dd>
-                </div>
-                <div className="flex justify-between gap-4 border-b border-[#f2efe6]/15 pb-3">
-                  <dt className="text-[#f2efe6]/65">Lens</dt>
-                  <dd className="font-medium m-0">{photo.lens}</dd>
-                </div>
-                <div className="flex justify-between gap-4">
-                  <dt className="text-[#f2efe6]/65">Exposure</dt>
-                  <dd className="font-medium tabular-nums m-0">{photo.settings}</dd>
-                </div>
+                {photo.location && (
+                  <div className="flex justify-between gap-4 border-b border-[#f2efe6]/15 pb-3 last:border-b-0 last:pb-0">
+                    <dt className="text-[#f2efe6]/65">Location</dt>
+                    <dd className="font-medium m-0">{photo.location}</dd>
+                  </div>
+                )}
+                {photo.camera && (
+                  <div className="flex justify-between gap-4 border-b border-[#f2efe6]/15 pb-3 last:border-b-0 last:pb-0">
+                    <dt className="text-[#f2efe6]/65">Camera</dt>
+                    <dd className="font-medium m-0">{photo.camera}</dd>
+                  </div>
+                )}
+                {photo.lens && (
+                  <div className="flex justify-between gap-4 border-b border-[#f2efe6]/15 pb-3 last:border-b-0 last:pb-0">
+                    <dt className="text-[#f2efe6]/65">Lens</dt>
+                    <dd className="font-medium m-0">{photo.lens}</dd>
+                  </div>
+                )}
+                {photo.settings && (
+                  <div className="flex justify-between gap-4">
+                    <dt className="text-[#f2efe6]/65">Exposure</dt>
+                    <dd className="font-medium tabular-nums m-0">{photo.settings}</dd>
+                  </div>
+                )}
               </dl>
             </div>
           </div>
@@ -168,7 +193,7 @@ export function PhotoDetailView({
               onClick={() =>
                 onInquire(
                   "Street Photography",
-                  `Hi Sadman, I'm interested in prints or an editorial commission inspired by "${photo.title}".`,
+                  `Hi Sadman, I'm interested in prints or an editorial commission inspired by "${photoLabel}".`,
                 )
               }
               className="inline-flex items-center gap-2.5 px-5 py-3 rounded-xl bg-[#4169ed] text-[#f2efe6] border-2 border-[#f2efe6] text-[15px] md:text-base font-medium shadow-[3px_3px_0_#f2efe6] hover:-translate-y-0.5 hover:bg-[#f2efe6] hover:text-[#171716] hover:shadow-[4px_5px_0_#4169ed] active:translate-x-[3px] active:translate-y-[3px] active:shadow-none transition-all duration-150 whitespace-nowrap shrink-0 self-start md:self-center"
@@ -198,7 +223,7 @@ export function PhotoDetailView({
                       Previous Frame
                     </span>
                     <span className="mt-0.5 block font-display text-lg md:text-[22px] font-medium truncate group-hover:text-[#6d8eff] transition-colors">
-                      {prevPhoto.title}
+                      {prevLabel}
                     </span>
                   </div>
                 </button>
@@ -217,7 +242,7 @@ export function PhotoDetailView({
                       Next Frame
                     </span>
                     <span className="mt-0.5 block font-display text-lg md:text-[22px] font-medium truncate group-hover:text-[#6d8eff] transition-colors">
-                      {nextPhoto.title}
+                      {nextLabel}
                     </span>
                   </div>
                   <span className="w-10 h-10 rounded-xl border-2 border-[#f2efe6]/60 bg-[#111111] grid place-items-center shrink-0 transition-colors group-hover:bg-[#4169ed] group-hover:border-[#f2efe6]">

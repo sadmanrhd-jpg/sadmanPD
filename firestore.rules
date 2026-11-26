@@ -1,0 +1,426 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Pillar 1 / Safety Net: Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // -------------------------------------------------------------------------
+    // Global Hardened Primitives
+    // -------------------------------------------------------------------------
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedUser() {
+      return isSignedIn()
+        && request.auth.token.email is string
+        && request.auth.token.email_verified == true;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string
+        && id.size() >= 1
+        && id.size() <= 128
+        && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function emailToDocId(email) {
+      return email.lower().replace('[^a-z0-9]', '_');
+    }
+
+    // Zero-lookup bootstrapped owner check (safe inside list rules too)
+    function isBootstrapAdmin() {
+      return isVerifiedUser()
+        && request.auth.token.email.lower() == 'sadmanrhd@gmail.com';
+    }
+
+    // Active invited writer check (only used in single-doc create/update/delete, never in list)
+    function isApprovedWriter() {
+      let key = emailToDocId(request.auth.token.email);
+      let writerPath = /databases/$(database)/documents/writers/$(key);
+      return isVerifiedUser()
+        && exists(writerPath)
+        && get(writerPath).data.status == 'active'
+        && get(writerPath).data.email == request.auth.token.email.lower();
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Blueprint: Writer
+    // -------------------------------------------------------------------------
+    function isValidWriter(data, writerId) {
+      return data.keys().hasAll([
+          'email',
+          'displayName',
+          'role',
+          'title',
+          'bio',
+          'status',
+          'addedByUid',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'email',
+          'displayName',
+          'role',
+          'title',
+          'bio',
+          'status',
+          'addedByUid',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.email is string
+        && data.email.size() >= 5
+        && data.email.size() <= 160
+        && data.email == data.email.lower()
+        && data.email.matches('^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$')
+        && emailToDocId(data.email) == writerId
+        && data.displayName is string
+        && data.displayName.size() >= 1
+        && data.displayName.size() <= 100
+        && data.role in ['admin', 'writer']
+        && data.title is string
+        && data.title.size() <= 100
+        && data.bio is string
+        && data.bio.size() <= 360
+        && data.status in ['active', 'paused']
+        && isValidId(data.addedByUid)
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Blueprint: BlogPost
+    // -------------------------------------------------------------------------
+    function isValidTags(tags) {
+      return tags is list
+        && tags.size() <= 6
+        && (tags.size() == 0 || (tags[0] is string && tags[0].size() >= 1 && tags[0].size() <= 36));
+    }
+
+    function isValidBlocks(blocks) {
+      return blocks is list
+        && blocks.size() >= 1
+        && blocks.size() <= 80
+        && blocks[0] is map
+        && blocks[0].id is string
+        && blocks[0].id.size() >= 1
+        && blocks[0].id.size() <= 64
+        && blocks[0].type in ['paragraph', 'heading', 'subheading', 'quote', 'image', 'link', 'attachment', 'divider', 'code'];
+    }
+
+    function isValidPost(data) {
+      return data.keys().hasAll([
+          'slug',
+          'title',
+          'subtitle',
+          'excerpt',
+          'coverImage',
+          'coverAlt',
+          'topic',
+          'tags',
+          'blocks',
+          'status',
+          'authorUid',
+          'authorName',
+          'authorRole',
+          'authorPhotoUrl',
+          'readTimeMinutes',
+          'publishedAt',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'slug',
+          'title',
+          'subtitle',
+          'excerpt',
+          'coverImage',
+          'coverAlt',
+          'topic',
+          'tags',
+          'blocks',
+          'status',
+          'authorUid',
+          'authorName',
+          'authorRole',
+          'authorPhotoUrl',
+          'readTimeMinutes',
+          'publishedAt',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.slug is string
+        && data.slug.size() >= 1
+        && data.slug.size() <= 140
+        && data.slug.matches('^[a-z0-9]+(?:-[a-z0-9]+)*$')
+        && data.title is string
+        && data.title.size() >= 1
+        && data.title.size() <= 180
+        && data.subtitle is string
+        && data.subtitle.size() <= 320
+        && data.excerpt is string
+        && data.excerpt.size() <= 500
+        && data.coverImage is string
+        && data.coverImage.size() <= 260000
+        && data.coverAlt is string
+        && data.coverAlt.size() <= 200
+        && data.topic is string
+        && data.topic.size() >= 1
+        && data.topic.size() <= 60
+        && isValidTags(data.tags)
+        && isValidBlocks(data.blocks)
+        && data.status in ['draft', 'published']
+        && isValidId(data.authorUid)
+        && data.authorName is string
+        && data.authorName.size() >= 1
+        && data.authorName.size() <= 100
+        && data.authorRole is string
+        && data.authorRole.size() <= 100
+        && data.authorPhotoUrl is string
+        && data.authorPhotoUrl.size() <= 500
+        && data.readTimeMinutes is number
+        && data.readTimeMinutes >= 1
+        && data.readTimeMinutes <= 120
+        && (
+          (data.status == 'draft' && (data.publishedAt == null || data.publishedAt is timestamp))
+          || (data.status == 'published' && data.publishedAt is timestamp)
+        )
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // -------------------------------------------------------------------------
+    // Validation Blueprint: Inquiry (PII-isolated client inquiries backup)
+    // -------------------------------------------------------------------------
+    function isValidInquiry(data) {
+      return data.keys().hasAll([
+          'name',
+          'email',
+          'topic',
+          'subject',
+          'message',
+          'emailDelivered',
+          'status',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'name',
+          'email',
+          'topic',
+          'subject',
+          'message',
+          'emailDelivered',
+          'status',
+          'createdAt',
+          'updatedAt'
+        ])
+        && data.name is string
+        && data.name.size() >= 2
+        && data.name.size() <= 100
+        && data.email is string
+        && data.email.size() >= 5
+        && data.email.size() <= 160
+        && data.email.matches('^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$')
+        && data.topic in ['Product Design', 'Photography', 'Product Design & Photography']
+        && data.subject is string
+        && data.subject.size() >= 3
+        && data.subject.size() <= 180
+        && data.message is string
+        && data.message.size() >= 10
+        && data.message.size() <= 3000
+        && data.emailDelivered is bool
+        && data.status in ['new', 'read', 'archived']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    // -------------------------------------------------------------------------
+    // Collection: /writers/{writerId} (PII-isolated author registry)
+    // -------------------------------------------------------------------------
+    match /writers/{writerId} {
+      // Single-doc get: owner or the matching verified writer checking their own invite slot
+      allow get: if isValidId(writerId)
+        && isVerifiedUser()
+        && (
+          isBootstrapAdmin()
+          || (
+            emailToDocId(request.auth.token.email) == writerId
+            && (resource == null || existing().email == request.auth.token.email.lower())
+          )
+        );
+
+      // List: strictly owner only (zero get/exists calls)
+      allow list: if isBootstrapAdmin();
+
+      // Create: strictly owner only
+      allow create: if isVerifiedUser()
+        && isValidId(writerId)
+        && isValidWriter(incoming(), writerId)
+        && incoming().addedByUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && isBootstrapAdmin();
+
+      // Update: strictly owner only with action-based key allowlist
+      allow update: if isVerifiedUser()
+        && isValidId(writerId)
+        && isValidWriter(incoming(), writerId)
+        && incoming().email == existing().email
+        && incoming().addedByUid == existing().addedByUid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && isBootstrapAdmin()
+        && (
+          // Action: Update writer profile or active/paused status
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'displayName',
+            'role',
+            'title',
+            'bio',
+            'status',
+            'updatedAt'
+          ])
+        );
+
+      // Delete: strictly owner only
+      allow delete: if isVerifiedUser()
+        && isValidId(writerId)
+        && isBootstrapAdmin();
+    }
+
+    // -------------------------------------------------------------------------
+    // Collection: /posts/{postId} (Public published articles, private drafts)
+    // -------------------------------------------------------------------------
+    match /posts/{postId} {
+      // Public can read published posts; authors and owner can read drafts
+      allow get: if isValidId(postId)
+        && (
+          existing().status == 'published'
+          || (isVerifiedUser() && (existing().authorUid == request.auth.uid || isBootstrapAdmin()))
+        );
+
+      // Secure list query: no get()/exists() calls; rules directly enforce resource.data
+      allow list: if existing().status == 'published'
+        || (isVerifiedUser() && (existing().authorUid == request.auth.uid || isBootstrapAdmin()));
+
+      // Create: verified owner or active invited writer creating as themselves
+      allow create: if isVerifiedUser()
+        && isValidId(postId)
+        && isValidPost(incoming())
+        && incoming().authorUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (
+          (incoming().status == 'draft' && incoming().publishedAt == null)
+          || (incoming().status == 'published' && incoming().publishedAt == request.time)
+        )
+        && (isBootstrapAdmin() || isApprovedWriter());
+
+      // Update: action-based updates wrapped in isValidPost() with strict temporal integrity
+      allow update: if isVerifiedUser()
+        && isValidId(postId)
+        && isValidPost(incoming())
+        && incoming().authorUid == existing().authorUid
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          (incoming().status == 'draft' && (incoming().publishedAt == existing().publishedAt || incoming().publishedAt == null))
+          || (
+            incoming().status == 'published'
+            && (
+              (existing().publishedAt == null && incoming().publishedAt == request.time)
+              || (existing().publishedAt is timestamp && incoming().publishedAt == existing().publishedAt)
+            )
+          )
+        )
+        && (
+          isBootstrapAdmin()
+          || (existing().authorUid == request.auth.uid && isApprovedWriter())
+        )
+        && (
+          // Action: Edit content, metadata, or publish/unpublish status
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'slug',
+            'title',
+            'subtitle',
+            'excerpt',
+            'coverImage',
+            'coverAlt',
+            'topic',
+            'tags',
+            'blocks',
+            'status',
+            'authorName',
+            'authorRole',
+            'authorPhotoUrl',
+            'readTimeMinutes',
+            'publishedAt',
+            'updatedAt'
+          ])
+        );
+
+      // Delete: owner or original active writer
+      allow delete: if isVerifiedUser()
+        && isValidId(postId)
+        && (
+          isBootstrapAdmin()
+          || (existing().authorUid == request.auth.uid && isApprovedWriter())
+        );
+    }
+
+    // -------------------------------------------------------------------------
+    // Collection: /inquiries/{inquiryId} (PII-isolated client inquiry backups)
+    // -------------------------------------------------------------------------
+    match /inquiries/{inquiryId} {
+      // PII isolation: strictly owner-only read and list
+      allow get: if isValidId(inquiryId) && isBootstrapAdmin();
+      allow list: if isBootstrapAdmin();
+
+      // Public contact form submission with strict schema, size, and server timestamp guards
+      allow create: if isValidId(inquiryId)
+        && isValidInquiry(incoming())
+        && incoming().status == 'new'
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+
+      // Owner-only triage updates (mark read/archived) preserving immutable client fields
+      allow update: if isVerifiedUser()
+        && isValidId(inquiryId)
+        && isValidInquiry(incoming())
+        && isBootstrapAdmin()
+        && incoming().name == existing().name
+        && incoming().email == existing().email
+        && incoming().topic == existing().topic
+        && incoming().subject == existing().subject
+        && incoming().message == existing().message
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && (
+          incoming().diff(existing()).affectedKeys().hasOnly([
+            'status',
+            'emailDelivered',
+            'updatedAt'
+          ])
+        );
+
+      // Owner-only delete
+      allow delete: if isVerifiedUser()
+        && isValidId(inquiryId)
+        && isBootstrapAdmin();
+    }
+  }
+}

@@ -14,6 +14,21 @@ function SocialIcon({
   className?: string;
 }) {
   switch (platform) {
+    case "behance":
+      return (
+        <svg
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          fillRule="evenodd"
+          clipRule="evenodd"
+          aria-hidden="true"
+          className={className}
+        >
+          <path d="M8.84 10.89c1.27-.44 1.97-1.41 1.97-2.67 0-2.19-1.64-3.22-4.14-3.22H1.5v13.5h5.38c2.73 0 4.62-1.31 4.62-3.94 0-1.91-.95-3.22-2.66-3.67zM4.42 7.36h2.06c1.09 0 1.72.42 1.72 1.33 0 .94-.67 1.38-1.75 1.38H4.42V7.36zm2.36 8.76H4.42v-3.82h2.39c1.29 0 2.02.52 2.02 1.93 0 1.44-.77 1.89-2.05 1.89z" />
+          <path d="M14.72 6.4h5.35v1.45h-5.35z" />
+          <path d="M17.46 9.13c-3.03 0-5.08 2.09-5.08 4.86 0 2.94 1.97 4.78 5.14 4.78 2.25 0 3.84-.98 4.64-2.88h-2.55c-.36.73-1.08 1.09-2.02 1.09-1.45 0-2.37-.78-2.48-2.25h7.31c.05-.34.08-.77.08-1.14 0-2.61-1.83-4.46-5.04-4.46zm-2.31 3.92c.19-1.28 1.02-2.02 2.27-2.02 1.28 0 2.08.73 2.23 2.02h-4.5z" />
+        </svg>
+      );
     case "linkedin":
       return (
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" className={className}>

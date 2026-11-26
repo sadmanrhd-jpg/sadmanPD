@@ -1,5 +1,5 @@
 import { EXPERIENCE_LIST, type View } from "../data/portfolio";
-import { Arrow, DesignerCharacter } from "./Characters";
+import { Arrow } from "./Characters";
 import { SocialLinks } from "./SocialLinks";
 
 interface AboutViewProps {
@@ -27,7 +27,7 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
           </div>
 
           <p className="mt-8 md:mt-10 text-[16px] text-[#171716]/70 font-medium m-0">
-            About Sadman · Singapore
+            About Sadman · Dhaka
           </p>
 
           <div className="mt-4 grid grid-cols-1 lg:grid-cols-[1.45fr_0.85fr] gap-12 items-center">
@@ -37,16 +37,18 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
                 <br />
                 Tension in <em className="not-italic font-medium text-[#4169ed]">Light.</em>
               </h1>
-              <div className="mt-8 max-w-[50ch] flex flex-col gap-7 md:gap-8">
+              <div className="mt-8 max-w-[52ch] flex flex-col gap-7 md:gap-8">
                 <p className="text-[17px] md:text-[18px] leading-[2] md:leading-[1.9] text-[#171716]/82 m-0">
-                  I&apos;m Sadman, a Singapore-based product designer and freelance photographer working
-                  at the intersection of tactile hardware, calm interfaces, and 35mm documentary
+                  I&apos;m Sadman, a Dhaka-based product designer and photographer working at the
+                  intersection of clear digital systems, calm interfaces, and candid visual
                   storytelling.
                 </p>
                 <p className="text-[17px] md:text-[17.5px] leading-[2] md:leading-[1.9] text-[#171716]/76 m-0">
-                  During studio hours I partner with founders and engineering teams to turn tangled
-                  technical constraints into products people look forward to picking up. After dusk,
-                  I walk dense neighborhoods across Asia with a mechanical rangefinder.
+                  During studio hours I partner with founders, public institutions, and engineering
+                  teams to turn tangled technical constraints into products people look forward to
+                  picking up. After dusk, I walk dense neighborhoods with my camera, and just as
+                  often I walk around with my smartphone, chasing quiet gestures and expressive
+                  light.
                 </p>
               </div>
 
@@ -75,13 +77,60 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
               </div>
             </div>
 
-            <div className="rounded-2xl bg-[#fffdf6] border-2 border-[#171716] shadow-[8px_8px_0_#171716] p-6 flex flex-col items-center">
-              <div className="w-full max-w-[270px] h-[310px]">
-                <DesignerCharacter />
+            <div
+              data-testid="about-portrait-card"
+              className="group rounded-2xl bg-[#fffdf6] border-2 border-[#171716] shadow-[8px_8px_0_#171716] p-5 flex flex-col items-center"
+            >
+              <div className="relative w-full aspect-[4/4.35] rounded-xl border-2 border-[#171716] overflow-hidden bg-[linear-gradient(135deg,#ff5b44_0%_50%,#4169ed_50%_100%)] flex items-center justify-center p-6">
+                {/* Diagonal crisp divider seam between Product Design (Coral) and Photography (Blue) */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 opacity-20 bg-[radial-gradient(#fffdf6_1.2px,transparent_1.2px)] [background-size:16px_16px]"
+                />
+
+                {/* Top-left Product Design coral canvas corner handle frame */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-3.5 left-3.5 w-14 h-14 border-t-2 border-l-2 border-[#fffdf6]/85"
+                >
+                  <span className="absolute -top-[5px] -left-[5px] w-2.5 h-2.5 bg-[#fffdf6] border-2 border-[#171716]" />
+                  <span className="absolute -top-[5px] -right-[4px] w-2 h-2 bg-[#fffdf6] border-[1.5px] border-[#171716]" />
+                  <span className="absolute -bottom-[4px] -left-[5px] w-2 h-2 bg-[#fffdf6] border-[1.5px] border-[#171716]" />
+                </span>
+
+                {/* Bottom-right Photography blue viewfinder L-bracket */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-3.5 right-3.5 w-14 h-14 border-b-[3px] border-r-[3px] border-[#fffdf6]/90"
+                />
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-3.5 right-3.5 w-5 h-5 border-t-[2.5px] border-r-[2.5px] border-[#fffdf6]/65"
+                />
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute bottom-3.5 left-3.5 w-5 h-5 border-b-[2.5px] border-l-[2.5px] border-[#fffdf6]/65"
+                />
+
+                {/* Sadman's face-only funny head from the home page */}
+                <div className="relative z-10 w-[76%] max-w-[250px] designer-float transition-transform duration-300 ease-out group-hover:scale-[1.04] group-hover:-rotate-2">
+                  <img
+                    src="/assets/sadman-head.png"
+                    alt="Illustrated portrait of Sadman's smiling face against a coral and blue split backdrop"
+                    className="w-full h-auto object-contain select-none pointer-events-none drop-shadow-[0_12px_0_rgba(23,23,22,0.28)]"
+                  />
+                </div>
               </div>
-              <div className="w-full border-t-2 border-[#171716] pt-4 mt-2 flex items-center justify-between text-sm font-medium">
-                <span>Based in Singapore</span>
-                <span className="text-[#d9442e] tabular-nums">GMT+8</span>
+
+              <div className="w-full pt-4 mt-1 flex items-center justify-between text-sm font-medium">
+                <span className="inline-flex items-center gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="inline-block w-3 h-3 rounded-full border-[1.5px] border-[#171716] bg-[linear-gradient(135deg,#ff5b44_0%_50%,#4169ed_50%_100%)]"
+                  />
+                  Based in Dhaka
+                </span>
+                <span className="text-[#4169ed] tabular-nums">GMT+6</span>
               </div>
             </div>
           </div>
@@ -95,24 +144,24 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
               Discipline 01 · Product Design
             </p>
             <h2 className="mt-3 font-display text-[26px] md:text-[32px] font-medium tracking-[-0.015em] leading-snug m-0">
-              Interfaces, Hardware &amp; Brand Systems
+              Digital Platforms, Apps &amp; Editorial Craft
             </h2>
             <p className="mt-4 max-w-[46ch] text-[17px] md:text-[17px] leading-[1.95] md:leading-[1.88] text-[#171716]/76">
-              From zero-to-one mobile companions and industrial hardware ergonomics to coherent
-              design systems that scale cleanly across engineering teams.
+              From national GovTech dashboards, GIS tools, and low-connectivity mobile apps to
+              bilingual interfaces, transit displays, and illustrated print works.
             </p>
             <ul className="mt-6 space-y-2.5 text-[17px] md:text-[17px] leading-[1.5] text-[#171716]/85 list-none p-0 m-0 tabular-nums">
               <li className="py-2 border-b border-[#171716]/20">
-                01 · Zero-to-One Product &amp; Hardware Strategy
+                01 · GovTech, GIS &amp; Data Visualization Platforms
               </li>
               <li className="py-2 border-b border-[#171716]/20">
-                02 · Companion Apps, Web Interfaces &amp; Prototyping
+                02 · Mobile Apps, Digital Health &amp; Fintech UX
               </li>
               <li className="py-2 border-b border-[#171716]/20">
-                03 · Industrial Enclosure &amp; Tactile UI Systems
+                03 · UX Research, Bilingual Systems &amp; Usability Testing
               </li>
               <li className="py-2 border-b border-[#171716]/20">
-                04 · Art Direction &amp; Launch Packaging
+                04 · Transit Displays, Booklets, Menus &amp; Poster Studies
               </li>
             </ul>
           </div>
@@ -122,24 +171,24 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
               Discipline 02 · Freelance Photography
             </p>
             <h2 className="mt-3 font-display text-[26px] md:text-[32px] font-medium tracking-[-0.015em] leading-snug m-0">
-              Documentary, Editorial &amp; Print Editions
+              People, Concert, Conceptual &amp; Visual Stories
             </h2>
             <p className="mt-4 max-w-[46ch] text-[17px] md:text-[17px] leading-[1.95] md:leading-[1.88] text-[#171716]/76">
-              Working primarily on 35mm film and compact rangefinders to capture unposed human
-              presence, nocturnal neon geometry, and architectural rhythm.
+              Working with both dedicated cameras and everyday smartphone walks to frame unposed
+              human presence, live concerts, conceptual light, still life, and wildlife.
             </p>
             <ul className="mt-6 space-y-2.5 text-[17px] md:text-[17px] leading-[1.5] text-[#171716]/85 list-none p-0 m-0 tabular-nums">
               <li className="py-2 border-b border-[#171716]/20">
-                01 · Editorial Essays &amp; Brand Visual Stories
+                01 · People, Street &amp; Documentary Storytelling
               </li>
               <li className="py-2 border-b border-[#171716]/20">
-                02 · Archival Pigment Prints &amp; Zine Editions
+                02 · Live Concert &amp; Stage Performance Coverage
               </li>
               <li className="py-2 border-b border-[#171716]/20">
-                03 · Architectural &amp; Object Still-Life Direction
+                03 · Conceptual, Still Life &amp; Animal Kingdom Series
               </li>
               <li className="py-2 border-b border-[#171716]/20">
-                04 · Exhibition Curation across Asia
+                04 · Print Editions, Image Licensing &amp; Visual Commissions
               </li>
             </ul>
           </div>
@@ -149,7 +198,7 @@ export function AboutView({ onNavigate, onOpenContact }: AboutViewProps) {
       <section className="max-w-[1360px] mx-auto px-5 md:px-10 py-16 md:py-20">
         <div className="flex flex-wrap items-baseline justify-between gap-4 mb-10">
           <h2 className="font-display text-3xl md:text-4xl font-medium tracking-[-0.02em] leading-tight m-0">
-            Experience &amp; Exhibitions
+            Selected Experience &amp; Works
           </h2>
           <button
             type="button"

@@ -66,6 +66,36 @@ export function ChevronIcon({
   );
 }
 
+export function DoubleChevronIcon({
+  direction = "right",
+  className = "",
+}: {
+  direction?: "left" | "right";
+  className?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className={`w-4 h-4 fill-none stroke-current stroke-[2.3] ${className}`}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      {direction === "left" ? (
+        <>
+          <path d="M11 17l-5-5 5-5" />
+          <path d="M18 17l-5-5 5-5" />
+        </>
+      ) : (
+        <>
+          <path d="M13 17l5-5-5-5" />
+          <path d="M6 17l5-5-5-5" />
+        </>
+      )}
+    </svg>
+  );
+}
+
 export function DesignerCharacter() {
   return (
     <svg

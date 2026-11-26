@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { DESIGN_PROJECTS, PHOTO_ITEMS, type View } from "../data/portfolio";
+import { DESIGN_PROJECTS, PHOTO_ITEMS, type PhotoGenre, type View } from "../data/portfolio";
 import {
   buildFeaturedHighlights,
   filterHighlights,
@@ -12,6 +12,7 @@ interface HomeViewProps {
   onNavigate: (view: View) => void;
   onOpenContact: () => void;
   onOpenProject: (kind: "design" | "photo", id: string) => void;
+  onOpenPhotoAlbum: (genre: PhotoGenre) => void;
 }
 
 const HIGHLIGHT_FILTERS: HighlightFilter[] = ["All", "Product Design", "Photography"];
@@ -90,6 +91,7 @@ export function HomeView({
   onNavigate,
   onOpenContact,
   onOpenProject,
+  onOpenPhotoAlbum,
 }: HomeViewProps) {
   const [highlightFilter, setHighlightFilter] = useState<HighlightFilter>("All");
   const [activeMobileRole, setActiveMobileRole] = useState<"design" | "photo" | null>(null);
@@ -442,8 +444,16 @@ export function HomeView({
                 <article key={item.id} className="h-full">
                   <button
                     type="button"
-                    onClick={() => onOpenProject(item.kind, item.sourceId)}
-                    aria-label={`Open full details for ${item.title}`}
+                    onClick={() =>
+                      isPhoto && item.photoGenre
+                        ? onOpenPhotoAlbum(item.photoGenre)
+                        : onOpenProject(item.kind, item.sourceId)
+                    }
+                    aria-label={
+                      isPhoto && item.photoGenre
+                        ? `Open ${item.photoGenre} photography album`
+                        : `Open full details for ${item.title}`
+                    }
                     className={`group w-full h-full flex flex-col text-left bg-[#fffdf6] rounded-2xl border-2 border-[#171716] p-4 md:p-5 lg:p-4.5 shadow-[6px_6px_0_#171716] transition-all duration-200 hover:-translate-y-1 active:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 ${
                       isPhoto
                         ? "hover:shadow-[8px_8px_0_#4169ed] active:shadow-[8px_8px_0_#4169ed] focus-visible:outline-[#4169ed]"
@@ -502,18 +512,15 @@ export function HomeView({
 
       <section className="border-t-2 border-[#171716]">
         <div className="max-w-[1360px] mx-auto px-5 md:px-10 py-16 md:py-24">
-          <p className="text-[16px] md:text-[16px] leading-[1.5] tabular-nums text-[#171716]/70 font-medium m-0">
-            The Player
-          </p>
-          <h2 className="mt-4 max-w-4xl font-display text-[clamp(32px,4.4vw,58px)] leading-[1.15] tracking-[-0.02em] font-normal text-balance">
+          <h2 className="m-0 max-w-4xl font-display text-[clamp(32px,4.4vw,58px)] leading-[1.15] tracking-[-0.02em] font-normal text-balance">
             I turn <em className="not-italic font-medium text-[#d9442e]">complexity</em> into clarity, then chase the
             light after hours.
           </h2>
           <div className="mt-12 flex flex-col md:flex-row md:items-end justify-between gap-8">
             <p className="max-w-xl text-[18px] md:text-[19px] leading-[2] md:leading-[1.75] text-[#171716]/82 m-0">
-              Based in Singapore, working everywhere. Partnering with ambitious product teams on
-              digital &amp; physical experiences while documenting Southeast and East Asian street
-              life on film.
+              Based in Dhaka, working everywhere. Partnering with ambitious product teams on
+              digital platforms and editorial craft while capturing people, light, and everyday
+              stories with a camera and smartphone.
             </p>
             <div className="flex flex-wrap items-center gap-6">
               <button

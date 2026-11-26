@@ -1,0 +1,280 @@
+{
+  "entities": {
+    "Writer": {
+      "title": "Writer",
+      "description": "An approved blog writer invited by the portfolio owner. Stored in an isolated collection because it holds the writer's email address (PII).",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Lowercase Google account email address authorized to sign in and publish articles.",
+          "minLength": 5,
+          "maxLength": 160
+        },
+        "displayName": {
+          "type": "string",
+          "description": "Public byline name displayed on articles written by this author.",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin", "writer"],
+          "description": "Access level granted to this author."
+        },
+        "title": {
+          "type": "string",
+          "description": "Short editorial title shown beneath the author's name (e.g., Guest Writer, Product Designer).",
+          "maxLength": 100
+        },
+        "bio": {
+          "type": "string",
+          "description": "Short writer biography shown on article footers.",
+          "maxLength": 360
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "paused"],
+          "description": "Whether this writer currently has active publishing permissions."
+        },
+        "addedByUid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the owner who added this writer.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the writer invitation was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the writer record was last updated."
+        }
+      },
+      "required": [
+        "email",
+        "displayName",
+        "role",
+        "title",
+        "bio",
+        "status",
+        "addedByUid",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "BlogPost": {
+      "title": "BlogPost",
+      "description": "A rich-format Medium-style editorial article stored in Firestore. Publicly readable when status is published; drafts are private to the author and owner.",
+      "type": "object",
+      "properties": {
+        "slug": {
+          "type": "string",
+          "description": "URL-friendly slug identifier for the article.",
+          "minLength": 1,
+          "maxLength": 140,
+          "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "title": {
+          "type": "string",
+          "description": "Headline of the article.",
+          "minLength": 1,
+          "maxLength": 180
+        },
+        "subtitle": {
+          "type": "string",
+          "description": "Optional sub-headline or deck displayed under the title.",
+          "maxLength": 320
+        },
+        "excerpt": {
+          "type": "string",
+          "description": "Short preview summary displayed on the blog index.",
+          "maxLength": 500
+        },
+        "coverImage": {
+          "type": "string",
+          "description": "HTTPS URL or compressed data URL for the article cover image.",
+          "maxLength": 260000
+        },
+        "coverAlt": {
+          "type": "string",
+          "description": "Accessible alt text for the cover image.",
+          "maxLength": 200
+        },
+        "topic": {
+          "type": "string",
+          "description": "Primary editorial topic for filtering.",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "tags": {
+          "type": "array",
+          "description": "Up to 6 concise topic tags for the article."
+        },
+        "blocks": {
+          "type": "array",
+          "description": "Ordered list of rich editorial content blocks (paragraphs, headings, images, quotes, links, attachments, dividers, code)."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "published"],
+          "description": "Publication visibility state."
+        },
+        "authorUid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the author who created the post.",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "authorName": {
+          "type": "string",
+          "description": "Public byline name of the author.",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "authorRole": {
+          "type": "string",
+          "description": "Short role label shown beside the author name.",
+          "maxLength": 100
+        },
+        "authorPhotoUrl": {
+          "type": "string",
+          "description": "Optional public avatar URL for the author.",
+          "maxLength": 500
+        },
+        "readTimeMinutes": {
+          "type": "number",
+          "description": "Estimated reading time in minutes (1 to 120)."
+        },
+        "publishedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the article was published, or null while in draft."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Immutable server timestamp when the article was created."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the article was last modified."
+        }
+      },
+      "required": [
+        "slug",
+        "title",
+        "subtitle",
+        "excerpt",
+        "coverImage",
+        "coverAlt",
+        "topic",
+        "tags",
+        "blocks",
+        "status",
+        "authorUid",
+        "authorName",
+        "authorRole",
+        "authorPhotoUrl",
+        "readTimeMinutes",
+        "publishedAt",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "A prospective client or print inquiry submitted through the portfolio contact form. Write-only for public visitors and readable strictly by the portfolio owner (PII-isolated).",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Sender display name.",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Sender email address for replies (PII).",
+          "minLength": 5,
+          "maxLength": 160
+        },
+        "topic": {
+          "type": "string",
+          "enum": ["Product Design", "Photography", "Product Design & Photography"],
+          "description": "Selected discipline or inquiry category."
+        },
+        "subject": {
+          "type": "string",
+          "description": "Formatted subject line showing topic and sender name.",
+          "minLength": 3,
+          "maxLength": 180
+        },
+        "message": {
+          "type": "string",
+          "description": "Plain-text project brief or inquiry message.",
+          "minLength": 10,
+          "maxLength": 3000
+        },
+        "emailDelivered": {
+          "type": "boolean",
+          "description": "Whether direct Gmail SMTP delivery succeeded for this inquiry."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["new", "read", "archived"],
+          "description": "Owner triage status for the inquiry backup."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Immutable server timestamp when the inquiry was received."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when the inquiry status was last updated."
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "topic",
+        "subject",
+        "message",
+        "emailDelivered",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/writers/{writerId}": {
+      "schema": {
+        "$ref": "#/entities/Writer"
+      },
+      "description": "Invited writer access registry (PII-isolated: readable only by owner/admin or the matching verified writer)."
+    },
+    "/posts/{postId}": {
+      "schema": {
+        "$ref": "#/entities/BlogPost"
+      },
+      "description": "Blog articles collection. Published posts are publicly readable; drafts are restricted to their author and the owner."
+    },
+    "/inquiries/{inquiryId}": {
+      "schema": {
+        "$ref": "#/entities/Inquiry"
+      },
+      "description": "Client inquiry backups submitted from Get in Touch and Buy Image forms. Public create with strict schema validation; get/list/update/delete strictly restricted to the verified owner."
+    }
+  }
+}

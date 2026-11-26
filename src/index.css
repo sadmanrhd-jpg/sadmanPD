@@ -1,8 +1,9 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..700&display=swap");
 @import "tailwindcss";
 
 @theme {
   --font-display: "Outfit", sans-serif;
+  --font-editorial: "Source Serif 4", Georgia, Cambria, "Times New Roman", serif;
   --font-mono: "Outfit", sans-serif;
   --font-sans: "Outfit", sans-serif;
 }
@@ -189,6 +190,21 @@
   }
 }
 
+.gallery-projects-rise {
+  animation: galleryRise 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes galleryRise {
+  from {
+    opacity: 0.72;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -225,6 +241,44 @@
     linear-gradient(to right, transparent 0%, #000 7%, #000 93%, transparent 100%),
     linear-gradient(to bottom, transparent 0%, #000 7%, #000 93%, transparent 100%);
   mask-composite: intersect;
+}
+
+.editorial-flip-stage {
+  perspective: 1450px;
+  perspective-origin: 50% 50%;
+  touch-action: pan-y;
+}
+
+.editorial-flip-leaf {
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.editorial-flip-leaf--settling {
+  transition:
+    transform 380ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.editorial-flip-leaf--cancel {
+  transition:
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 220ms ease-out;
+}
+
+.editorial-page-corner-hint {
+  background: linear-gradient(
+    135deg,
+    transparent 48%,
+    rgba(23, 23, 22, 0.14) 50%,
+    rgba(255, 253, 246, 0.96) 53%,
+    rgba(242, 239, 230, 0.92) 100%
+  );
+  box-shadow: -2px -2px 6px rgba(23, 23, 22, 0.12);
 }
 
 .float-card {
@@ -416,6 +470,40 @@
   50% {
     transform: translateY(-2px) scale(1.05);
   }
+}
+
+.blog-editable:empty::before {
+  content: attr(data-placeholder);
+  color: rgba(23, 23, 22, 0.32);
+  pointer-events: none;
+  display: block;
+}
+
+.blog-prose a {
+  color: var(--coral-text);
+  text-decoration: underline;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: opacity 150ms ease;
+}
+
+.blog-prose a:hover {
+  opacity: 0.78;
+}
+
+.blog-prose mark {
+  background-color: rgba(245, 216, 55, 0.52);
+  color: var(--ink);
+  padding: 0.06em 0.22em;
+  border-radius: 3px;
+}
+
+.blog-prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.86em;
+  background: rgba(23, 23, 22, 0.08);
+  padding: 0.12em 0.36em;
+  border-radius: 4px;
 }
 
 @media (prefers-reduced-motion: reduce) {

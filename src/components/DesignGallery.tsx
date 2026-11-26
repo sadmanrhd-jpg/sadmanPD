@@ -1,12 +1,49 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   DESIGN_CATEGORIES,
   DESIGN_PROJECTS,
   type DesignCategory,
   type View,
 } from "../data/portfolio";
-import { filterDesignProjects } from "../utils/portfolioLogic";
+import {
+  advancePosterCoverCycle,
+  filterDesignProjects,
+  getGalleryScrollTarget,
+  type PosterCoverCycleState,
+} from "../utils/portfolioLogic";
 import { Arrow } from "./Characters";
+
+const POSTER_COVER_STORAGE_PREFIX = "portfolio:poster-cover-cycle:";
+const pageLoadPosterCoverIndexCache = new Map<string, number>();
+
+function getReloadPosterCoverIndex(projectId: string, total: number): number {
+  const cached = pageLoadPosterCoverIndexCache.get(projectId);
+  if (cached !== undefined && cached >= 0 && cached < total) {
+    return cached;
+  }
+
+  let previousState: PosterCoverCycleState | null = null;
+  const storageKey = `${POSTER_COVER_STORAGE_PREFIX}${projectId}`;
+  try {
+    const raw = window.localStorage.getItem(storageKey);
+    if (raw) {
+      previousState = JSON.parse(raw) as PosterCoverCycleState;
+    }
+  } catch {
+    previousState = null;
+  }
+
+  const { index, nextState } = advancePosterCoverCycle(total, previousState);
+  pageLoadPosterCoverIndexCache.set(projectId, index);
+
+  try {
+    window.localStorage.setItem(storageKey, JSON.stringify(nextState));
+  } catch {
+    // Ignore storage write errors in restricted browsing modes
+  }
+
+  return index;
+}
 
 interface DesignGalleryProps {
   onNavigate: (view: View) => void;
@@ -18,13 +55,41 @@ export function DesignGallery({
   onOpenDetailedStudy,
 }: DesignGalleryProps) {
   const [category, setCategory] = useState<DesignCategory>("All");
+  const [riseKey, setRiseKey] = useState(0);
+  const genreAnchorRef = useRef<HTMLDivElement | null>(null);
 
   const visibleProjects = filterDesignProjects(DESIGN_PROJECTS, category);
 
+  const handleSelectCategory = (tab: DesignCategory) => {
+    setCategory(tab);
+    setRiseKey((prev) => prev + 1);
+
+    const anchor = genreAnchorRef.current;
+    if (!anchor) return;
+
+    const headerEl = document.querySelector("header");
+    const headerHeight = headerEl ? headerEl.getBoundingClientRect().height : 82;
+    const anchorTop = anchor.getBoundingClientRect().top + window.scrollY;
+    const targetY = getGalleryScrollTarget({
+      anchorTop,
+      headerHeight,
+    });
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    window.requestAnimationFrame(() => {
+      window.scrollTo({
+        top: targetY,
+        behavior: prefersReducedMotion ? "auto" : "smooth",
+      });
+    });
+  };
+
   return (
     <main className="gallery bg-[#f2efe6] text-[#171716] min-h-screen">
-      <section className="border-b-2 border-[#171716]">
-        <div className="max-w-[1360px] mx-auto px-5 md:px-10 pt-5 pb-6 md:pt-7 md:pb-8">
+      <section data-testid="design-gallery-hero">
+        <div className="max-w-[1360px] mx-auto px-5 md:px-10 pt-5 md:pt-7">
           <div
             data-testid="gallery-nav-actions"
             className="flex flex-col items-start gap-2.5"
@@ -50,7 +115,7 @@ export function DesignGallery({
             </button>
           </div>
 
-          <div className="mt-8 md:mt-10 flex flex-col gap-5 max-w-2xl">
+          <div className="mt-8 md:mt-10 pb-6 flex flex-col gap-5 max-w-2xl">
             <h1 className="font-display text-[clamp(48px,6.2vw,88px)] leading-[0.96] tracking-[-0.025em] font-medium m-0">
               Product
               <br />
@@ -62,46 +127,68 @@ export function DesignGallery({
             </p>
           </div>
 
-          <div className="mt-6 pt-4 border-t-2 border-[#171716] flex flex-wrap items-center gap-4">
-            <div className="flex flex-wrap items-center gap-2" role="tablist" aria-label="Filter design projects">
-              {DESIGN_CATEGORIES.map((tab) => {
-                const active = category === tab;
-                return (
-                  <button
-                    key={tab}
-                    type="button"
-                    role="tab"
-                    aria-selected={active}
-                    onClick={() => setCategory(tab)}
-                    className={`px-4 py-2 rounded-xl border-2 border-[#171716] text-[15px] md:text-base font-medium transition-all duration-150 whitespace-nowrap shrink-0 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none ${
-                      active
-                        ? "bg-[#ff5b44] text-[#171716] shadow-[3px_3px_0_#171716]"
-                        : "bg-[#fffdf6] text-[#171716] hover:-translate-y-0.5 hover:bg-[#c7ef45] hover:shadow-[3px_3px_0_#171716] active:bg-[#c7ef45]"
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          <div className="border-t-2 border-[#171716]" aria-hidden="true" />
         </div>
       </section>
 
-      <section className="max-w-[1360px] mx-auto px-5 md:px-10 pt-8 pb-16 md:pt-10 md:pb-20">
+      <div ref={genreAnchorRef} className="h-0" aria-hidden="true" />
+
+      <div
+        data-testid="design-genre-bar"
+        className="sticky top-[80px] z-20 bg-[#f2efe6]/95 backdrop-blur-sm border-b-2 border-[#171716]"
+      >
+        <div className="max-w-[1360px] mx-auto px-5 md:px-10 py-3.5 md:py-4 flex flex-wrap items-center gap-4">
+          <div
+            className="flex flex-wrap items-center gap-1.5 md:gap-2"
+            role="tablist"
+            aria-label="Filter design projects"
+          >
+            {DESIGN_CATEGORIES.map((tab) => {
+              const active = category === tab;
+              return (
+                <button
+                  key={tab}
+                  type="button"
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => handleSelectCategory(tab)}
+                  className={`px-3 py-1.5 lg:px-4 lg:py-2 rounded-xl border-2 border-[#171716] text-[13px] sm:text-sm lg:text-base font-medium transition-all duration-150 whitespace-nowrap shrink-0 active:translate-x-[2px] active:translate-y-[2px] active:shadow-none ${
+                    active
+                      ? "bg-[#ff5b44] text-[#171716] shadow-[3px_3px_0_#171716]"
+                      : "bg-[#fffdf6] text-[#171716] hover:-translate-y-0.5 hover:bg-[#c7ef45] hover:shadow-[3px_3px_0_#171716] active:bg-[#c7ef45]"
+                  }`}
+                >
+                  {tab}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      <section
+        data-testid="design-projects-section"
+        data-active-category={category}
+        className="max-w-[1360px] mx-auto px-5 md:px-10 pt-6 pb-16 md:pt-8 md:pb-20 min-h-[calc(100svh-155px)]"
+      >
         {visibleProjects.length === 0 ? (
           <div className="rounded-2xl border-2 border-[#171716] bg-[#fffdf6] p-12 text-center">
             <p className="text-sm m-0">No projects match this filter.</p>
             <button
               type="button"
-              onClick={() => setCategory("All")}
+              onClick={() => handleSelectCategory("All")}
               className="mt-4 px-4 py-2 rounded-xl border-2 border-[#171716] bg-[#ff5b44] text-sm font-medium"
             >
               Show All Projects
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-8 gap-y-14">
+          <div
+            key={riseKey}
+            className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-x-8 gap-y-14 ${
+              riseKey > 0 ? "gallery-projects-rise" : ""
+            }`}
+          >
             {visibleProjects.map((project, idx) => {
               const isAll = category === "All";
               const isWide = Boolean(project.wide && isAll);
@@ -169,6 +256,31 @@ export function DesignGallery({
                             />
                           )}
                         </div>
+                      ) : project.posterGallery && project.posterGallery.items.length > 0 ? (
+                        (() => {
+                          const coverIdx = getReloadPosterCoverIndex(
+                            project.id,
+                            project.posterGallery.items.length,
+                          );
+                          const coverPoster =
+                            project.posterGallery.items[coverIdx] ??
+                            project.posterGallery.items[0];
+                          return (
+                            <div
+                              data-testid="poster-cover-preview"
+                              data-cover-title={coverPoster.title}
+                              data-cover-index={coverIdx}
+                              className="w-full h-full flex items-center justify-center p-1 sm:p-2"
+                            >
+                              <img
+                                src={coverPoster.src}
+                                alt={`${project.title}: ${coverPoster.title} poster cover`}
+                                referrerPolicy="no-referrer"
+                                className="max-h-full max-w-full w-auto h-auto object-contain rounded-[6px] shadow-[0_14px_30px_rgba(23,23,22,0.22)] transition-transform duration-500 group-hover:-translate-y-1 group-hover:scale-[1.03]"
+                              />
+                            </div>
+                          );
+                        })()
                       ) : (
                         <img
                           src={project.image}
